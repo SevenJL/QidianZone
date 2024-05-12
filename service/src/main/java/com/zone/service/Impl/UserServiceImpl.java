@@ -12,16 +12,16 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public Integer register(String password, String userName, String email) {
+    public Integer register(String password, String name, String email) {
         // 先判断 数据库中是否含有同名的用户
-        if (userMapper.findByUserName(userName) != null ) {
+        if (userMapper.findByUserName(name) != null ) {
             // 存在同名用户 注册失败
             // 返回-1 表示注册失败
             return -1;
         }
         // 说明没有同名的用户
         // 返回生成的ID
-        return userMapper.insert(password,userName,email);
+        return userMapper.insert(password,name,email);
     }
 
 

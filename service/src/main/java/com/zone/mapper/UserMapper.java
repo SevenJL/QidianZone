@@ -1,9 +1,9 @@
 package com.zone.mapper;
 
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
@@ -19,7 +19,7 @@ public interface UserMapper {
      */
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    Integer insert(String password, String userName, String email);
+    Integer insert(@Param("password") String password,@Param("userName") String userName,@Param("email") String email);
 
 
     /**
