@@ -1,7 +1,7 @@
 package com.zone.controller;
 
 import com.zone.dto.LoginDTO;
-import com.zone.restful.Result;
+import com.zone.result.Result;
 import com.zone.service.AdminService;
 import com.zone.service.UserService;
 import io.swagger.annotations.ApiOperation;

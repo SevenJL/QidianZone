@@ -2,7 +2,7 @@ package com.zone.controller;
 
 import com.zone.dto.UserUpdatePasswordDTO;
 import com.zone.entity.User;
-import com.zone.restful.Result;
+import com.zone.result.Result;
 import com.zone.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
