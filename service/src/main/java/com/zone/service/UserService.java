@@ -1,9 +1,13 @@
 package com.zone.service;
 
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.zone.entity.User;
+
 /**
  * 用户服务
  */
-public interface UserService {
+public interface UserService extends IService<User> {
 
     /**
      * 注册
@@ -22,7 +26,12 @@ public interface UserService {
     Integer login(String password, String userName);
 
 
-    //登录
+    /**
+     * 退出
+     * @param currentId 当前用户id
+     */
+    void logout(Integer currentId);
 
-    //退出
+
+
 }
