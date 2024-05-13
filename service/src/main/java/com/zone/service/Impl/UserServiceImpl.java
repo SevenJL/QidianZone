@@ -72,6 +72,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void logout(Integer currentId) {
+        //TODO 使用ThreadLocal获取当前用户的ID
 
         // 更新用户状态
         Integer status = StatusConstant.DISABLE;

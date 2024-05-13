@@ -28,13 +28,16 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public PageResult list(Integer page, Integer pageSize) {
+    public PageResult<User> list(Integer page, Integer pageSize) {
+        // 分页查询
+        // 先设置分页参数
         PageHelper.startPage(page, pageSize);
 
-        Page<User> pageUser = userMapper.pageQuery(page, pageSize);
-        long total = pageUser.getTotal();
-        List<User> result = pageUser.getResult();
+        // 执行查询
+        List<User> userList = userMapper.list();
+        Page<User> userPage = (Page<User>) userList;
 
-        return new PageResult(total, result);
+        // 封装成分页结果返回
+        return new PageResult<>(userPage.getTotal(), userPage.getResult());
     }
 }

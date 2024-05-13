@@ -2,11 +2,11 @@ package com.zone.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.github.pagehelper.Page;
 import com.zone.entity.User;
 import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
@@ -78,5 +78,6 @@ public interface UserMapper extends BaseMapper<User> {
 
 
     // TODO 分页待定
-    Page<User> pageQuery(Integer page, Integer pageSize);
+    List<User> list();
+
 }

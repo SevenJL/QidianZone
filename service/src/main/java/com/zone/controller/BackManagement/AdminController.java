@@ -29,7 +29,6 @@ public class AdminController {
     public Result<Object> list(@RequestParam(value = "page",defaultValue = "1") Integer page,
                                @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
         PageResult users = adminService.list(page, pageSize);
-        //TODO 分页查询 待定
         return Result.success(users);
     }
 
