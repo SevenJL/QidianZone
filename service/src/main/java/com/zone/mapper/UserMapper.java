@@ -1,6 +1,7 @@
 package com.zone.mapper;
 
 
+import com.zone.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -19,7 +20,7 @@ public interface UserMapper  {
      */
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    Integer insert(@Param("password") String password,@Param("userName") String userName,@Param("email") String email);
+    Integer insert(@Param("password") String password,@Param("name") String name,@Param("email") String email);
 
 
     /**
@@ -28,14 +29,20 @@ public interface UserMapper  {
      * @return 布尔值
      * true: 用户名已存在
      */
-    @Select("SELECT * FROM user WHERE user_name = #{userName}")
-    Integer findByUserName(@Param("userName") String userName);
+    @Select("SELECT * FROM user WHERE user_name = #{name}")
+    Integer findByUserName(@Param("name") String name);
 
     /**
      * 登录
      * @param password 密码
      * @param userName 用户名
      */
-    @Select("SELECT user_id FROM user WHERE user_name = #{userName} AND password = #{password}")
-    Integer login(@Param("password")String password, @Param("userName") String userName);
+    @Select("SELECT user_id FROM user WHERE user_name = #{name} AND password = #{password}")
+    Integer login(@Param("password")String password, @Param("name") String name);
+
+    /**
+     * 修改密码
+     */
+
+    void update(@Param("user") User user);
 }

@@ -1,5 +1,6 @@
 package com.zone.controller;
 
+import com.zone.dto.UserUpdatePasswordDTO;
 import com.zone.entity.User;
 import com.zone.restful.Result;
 import com.zone.service.UserService;
@@ -44,16 +45,27 @@ public class UserController {
 
     }
 
+    /**
+     * 修改密码
+     * @param userUpdatePasswordDTO 修改密码的DTO对象
+     */
+    @GetMapping("/updatePassword")
+    @ApiOperation("修改密码")
+    public Result<Object> updatePassword(@RequestBody UserUpdatePasswordDTO userUpdatePasswordDTO){
+        log.info("修改密码:{}",userUpdatePasswordDTO);
+        // 传入DTO对象
+        Integer userId =  userService.update(userUpdatePasswordDTO);
 
+        // 如果用户不存在
+        if(userId == -1){
+            return Result.error("用户不存在");
+        }
 
-    @ApiOperation("退出")
-    @GetMapping("/logout")
-    public Result logout(){
-        // TODO 使用redis进行用户的状态登录和退出的记录
-        // stats = 1 -> status = 0;
-        log.info("退出");
-
-        return Result.success();
+        log.info("修改密码成功");
+        return Result.success("修改密码成功");
     }
+
+
+
 
 }

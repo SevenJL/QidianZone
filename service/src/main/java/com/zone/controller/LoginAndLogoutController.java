@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @AllArgsConstructor // 构造函数注入Bean
-public class LoginController {
+public class LoginAndLogoutController {
 
     private final UserService userService;
 
@@ -53,5 +53,15 @@ public class LoginController {
         }
 
         return Result.success("登录成功");
+    }
+
+    @ApiOperation("退出")
+    @GetMapping("/logout")
+    public Result logout(){
+        // TODO 使用redis进行用户的状态登录和退出的记录
+        // stats = 1 -> status = 0;
+        log.info("退出");
+
+        return Result.success();
     }
 }

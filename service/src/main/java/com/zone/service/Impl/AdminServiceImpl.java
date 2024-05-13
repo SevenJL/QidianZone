@@ -23,7 +23,7 @@ public class AdminServiceImpl implements AdminService {
         // 进行查询管理员 是否存在
         Integer admin = adminMapper.Login(password,name);
 
-        if (admin == null) {
+        if (admin == -1 ) {
             // 未查询到该管理员
             log.info("未查询到该管理员");
             return -1;

@@ -2,6 +2,7 @@ package com.zone.service;
 
 
 import com.zone.dto.LoginDTO;
+import com.zone.dto.UserUpdatePasswordDTO;
 
 /**
  * 用户服务
@@ -14,7 +15,7 @@ public interface UserService {
      * @param userName 用户名
      * @param email    用户邮箱
      */
-    Integer register(String password, String userName, String email);
+    Integer register(String password, String name, String email);
 
     /**
      * 登录
@@ -22,6 +23,10 @@ public interface UserService {
      */
     Integer login(LoginDTO loginDTO);
 
-
-
+    /**
+     * 修改密码
+     * @param userUpdatePasswordDTO 修改密码信息
+     * @return
+     */
+    Integer update(UserUpdatePasswordDTO userUpdatePasswordDTO);
 }
