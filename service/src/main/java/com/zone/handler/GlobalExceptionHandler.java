@@ -2,7 +2,7 @@ package com.zone.handler;
 
 import com.zone.constant.MessageConstant;
 import com.zone.exception.BaseException;
-import com.zone.restful.Result;
+import com.zone.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

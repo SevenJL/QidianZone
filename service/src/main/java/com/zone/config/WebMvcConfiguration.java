@@ -1,7 +1,5 @@
 package com.zone.config;
 
-import com.zone.interceptor.JwtTokenAdminInterceptor;
-import com.zone.interceptor.JwtTokenUserInterceptor;
 import com.zone.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,34 +26,15 @@ import java.util.List;
 @Slf4j
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
-    @Autowired
-    private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
-    @Autowired
-    private JwtTokenUserInterceptor jwtTokenUserInterceptor;
 
-    /**
-     * 注册自定义拦截器
-     * @param registry
-     */
-    protected void addInterceptors(InterceptorRegistry registry) {
-        log.info("开始注册自定义拦截器...");
-        registry.addInterceptor(jwtTokenAdminInterceptor)
-                .addPathPatterns("/admin/**")
-                .excludePathPatterns("/admin/employee/login");
-
-        registry.addInterceptor(jwtTokenUserInterceptor)
-                .addPathPatterns("/user/**")
-                .excludePathPatterns("/user/user/login")
-                .excludePathPatterns("/user/shop/status");
-    }
 
     @Bean
     public Docket docket1(){
         log.info("准备生成接口文档...");
         ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("苍穹外卖项目接口文档")
-                .version("2.0")
-                .description("苍穹外卖项目接口文档")
+                .title("项目接口文档")
+                .version("1.0")
+                .description("项目接口文档")
                 .build();
 
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
@@ -63,7 +42,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .apiInfo(apiInfo)
                 .select()
                 //指定生成接口需要扫描的包
-                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.admin"))
+                .apis(RequestHandlerSelectors.basePackage("com.zone.controller.admin"))
                 .paths(PathSelectors.any())
                 .build();
 
@@ -74,9 +53,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     public Docket docket2(){
         log.info("准备生成接口文档...");
         ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("苍穹外卖项目接口文档")
-                .version("2.0")
-                .description("苍穹外卖项目接口文档")
+                .title("项目接口文档")
+                .version("1.0")
+                .description("项目接口文档")
                 .build();
 
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
@@ -84,7 +63,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .apiInfo(apiInfo)
                 .select()
                 //指定生成接口需要扫描的包
-                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.user"))
+                .apis(RequestHandlerSelectors.basePackage("com.zone.controller"))
                 .paths(PathSelectors.any())
                 .build();
 

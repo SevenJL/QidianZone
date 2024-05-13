@@ -7,4 +7,17 @@
     <insert id="insert" parameterType="com.zone.entity.User" keyProperty="userId">
         INSERT INTO user (password, user_name, email) VALUES (#{password}, #{userName}, #{email})
     </insert>
+    <select id="pageQuery" resultType="com.zone.entity.User">
+        SELECT * FROM user
+        <where>
+            <if test="userName != null and userName != ''">
+                user_name LIKE concat('%', #{userName}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                AND email LIKE concat('%', #{email}, '%')
+            </if>
+        </where>
+        ORDER BY user_id
+        LIMIT #{page}, #{pageSize}
+    </select>
 </mapper>

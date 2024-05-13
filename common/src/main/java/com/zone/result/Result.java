@@ -1,4 +1,4 @@
-package com.zone.restful;
+package com.zone.result;
 
 import lombok.Data;
 
