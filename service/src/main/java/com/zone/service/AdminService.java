@@ -1,16 +1,20 @@
 package com.zone.service;
 
-import com.zone.result.PageResult;
+import com.zone.dto.LoginDTO;
+
+import java.util.List;
 
 /**
- * 管理服务
+ * 用户服务
  */
 public interface AdminService {
 
 
     /**
-     * 查询所有用户
+     * 登录
+     * @param password
+     * @param name
+     * @return
      */
-
-    PageResult list(Integer page, Integer pageSize);
+    Integer login(LoginDTO loginDTO);
 }

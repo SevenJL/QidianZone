@@ -6,8 +6,8 @@
         <option name="generateConfig">
           <GenerateConfig>
             <option name="annotationType" value="MYBATIS_PLUS3" />
-            <option name="basePackage" value="generator" />
-            <option name="basePath" value="src/main/java" />
+            <option name="basePackage" value="asdasd" />
+            <option name="basePath" value="asd" />
             <option name="classNameStrategy" value="camel" />
             <option name="encoding" value="UTF-8" />
             <option name="extraClassSuffix" value="" />
@@ -64,7 +64,7 @@
             <option name="needToStringHashcodeEquals" value="true" />
             <option name="needsComment" value="true" />
             <option name="needsModel" value="true" />
-            <option name="relativePackage" value="domain" />
+            <option name="relativePackage" value="entity" />
             <option name="superClass" value="" />
             <option name="tableUIInfoList">
               <list>

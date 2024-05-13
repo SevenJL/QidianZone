@@ -1,15 +1,13 @@
 package com.zone.mapper;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zone.entity.User;
-import org.apache.ibatis.annotations.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper  {
 
     /**
      * 注册用户
@@ -21,13 +19,7 @@ public interface UserMapper extends BaseMapper<User> {
      */
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    Integer insert(@Param("password") String password,
-                   @Param("userName") String userName,
-                   @Param("email") String email,
-                   @Param("power") LocalDateTime power,
-                   @Param("createTime") LocalDateTime createTime,
-                   @Param("updateTime") Integer updateTime,
-                   @Param("status")String status);
+    Integer insert(@Param("password") String password,@Param("userName") String userName,@Param("email") String email);
 
 
     /**
@@ -39,45 +31,11 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("SELECT * FROM user WHERE user_name = #{userName}")
     Integer findByUserName(@Param("userName") String userName);
 
-
-
-
     /**
      * 登录
      * @param password 密码
      * @param userName 用户名
      */
     @Select("SELECT user_id FROM user WHERE user_name = #{userName} AND password = #{password}")
-    Integer login(@Param("password")String password,@Param("userName") String userName);
-
-
-    /**
-     * 根据邮箱查询用户
-     * @param email 邮箱
-     * @return 当前用户的ID
-     */
-    @Select("SELECT user_id FROM user WHERE email = #{email}")
-    Integer findUserByEmail(@Param("email") String email);
-
-
-    /**
-     * 退出
-     * @param id 当前用户的ID
-     */
-    @Update("UPDATE user SET status = #{status} WHERE user_id = #{id}")
-    void logout(@Param("id") Integer id, @Param("status") Integer status);
-
-    /**
-     * 查询当前用户信息
-     * @param id 当前用户的ID
-     * @return 当前用户的信息
-     */
-    @Select("SELECT * FROM user WHERE user_id = #{id} AND status = #{status} ")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    User query(@Param("id") Integer id,@Param("status") Integer status);
-
-
-    // TODO 分页待定
-    List<User> list();
-
+    Integer login(@Param("password")String password, @Param("userName") String userName);
 }

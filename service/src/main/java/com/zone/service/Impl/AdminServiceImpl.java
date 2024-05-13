@@ -1,43 +1,35 @@
 package com.zone.service.Impl;
 
-
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.zone.entity.User;
+import com.zone.dto.LoginDTO;
 import com.zone.mapper.AdminMapper;
-import com.zone.mapper.UserMapper;
-import com.zone.result.PageResult;
 import com.zone.service.AdminService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-
 @Service
+@AllArgsConstructor
 @Slf4j
 public class AdminServiceImpl implements AdminService {
-
-    @Autowired
-    private AdminMapper adminMapper;
-    @Autowired
-    private UserMapper userMapper;
-
-
-
+    private final AdminMapper adminMapper;
 
     @Override
-    public PageResult<User> list(Integer page, Integer pageSize) {
-        // 分页查询
-        // 先设置分页参数
-        PageHelper.startPage(page, pageSize);
+    public Integer login(LoginDTO loginDTO) {
+        // 获取账号密码
+        String password = loginDTO.getPassword();
+        String name = loginDTO.getName();
 
-        // 执行查询
-        List<User> userList = userMapper.list();
-        Page<User> userPage = (Page<User>) userList;
+        // 进行查询管理员 是否存在
+        Integer admin = adminMapper.Login(password,name);
 
-        // 封装成分页结果返回
-        return new PageResult<>(userPage.getTotal(), userPage.getResult());
+        if (admin == null) {
+            // 未查询到该管理员
+            log.info("未查询到该管理员");
+            return -1;
+        }
+        // 查询到该管理员
+        return admin;
+
     }
 }
