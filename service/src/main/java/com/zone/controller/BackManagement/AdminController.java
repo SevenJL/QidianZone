@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequestMapping("/admin")
-@Api(tags = "")
+@Api(tags = "管理端")
 public class AdminController {
 
     @Autowired
