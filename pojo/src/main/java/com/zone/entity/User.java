@@ -19,4 +19,7 @@ public class User implements Serializable {
     private String createTime; // 用户创建时间
     private String updateTime; // 用户更新时间
     private String status; // 用户状态
+    private String articleCount; // 用户文章数量
+    private String avatarUrl; // 用户头像
+
 }
