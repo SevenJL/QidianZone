@@ -23,7 +23,7 @@ mybatis:
 logging:
   level:
     com:
-      sky:
+      zone:
         mapper: debug
         service: debug
         controller: debug

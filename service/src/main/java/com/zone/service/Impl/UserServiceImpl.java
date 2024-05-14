@@ -1,5 +1,7 @@
 package com.zone.service.Impl;
 
+import com.zone.constant.PowerConstant;
+import com.zone.constant.RegisterConstant;
 import com.zone.dto.LoginDTO;
 import com.zone.dto.UserUpdatePasswordDTO;
 import com.zone.entity.User;
@@ -10,6 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+
+import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
 
 @Service
@@ -28,8 +34,25 @@ public class UserServiceImpl implements UserService{
             return -1;
         }
         // 说明没有同名的用户
+        // 更新数据
+        User user = User.builder()
+                .name(name)
+                .email(email)
+                .password(password)
+                .nickname(name)
+                .power(PowerConstant.DEFAULT_POWER)
+                .createTime(LocalDateTime.now())
+                .updateTime(LocalDateTime.now())
+                .deleteStatus(RegisterConstant.DEFAULT_DELETE_STATUS)
+                .status(RegisterConstant.DEFAULT_STATUS)
+                .deleteTime(RegisterConstant.DEFAULT_DELETE_TIME)
+                .articleCount(RegisterConstant.DEFAULT_ARTICLE_COUNT)
+                .avatarUrl(RegisterConstant.DEFAULT_AVATAR_URL)
+                .articleLike(RegisterConstant.DEFAULT_ARTICLE_LIKE_VALUE)
+                .build();
+        log.info("用户:{}", user);
         // 返回生成的ID
-        return userMapper.insert(password,name,email);
+        return userMapper.insert(user);
     }
 
 
@@ -81,5 +104,36 @@ public class UserServiceImpl implements UserService{
         return byUserName;
     }
 
+    /**
+     * 修改昵称
+     * @param userId   用户id
+     * @param nickname 昵称
+     */
+    @Override
+    public void updateNickname(Integer userId, String nickname) {
+        userMapper.updateNickname(nickname, userId);
+    }
 
+
+    /**
+     * 修改头像
+     * @param userId 用户id
+     */
+    @Override
+    public void updateAvatar(Integer userId, String avatarUrl) {
+        User user = new User();
+        user.setAvatarUrl(avatarUrl);
+        user.setUserId(userId);
+        log.info("avatarUrl:{}", avatarUrl);
+        userMapper.update(user);
+
+    }
+
+    /**
+     * 获取用户最基本信息
+     */
+    @Override
+    public User getUserInfo(Integer userId) {
+        return userMapper.getUserInfo(userId);
+    }
 }

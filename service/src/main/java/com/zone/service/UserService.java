@@ -3,6 +3,7 @@ package com.zone.service;
 
 import com.zone.dto.LoginDTO;
 import com.zone.dto.UserUpdatePasswordDTO;
+import com.zone.entity.User;
 
 /**
  * 用户服务
@@ -12,7 +13,7 @@ public interface UserService {
     /**
      * 注册
      * @param password 密码
-     * @param userName 用户名
+     * @param name 用户名
      * @param email    用户邮箱
      */
     Integer register(String password, String name, String email);
@@ -29,4 +30,21 @@ public interface UserService {
      * @return
      */
     Integer update(UserUpdatePasswordDTO userUpdatePasswordDTO);
+
+    /**
+     * 修改昵称
+     * @param userId   用户id
+     * @param nickname 昵称
+     */
+    void updateNickname(Integer userId, String nickname);
+
+    /**
+     * 修改头像
+     */
+    void updateAvatar(Integer userId, String avatarUrl);
+
+    /**
+     * 获取用户信息
+     */
+    User getUserInfo(Integer userId);
 }
