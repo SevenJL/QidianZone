@@ -94,10 +94,23 @@
             <version>3.0.3</version>
         </dependency>
 
-
-
-
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version> <!-- 使用你当前的或最新版本 -->
+                <configuration>
+                    <source>17</source> <!-- 根据你的Java版本调整 -->
+                    <target>17</target> <!-- 同上 -->
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <dependencyManagement>
         <dependencies>
             <dependency>

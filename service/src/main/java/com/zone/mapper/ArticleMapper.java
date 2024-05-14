@@ -7,9 +7,14 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ArticleMapper {
+
     /**
      * 发布文章
      */
-    void insert(@Param("article") Article article);
+    void insert(Article article);
 
+    /**
+     * 更新文章数据
+     */
+    void update(Article article);
 }

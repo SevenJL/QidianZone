@@ -5,11 +5,52 @@
 
 
     <insert id="insert" parameterType="com.zone.entity.Article">
-        insert into article(title,content,creator,create_time,update_time,delete_time,
-                            category_id,comment_id,article_view,article_like,article_view_power)
+        insert into article (title,content,creator,create_time,update_time,delete_time,status,
+                            category_id,comment_id,article_view,article_like,article_view_power,
+                            article_comment_count,
+                            delete_status)
         values (#{title},#{content},#{creator},#{createTime},#{updateTime},
-                #{deleteTime},#{categoryId},#{commentId},#{articleView},
-                #{articleLike},#{articleViewPower})
+                #{deleteTime},#{status},
+                #{categoryId},#{commentId},#{articleView},#{articleLike},#{articleViewPower},
+                #{articleCommentCount},
+                #{deleteStatus})
     </insert>
+
+    <update id="update" parameterType="com.zone.entity.Article">
+        update article
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleteTime != null">
+                delete_time = #{deleteTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="articleView != null">
+                article_view = #{articleView},
+            </if>
+            <if test="articleLike != null">
+                article_like = #{articleLike},
+            </if>
+            <if test="articleViewPower != null">
+                article_view_power = #{articleViewPower},
+            </if>
+            <if test="deleteStatus != null">
+                delete_status = #{deleteStatus},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 
 </mapper>

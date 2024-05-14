@@ -32,7 +32,6 @@ CREATE TABLE `article` (
     `article_comment_count` INT DEFAULT 0,
     `article_view_power` TINYINT NOT NULL, -- 浏览权限
     `delete_status` TINYINT NOT NULL, -- 删除状态
-    PRIMARY KEY (`id`),
-    CONSTRAINT `fk_article_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk_article_comment` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+    PRIMARY KEY (`id`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
