@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
 
 @Service

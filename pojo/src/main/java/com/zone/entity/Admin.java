@@ -23,8 +23,8 @@ public class Admin {
     private LocalDateTime deleteTime; // 管理员删除时间
     private String password; // 管理员密码
     private String email; // 管理员邮箱
-    private String status; // 管理员状态
-    private String deleteStatus; // 管理员删除状态
+    private Integer status; // 管理员状态
+    private Integer deleteStatus; // 管理员删除状态
     private String avatarUrl; // 管理员头像
 
 

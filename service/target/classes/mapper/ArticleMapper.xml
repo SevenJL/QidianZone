@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zone.mapper.ArticleMapper">
+
+
+    <insert id="insert" parameterType="com.zone.entity.Article">
+        insert into article(title,content,creator,create_time,update_time,delete_time,
+                            category_id,comment_id,article_view,article_like,article_view_power)
+        values (#{title},#{content},#{creator},#{createTime},#{updateTime},
+                #{deleteTime},#{categoryId},#{commentId},#{articleView},
+                #{articleLike},#{articleViewPower})
+    </insert>
+
+</mapper>

@@ -24,15 +24,16 @@ public class Article {
     private String content; // 内容
     private LocalDateTime createTime; // 创建时间
     private LocalDateTime updateTime; // 更新时间
+    private LocalDateTime deleteTime; // 删除时间
     private Integer status; // 状态
-    private List<User> creator; // 创建者
+    private String creator; // 创建者
     private Integer categoryId; // 分类id
-    private String categoryName; // 分类名
-    private List<String> comment; // 评论
+    private Integer commentId; // 评论
     private Integer articleLike; // 点赞数
     private Integer articleView; // 浏览数
     private Integer articleCommentCount; // 评论数
-    private ArticleViewPower articleViewPower ; // 浏览权限
+    private Integer articleViewPower ; // 浏览权限
+    private Integer deleteStatus; // 删除状态 1为删除 0为未删除 (回收站使用)
 
 
 
