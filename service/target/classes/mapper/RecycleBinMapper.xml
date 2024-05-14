@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zone.mapper.RecycleBinMapper">
+
+
+    <delete id="clear" parameterType="java.time.LocalDateTime">
+        delete from article
+               where delete_status = 0;
+    </delete>
+    <select id="show" resultType="com.zone.vo.ArticleRecycleBinVO">
+        select id,
+               title,
+               create_time,
+               update_time,
+               article_view,
+               category_id
+        from article
+        where delete_status = 2
+
+    </select>
+
+
+</mapper>
