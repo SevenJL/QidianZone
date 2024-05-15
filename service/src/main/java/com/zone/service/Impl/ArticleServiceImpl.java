@@ -61,11 +61,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .build();
 
         // 插入文章数据
+        articleMapper.insert(article);
 
-        Integer insert = articleMapper.insert(article);
-        log.info("id:{}",insert);
-
-        //TODO 添加文章标签到article_category数据库中
+        // 添加文章类型article_category到数据库中
         ArticleCategory articleCategory = new ArticleCategory();
         articleCategory.setArticleId(article.getId());
 
@@ -136,8 +134,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             List<String> articleCategoryNameList = new ArrayList<>();
 
             // 根据查询文章ID 获取文章分类名称
+            log.info("根据文章ID查询文章分类名称:{}",article.getId());
             List<String> ac = articleCategoryMapper.findByArticleId(article.getId());
-            log.info(":{}",ac);
+            log.info(":{}",ac); // [Java, SpringBoot]
+
             // 添加到文章分类名称集合中
             articleCategoryNameList.addAll(ac);
             articleVO.setCategoryName(articleCategoryNameList);

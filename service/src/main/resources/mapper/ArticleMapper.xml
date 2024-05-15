@@ -23,7 +23,6 @@
             <if test="status != null">
                 status = #{status},
             </if>
-
             <if test="articleView != null">
                 article_view = #{articleView},
             </if>
