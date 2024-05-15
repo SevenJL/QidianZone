@@ -31,6 +31,8 @@ public class UserController {
         // 注册
         log.info("注册用户:{}",registerDTO);
 
+        //TODO 使用MD5加密密码 再传入数据库
+
         // 将用户注册的数据传给数据库
         Integer userId = userService.register(registerDTO.getPassword(),registerDTO.getName(),registerDTO.getEmail());
 
@@ -53,6 +55,7 @@ public class UserController {
     @ApiOperation("修改密码")
     public Result<Object> updatePassword(@RequestBody UserUpdatePasswordDTO userUpdatePasswordDTO){
         log.info("修改密码:{}",userUpdatePasswordDTO);
+        // TODO 需要对修改的密码进行MD5加密
         // 传入DTO对象
         Integer userId =  userService.update(userUpdatePasswordDTO);
 
@@ -112,13 +115,13 @@ public class UserController {
 
         // 传入DTO对象
         User user = userService.getUserInfo(userId);
-        log.info("获取用户信息成功");
 
         // 将获取的User 对象 拷贝到 UserVO
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
 
         // 返回用户基本信息
+        log.info("获取用户信息成功");
         return Result.success(userVO);
     }
 

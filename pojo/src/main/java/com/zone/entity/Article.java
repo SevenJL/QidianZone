@@ -27,8 +27,6 @@ public class Article {
     private LocalDateTime updateTime; // 更新时间
     private LocalDateTime deleteTime; // 删除时间
     private Integer status; // 状态
-    private Integer categoryId; // 分类id
-    private Integer commentId; // 评论
     private Integer articleView; // 浏览数
     private Integer articleLike; // 点赞数
     private Integer articleCommentCount; // 评论数

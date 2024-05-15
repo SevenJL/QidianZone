@@ -5,15 +5,12 @@
 
 
     <insert id="insert" parameterType="com.zone.entity.Article">
-        insert into article (title,content,creator,create_time,update_time,delete_time,status,
-                            category_id,comment_id,article_view,article_like,article_view_power,
-                            article_comment_count,
-                            delete_status)
-        values (#{title},#{content},#{creator},#{createTime},#{updateTime},
-                #{deleteTime},#{status},
-                #{categoryId},#{commentId},#{articleView},#{articleLike},#{articleViewPower},
-                #{articleCommentCount},
-                #{deleteStatus})
+        insert into article (title, content, creator, create_time, update_time, delete_time, status,
+                             article_view, article_like, article_view_power,
+                             article_comment_count,delete_status)
+        values (#{title}, #{content}, #{creator}, #{createTime}, #{updateTime},
+                #{deleteTime}, #{status},#{articleView}, #{articleLike},
+                #{articleViewPower},#{articleCommentCount},#{deleteStatus})
     </insert>
 
     <update id="update" parameterType="com.zone.entity.Article">
@@ -34,9 +31,7 @@
             <if test="status != null">
                 status = #{status},
             </if>
-            <if test="categoryId != null">
-                category_id = #{categoryId},
-            </if>
+
             <if test="articleView != null">
                 article_view = #{articleView},
             </if>
@@ -52,5 +47,43 @@
         </set>
         where id = #{id}
     </update>
+    <select id="search" resultType="com.zone.entity.Article" parameterType="com.zone.dto.PageSearchDTO">
+        select
+        a.id,
+        a.title,
+        a.content,
+        a.creator,
+        a.create_time,
+        a.update_time,
+        a.delete_time,
+        a.status,
+        a.article_view,
+        a.article_like,
+        a.article_view_power,
+        a.article_comment_count,
+        a.delete_status,
+        c.name as category_name
+        from
+        article a
+        left join
+        article_category ac on ac.article_id = a.id
+        left join
+        category c on c.id = ac.category_id
+        <where>
+            <if test="title != null and title != ''">
+                and a.title like concat('%', #{title}, '%')
+            </if>
+            <if test="categoryId != null">
+                and c.id = #{categoryId}
+            </if>
+            <if test="tagId != null">
+                and a.tag_id = #{tagId}
+            </if>
+        </where>
+        order by
+        a.create_time desc
+    </select>
+
+
 
 </mapper>

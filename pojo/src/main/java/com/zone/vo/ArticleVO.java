@@ -17,7 +17,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleVO implements Serializable {
-    private String articleId; // 文章id
     private String categoryName; // 分类名
     private String author; // 作者
     private String title; // 文章标题

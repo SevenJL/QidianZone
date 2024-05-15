@@ -1,8 +1,12 @@
 package com.zone.service;
 
 
+import com.github.pagehelper.PageInfo;
 import com.zone.dto.ArticleEditDTO;
 import com.zone.dto.ArticlePublishDTO;
+import com.zone.dto.PageSearchDTO;
+import com.zone.entity.Article;
+import com.zone.result.PageResult;
 
 /**
  * 用户服务
@@ -26,4 +30,9 @@ public interface ArticleService {
      * 逻辑删除
      */
     void delete(Integer id);
+
+    /**
+     * 根据文章题目进行模糊搜索
+     */
+    PageInfo<Article> search(PageSearchDTO pageSearchDTO);
 }

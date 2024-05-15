@@ -36,6 +36,7 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!--json-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -54,12 +55,12 @@
             <version>2.3.1</version>
         </dependency>
 
+        <!--redis-->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
             <version>2.4.6</version>
         </dependency>
-
 
 
         <dependency>
@@ -80,17 +81,12 @@
             <scope>compile</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.github.jsqlmapper</groupId>
-                    <artifactId>jsqlmapper</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
+    <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper-spring-boot-starter</artifactId>
+        <version>2.1.0</version>
+    </dependency>
     </dependencies>
 
 </project>

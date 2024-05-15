@@ -24,6 +24,7 @@ public class LoginAndLogoutController {
     public Result<Object> login(@RequestBody LoginDTO loginDTO){
         // 登录
         log.info("登录:{}",loginDTO);
+        //TODO 输入的密码进行MD5加密
 
         // 如果是用户登录
         if (loginDTO.getPower().equals("user")){

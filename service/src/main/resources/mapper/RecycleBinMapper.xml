@@ -13,8 +13,7 @@
                title,
                create_time,
                update_time,
-               article_view,
-               category_id
+               article_view
         from article
         where delete_status = 2
 

@@ -17,5 +17,4 @@ public class ArticleRecycleBinVO {
     private LocalDateTime createTime; // 创建时间
     private LocalDateTime updateTime; // 更新时间
     private Integer articleView; // 浏览量
-    private Integer categoryId; // 类型ID
 }
