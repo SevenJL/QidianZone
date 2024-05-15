@@ -1,6 +1,7 @@
 package com.zone.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.zone.dto.LoginDTO;
 import com.zone.dto.UserUpdatePasswordDTO;
 import com.zone.entity.User;
@@ -8,7 +9,7 @@ import com.zone.entity.User;
 /**
  * 用户服务
  */
-public interface UserService {
+public interface UserService extends IService<User> {
 
     /**
      * 注册

@@ -1,5 +1,6 @@
 package com.zone.service.Impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zone.constant.PowerConstant;
 import com.zone.constant.RegisterConstant;
 import com.zone.dto.LoginDTO;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final UserMapper userMapper;
 

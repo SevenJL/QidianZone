@@ -1,21 +1,21 @@
 package com.zone.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zone.entity.User;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.annotations.Param;
 
 
 @Mapper
-public interface UserMapper  {
+public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 注册用户
      * 插入数据
      */
 
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    Integer insert(@Param("user") User user);
+    int insert(@Param("user") User user);
 
 
     /**

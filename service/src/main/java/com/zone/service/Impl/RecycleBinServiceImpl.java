@@ -1,5 +1,6 @@
 package com.zone.service.Impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zone.dto.PageSearchDTO;
@@ -8,6 +9,7 @@ import com.zone.mapper.ArticleMapper;
 import com.zone.mapper.RecycleBinMapper;
 import com.zone.mapper.UserMapper;
 import com.zone.result.PageResult;
+import com.zone.service.ArticleService;
 import com.zone.service.RecycleBinService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +24,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class RecycleBinServiceImpl implements RecycleBinService {
+public class RecycleBinServiceImpl extends ServiceImpl<ArticleMapper, Article> implements RecycleBinService {
 
     @Autowired
     private RecycleBinMapper recycleBinMapper;
