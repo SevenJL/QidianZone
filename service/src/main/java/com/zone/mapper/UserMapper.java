@@ -26,7 +26,7 @@ public interface UserMapper  {
     /**
      * 登录
      */
-    @Select("SELECT user_id FROM user WHERE name = #{name} AND password = #{password}")
+    @Select("SELECT id FROM user WHERE name = #{name} AND password = #{password}")
     Integer login(@Param("password")String password, @Param("name") String name);
 
     /**
@@ -37,12 +37,12 @@ public interface UserMapper  {
     /**
      * 修改昵称
      */
-    @Update("UPDATE user SET nick_name = #{nickname} WHERE user_id = #{userId}")
+    @Update("UPDATE user SET nick_name = #{nickname} WHERE id = #{userId}")
     void updateNickname(@Param("nickname") String nickname, @Param("userId") Integer userId);
 
     /**
      * 修改头像
      */
-    @Select("SELECT * FROM user WHERE user_id = #{userId}")
+    @Select("SELECT * FROM user WHERE id = #{userId}")
     User getUserInfo(@Param("userId") Integer userId);
 }

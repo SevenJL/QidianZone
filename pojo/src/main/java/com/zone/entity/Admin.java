@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -15,7 +17,9 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Admin {
+public class Admin implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private Integer id; // 管理员id
     private String name; // 管理员名
     private String nickname; // 管理员昵称

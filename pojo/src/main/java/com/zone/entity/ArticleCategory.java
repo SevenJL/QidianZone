@@ -1,5 +1,6 @@
 package com.zone.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 标签
+ * 文章和分类关系表
  */
 
 @Data
@@ -17,9 +18,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Tag implements Serializable {
+
+public class ArticleCategory implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    private Integer id; // 标签id
-    private String name; // 标签名
+    private Integer id; // 主键
+    private Integer articleId; // 文章id
+    private Integer categoryId; // 分类id
 }

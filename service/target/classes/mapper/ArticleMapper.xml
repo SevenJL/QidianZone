@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zone.mapper.ArticleMapper">
-
-
-    <insert id="insert" parameterType="com.zone.entity.Article">
-        insert into article (title, content, creator, create_time, update_time, delete_time, status,
-                             article_view, article_like, article_view_power,
-                             article_comment_count,delete_status)
-        values (#{title}, #{content}, #{creator}, #{createTime}, #{updateTime},
-                #{deleteTime}, #{status},#{articleView}, #{articleLike},
-                #{articleViewPower},#{articleCommentCount},#{deleteStatus})
+<mapper namespace="com.zone.mapper.ArticleMapper" >
+    <insert id="insert" useGeneratedKeys="true" parameterType="com.zone.entity.Article" keyProperty="id">
+        insert into article(id,creator,create_time,article_like,article_comment_count,article_view,article_view_power,delete_status,title,content,update_time,delete_time,status)
+        values (#{id},#{creator},#{createTime},#{articleLike},#{articleCommentCount},#{articleView},#{articleViewPower},#{deleteStatus},#{title},#{content},#{updateTime},#{deleteTime},#{status})
     </insert>
+
 
     <update id="update" parameterType="com.zone.entity.Article">
         update article
@@ -47,46 +42,29 @@
         </set>
         where id = #{id}
     </update>
-    <select id="search" resultType="com.zone.entity.Article" parameterType="com.zone.dto.PageSearchDTO">
-        select
-        a.id,
-        a.title,
-        a.content,
-        a.creator,
-        a.create_time,
-        a.update_time,
-        a.delete_time,
-        a.status,
-        a.article_view,
-        a.article_like,
-        a.article_view_power,
-        a.article_comment_count,
-        a.delete_status,
-        c.name as category_name
-        from
-        article a
-        left join
-        article_category ac on ac.article_id = a.id
-        left join
-        category c on c.id = ac.category_id
+
+
+    <select id="findByTitle" resultType="java.lang.Integer">
+        select id from article where title = #{title}
+    </select>
+    <select id="search" resultType="com.zone.entity.Article">
+        select * from article
         <where>
-            <if test="title != null and title != ''">
-                and a.title like concat('%', #{title}, '%')
+            <if test="title != null">
+                title like concat('%',#{title},'%')
             </if>
             <if test="categoryId != null">
-                and c.id = #{categoryId}
+                and id in (select article_id from article_category where category_id = #{categoryId})
             </if>
             <if test="tagId != null">
-                and a.tag_id = #{tagId}
+                and id in (select article_id from article_tag where tag_id = #{tagId})
             </if>
             <if test="deleteStatus != null">
-                and a.delete_status = #{deleteStatus}
+                and delete_status = #{deleteStatus}
             </if>
         </where>
-        order by
-        a.create_time desc
-    </select>
 
+    </select>
 
 
 </mapper>

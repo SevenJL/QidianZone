@@ -2,12 +2,12 @@ package com.zone.mapper;
 
 
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import com.zone.dto.PageSearchDTO;
 import com.zone.entity.Article;
+import com.zone.handler.JsonTypeHandler;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 
 @Mapper
 public interface ArticleMapper {
@@ -15,7 +15,8 @@ public interface ArticleMapper {
     /**
      * 发布文章
      */
-    void insert(Article article);
+    Integer insert(Article article);
+
 
     /**
      * 更新文章数据
@@ -26,5 +27,14 @@ public interface ArticleMapper {
     /**
      * 根据  大致标题进行模糊查询   文章分类/标签分类进行精确查询
      */
-    List<Article> search(PageSearchDTO pageSearchDTO);
+    @Results({
+            @Result(column = "tags", property = "tags", typeHandler = JsonTypeHandler.class)
+    })
+    Page<Article> search(PageSearchDTO pageSearchDTO);
+
+
+    /**
+     * 根据文章标题进行精确查询
+     */
+    Integer findByTitle(String title);
 }

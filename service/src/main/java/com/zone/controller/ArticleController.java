@@ -1,5 +1,6 @@
 package com.zone.controller;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.zone.dto.ArticleEditDTO;
 import com.zone.dto.ArticlePublishDTO;
@@ -8,6 +9,7 @@ import com.zone.entity.Article;
 import com.zone.result.PageResult;
 import com.zone.service.ArticleService;
 import com.zone.result.Result;
+import com.zone.vo.ArticleVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +60,6 @@ public class ArticleController {
      */
     @DeleteMapping("/delete/{id}")
     @ApiOperation("(逻辑)删除文章")
-    @Transactional
     public Result deleteById(@PathVariable("id") Integer id) {
         log.info("删除文章");
         articleService.delete(id);
@@ -73,14 +74,14 @@ public class ArticleController {
     @ApiOperation("根据文章题目进行模糊搜索")
     public Result<PageResult> search(@RequestBody PageSearchDTO pageSearchDTO) {
         log.info("根据文章题目进行模糊搜索");
-        PageInfo<Article> articlePageInfo =   articleService.search(pageSearchDTO);
-        long total = articlePageInfo.getTotal();
-        List<Article> list = articlePageInfo.getList();
-        PageResult result = PageResult.builder()
-                .total(total)
-                .records(list)
-                .build();
-        return Result.success(result);
+        // 获取分页信息
+        PageResult ar = articleService.search(pageSearchDTO);
+
+        // 封装分页信息
+        long total = ar.getTotal();
+        List<ArticleVO> records = ar.getRecords();
+        // 返回
+        return Result.success(new PageResult(total, records));
     }
 
 

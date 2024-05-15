@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
                 .articleLike(RegisterConstant.DEFAULT_ARTICLE_LIKE_VALUE)
                 .build();
         log.info("用户:{}", user);
-        // 返回生成的ID
+
         return userMapper.insert(user);
     }
 
@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService{
 
         // 根据用户名 查询id
         Integer byUserName = userMapper.findByUserName(userUpdatePasswordDTO.getName());
-        user.setUserId(byUserName); // 设置id
+        user.setId(byUserName); // 设置id
         userMapper.update(user); // 修改密码
 
         return byUserName;
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService{
     public void updateAvatar(Integer userId, String avatarUrl) {
         User user = new User();
         user.setAvatarUrl(avatarUrl);
-        user.setUserId(userId);
+        user.setId(userId);
         log.info("avatarUrl:{}", avatarUrl);
         userMapper.update(user);
 

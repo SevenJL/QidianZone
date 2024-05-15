@@ -49,7 +49,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
         log.info("pageSearchDTO:{}", pageSearchDTO);
 
         PageHelper.startPage(pageSearchDTO.getPageNum(), pageSearchDTO.getPageSize());
-        Page<Article> page = (Page<Article>) articleMapper.search(pageSearchDTO);
+        Page<Article> page = articleMapper.search(pageSearchDTO);
 
         return new PageResult(page.getTotal(), page.getResult());
     }

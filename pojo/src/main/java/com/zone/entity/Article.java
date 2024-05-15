@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,7 +20,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Article {
+public class Article implements Serializable {
+
     private Integer id; // id
     private String title; // 标题
     private String content; // 内容
@@ -32,8 +35,5 @@ public class Article {
     private Integer articleCommentCount; // 评论数
     private Integer articleViewPower ; // 浏览权限
     private Integer deleteStatus; // 删除状态 1为删除 0为未删除 (回收站使用)
-
-
-
 
 }

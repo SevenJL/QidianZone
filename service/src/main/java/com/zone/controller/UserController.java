@@ -34,16 +34,16 @@ public class UserController {
         //TODO 使用MD5加密密码 再传入数据库
 
         // 将用户注册的数据传给数据库
-        Integer userId = userService.register(registerDTO.getPassword(),registerDTO.getName(),registerDTO.getEmail());
+        Integer update =  userService.register(registerDTO.getPassword(),registerDTO.getName(),registerDTO.getEmail());
 
         // 判断是否注册成功
-        if(userId == null && userId == -1){
+        if(update == -1){
             return Result.error("注册失败");
         }
 
         // 数据传入数据库后返回成功
         log.info("用户:{}注册成功",registerDTO.getName());
-        return Result.success(userId);
+        return Result.success();
 
     }
 

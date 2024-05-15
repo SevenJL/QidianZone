@@ -55,7 +55,7 @@
                 article_like = #{user.articleLike},
             </if>
         </set>
-        where user_id = #{user.userId}
+        where id = #{user.userId}
 
     </update>
 
