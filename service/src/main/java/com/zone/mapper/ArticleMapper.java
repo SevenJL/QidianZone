@@ -1,21 +1,25 @@
 package com.zone.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.Page;
 import com.zone.dto.PageSearchDTO;
 import com.zone.entity.Article;
 import com.zone.handler.JsonTypeHandler;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
-public interface ArticleMapper {
+public interface ArticleMapper extends BaseMapper<Article>  {
 
     /**
      * 发布文章
      */
-    Integer insert(Article article);
+    @Insert("insert into article(title,content,creator,status,delete_status,create_time,update_time ,article_view_power," +
+            "article_comment_count,article_like,article_view) " +
+            "values(#{title},#{content},#{creator},#{status},#{deleteStatus},#{createTime},#{updateTime},#{articleViewPower}" +
+            ",#{articleCommentCount},#{articleLike},#{articleView})"  )
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    Integer insertArticle(Article article);
 
 
     /**
@@ -36,5 +40,7 @@ public interface ArticleMapper {
     /**
      * 根据文章标题进行精确查询
      */
-    Integer findByTitle(String title);
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    @Select("SELECT * FROM article WHERE title = #{title}")
+    Integer findByTitle(@Param("title") String title);
 }

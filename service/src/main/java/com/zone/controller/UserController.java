@@ -23,7 +23,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
+    @GetMapping("/register")
     @ApiOperation("注册")
     @Transactional
     public Result<Integer> register(@RequestBody RegisterDTO registerDTO){

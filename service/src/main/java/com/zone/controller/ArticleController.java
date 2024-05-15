@@ -38,7 +38,10 @@ public class ArticleController {
         log.info("发布文章");
         articleService.publish(articlePublishDTO);
 
+        // 返回
+
         return Result.success("发布成功");
+
     }
 
     /**

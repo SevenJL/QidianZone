@@ -31,4 +31,7 @@ public class User implements Serializable {
     private String avatarUrl; // 用户头像
     private Integer articleLike;// 用户文章点赞数量
 
+
+
+
 }

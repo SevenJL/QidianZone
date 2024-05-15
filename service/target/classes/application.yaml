@@ -17,14 +17,14 @@ pagehelper:
   reasonable: false
   defaultCount: true # 分页插件默认参数支持 default-count 形式，自定义扩展的参数，必须大小写一致
 
-mybatis:
-  #mapper配置文件
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.zone.entity
-  type-handlers-package: com.zone.handler
-  configuration:
-    #开启驼峰命名
-   map-underscore-to-camel-case: true
+#mybatis:
+#  #mapper配置文件
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.zone.entity
+#  type-handlers-package: com.zone.handler
+#  configuration:
+#    #开启驼峰命名
+#   map-underscore-to-camel-case: true
 
 
 logging:
@@ -43,4 +43,14 @@ zone:
     admin-ttl: 7200000000000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+mybatis-plus:
+  type-aliases-package: com.zone.entity#别名扫描包
+  global-config: #Mapper.xml文件地址,默认值
+    db-config:
+      id-type: auto  #id为自增长
+      logic-delete-field: deleted # 配置逻辑删除字段
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+    cache-enabled: false #是否开启二级缓存
+
 

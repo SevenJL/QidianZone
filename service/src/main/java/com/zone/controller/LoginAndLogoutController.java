@@ -19,7 +19,7 @@ public class LoginAndLogoutController {
 
     private final AdminService adminService;
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     @ApiOperation("登录")
     public Result<Object> login(@RequestBody LoginDTO loginDTO){
         // 登录

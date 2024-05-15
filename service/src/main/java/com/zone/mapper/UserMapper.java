@@ -5,6 +5,7 @@ import com.zone.entity.User;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.annotations.Param;
 
+
 @Mapper
 public interface UserMapper  {
 

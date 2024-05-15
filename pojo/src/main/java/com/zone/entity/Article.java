@@ -1,6 +1,8 @@
 package com.zone.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Article implements Serializable {
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id; // id
     private String title; // 标题
     private String content; // 内容

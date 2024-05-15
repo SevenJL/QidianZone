@@ -1,5 +1,6 @@
 package com.zone.service.Impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zone.constant.ArticleAboutConstant;
@@ -27,7 +28,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class ArticleServiceImpl implements ArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService{
 
     // 注入Mapper
     @Autowired
@@ -59,13 +60,14 @@ public class ArticleServiceImpl implements ArticleService {
                 .deleteStatus(ArticleAboutConstant.DEFAULT_DELETE_STATUS)
                 .build();
 
+        // 插入文章数据
 
-        articleMapper.insert(article); // 插入文章数据
-        Integer articleId = articleMapper.findByTitle(article.getTitle());
+        Integer insert = articleMapper.insert(article);
+        log.info("id:{}",insert);
 
         //TODO 添加文章标签到article_category数据库中
         ArticleCategory articleCategory = new ArticleCategory();
-        articleCategory.setArticleId(articleId);
+        articleCategory.setArticleId(article.getId());
 
         // 遍历添加
         articlePublishDTO.getCategoryId().forEach(id->{

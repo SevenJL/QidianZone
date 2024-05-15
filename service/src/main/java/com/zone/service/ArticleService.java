@@ -1,15 +1,17 @@
 package com.zone.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.zone.dto.ArticleEditDTO;
 import com.zone.dto.ArticlePublishDTO;
 import com.zone.dto.PageSearchDTO;
+import com.zone.entity.Article;
 import com.zone.result.PageResult;
 
 /**
  * 用户服务
  */
-public interface ArticleService {
+public interface ArticleService extends IService<Article> {
 
 
     /**

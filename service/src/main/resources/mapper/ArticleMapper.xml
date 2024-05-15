@@ -2,10 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zone.mapper.ArticleMapper" >
-    <insert id="insert" useGeneratedKeys="true" parameterType="com.zone.entity.Article" keyProperty="id">
-        insert into article(id,creator,create_time,article_like,article_comment_count,article_view,article_view_power,delete_status,title,content,update_time,delete_time,status)
-        values (#{id},#{creator},#{createTime},#{articleLike},#{articleCommentCount},#{articleView},#{articleViewPower},#{deleteStatus},#{title},#{content},#{updateTime},#{deleteTime},#{status})
-    </insert>
+
 
 
     <update id="update" parameterType="com.zone.entity.Article">
@@ -44,9 +41,8 @@
     </update>
 
 
-    <select id="findByTitle" resultType="java.lang.Integer">
-        select id from article where title = #{title}
-    </select>
+
+
     <select id="search" resultType="com.zone.entity.Article">
         select * from article
         <where>
