@@ -20,4 +20,5 @@ public class PageSearchDTO {
     private String title; // 标题
     private Integer categoryId; // 分类id
     private Integer tagId; // 标签id
+    private Integer deleteStatus; // 删除状态
 }

@@ -79,6 +79,9 @@
             <if test="tagId != null">
                 and a.tag_id = #{tagId}
             </if>
+            <if test="deleteStatus != null">
+                and a.delete_status = #{deleteStatus}
+            </if>
         </where>
         order by
         a.create_time desc

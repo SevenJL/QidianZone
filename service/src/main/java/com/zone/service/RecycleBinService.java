@@ -1,9 +1,8 @@
 package com.zone.service;
 
 
-import com.zone.vo.ArticleRecycleBinVO;
-
-import java.util.List;
+import com.zone.dto.PageSearchDTO;
+import com.zone.result.PageResult;
 
 /**
  * 回收站服务
@@ -21,5 +20,5 @@ public interface RecycleBinService {
      * 显示
      * @return
      */
-    List<ArticleRecycleBinVO> show();
+    PageResult show(PageSearchDTO pageSearchDTO);
 }

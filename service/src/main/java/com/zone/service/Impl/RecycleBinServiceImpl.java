@@ -1,14 +1,18 @@
 package com.zone.service.Impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.zone.dto.PageSearchDTO;
+import com.zone.entity.Article;
+import com.zone.mapper.ArticleMapper;
 import com.zone.mapper.RecycleBinMapper;
+import com.zone.mapper.UserMapper;
+import com.zone.result.PageResult;
 import com.zone.service.RecycleBinService;
-import com.zone.vo.ArticleRecycleBinVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 回收站业务层实现
@@ -23,6 +27,8 @@ public class RecycleBinServiceImpl implements RecycleBinService {
     @Autowired
     private RecycleBinMapper recycleBinMapper;
 
+    @Autowired
+    private ArticleMapper articleMapper;
     /**
      * 清理
      */
@@ -37,8 +43,14 @@ public class RecycleBinServiceImpl implements RecycleBinService {
      * @return
      */
     @Override
-    public List<ArticleRecycleBinVO> show() {
+    public PageResult show(PageSearchDTO pageSearchDTO) {
+        // 查询是回收站的文章 所以需要将删除状态设置为0
+        pageSearchDTO.setDeleteStatus(0);
+        log.info("pageSearchDTO:{}", pageSearchDTO);
 
-        return recycleBinMapper.show();
+        PageHelper.startPage(pageSearchDTO.getPageNum(), pageSearchDTO.getPageSize());
+        Page<Article> page = (Page<Article>) articleMapper.search(pageSearchDTO);
+
+        return new PageResult(page.getTotal(), page.getResult());
     }
 }

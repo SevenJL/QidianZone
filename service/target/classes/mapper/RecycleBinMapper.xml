@@ -8,14 +8,8 @@
         delete from article
                where delete_status = 0;
     </delete>
-    <select id="show" resultType="com.zone.vo.ArticleRecycleBinVO">
-        select id,
-               title,
-               create_time,
-               update_time,
-               article_view
-        from article
-        where delete_status = 2
+
+    <select id="show" resultType="com.zone.entity.Article">
 
     </select>
 

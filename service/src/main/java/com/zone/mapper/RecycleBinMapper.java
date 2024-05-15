@@ -1,15 +1,9 @@
 package com.zone.mapper;
 
 
-import com.zone.vo.ArticleRecycleBinVO;
+import com.github.pagehelper.Page;
+import com.zone.entity.Article;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Mapper
 public interface RecycleBinMapper {
@@ -24,6 +18,6 @@ public interface RecycleBinMapper {
     /**
      * 显示文章信息
      */
-    List<ArticleRecycleBinVO> show();
+    Page<Article> show();
 
 }

@@ -1,8 +1,9 @@
 package com.zone.controller;
 
+import com.zone.dto.PageSearchDTO;
+import com.zone.result.PageResult;
 import com.zone.result.Result;
 import com.zone.service.RecycleBinService;
-import com.zone.vo.ArticleRecycleBinVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,6 @@ public class RecycleBinController {
         //TODO 由于删除文章 关联多个表 所以需要事务管理
         // 并且 删除文章时 需要删除文章的评论
         // 还要删除文章的分类 评论的回复
-        // 所以暂时不做
         return Result.success();
     }
 
@@ -60,14 +60,10 @@ public class RecycleBinController {
      * 显示文章信息
      */
     @PostMapping("/show")
-    @ApiOperation("显示文章信息")
-    public Result<List<ArticleRecycleBinVO>> show() {
-
-        //TODO 进行分页显示 暂时不分页
-        List<ArticleRecycleBinVO> show = recycleBinService.show();
-        log.info("显示文章信息");
-        return Result.success(show);
+    @ApiOperation("显示(回收站的)文章信息")
+    public Result<PageResult> show(@RequestBody PageSearchDTO pageSearchDTO) {
+        log.info("显示(回收站的)文章信息");
+        PageResult pageResult =  recycleBinService.show(pageSearchDTO);
+        return Result.success(pageResult);
     }
-
-
 }
