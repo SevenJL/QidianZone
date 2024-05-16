@@ -1,6 +1,5 @@
 package com.zone.dto;
 
-import com.zone.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

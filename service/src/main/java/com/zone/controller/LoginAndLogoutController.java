@@ -2,12 +2,15 @@ package com.zone.controller;
 
 import com.zone.dto.LoginDTO;
 import com.zone.result.Result;
-import lombok.extern.slf4j.Slf4j;
-import com.zone.service.UserService;
 import com.zone.service.AdminService;
-import lombok.RequiredArgsConstructor;
+import com.zone.service.UserService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RequestMapping

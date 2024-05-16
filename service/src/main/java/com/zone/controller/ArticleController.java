@@ -3,9 +3,10 @@ package com.zone.controller;
 import com.zone.dto.ArticleEditDTO;
 import com.zone.dto.ArticlePublishDTO;
 import com.zone.dto.PageSearchDTO;
+import com.zone.entity.NewArticle;
 import com.zone.result.PageResult;
-import com.zone.service.ArticleService;
 import com.zone.result.Result;
+import com.zone.service.ArticleService;
 import com.zone.vo.ArticleVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -84,6 +85,22 @@ public class ArticleController {
         // 返回
         return Result.success(new PageResult(total, records));
     }
+
+    /**
+     * 显示最新文章
+     */
+    @GetMapping("/listNew")
+    @ApiOperation("显示最新文章")
+    public Result<List<NewArticle>> listNew() {
+        log.info("显示最新文章");
+        // TODO 根据页面需要 再去进行修改 是否需要返回评论
+        //  如果需要只需要调用articleCommentMapper中的getCommentByArticleId方法即可获得
+        List<NewArticle> articles = articleService.listNew();
+
+        return Result.success(articles);
+    }
+
+
 
 
 

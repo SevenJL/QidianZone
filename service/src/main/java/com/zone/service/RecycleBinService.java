@@ -20,7 +20,6 @@ public interface RecycleBinService extends IService<Article> {
 
     /**
      * 显示
-     * @return
      */
     PageResult show(PageSearchDTO pageSearchDTO);
 }

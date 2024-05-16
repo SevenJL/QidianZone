@@ -1,7 +1,6 @@
 package com.zone.constant;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class ArticleAboutConstant {
     // 默认点赞数

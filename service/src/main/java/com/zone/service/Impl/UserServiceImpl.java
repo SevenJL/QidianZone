@@ -1,13 +1,18 @@
 package com.zone.service.Impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zone.constant.PowerConstant;
 import com.zone.constant.RegisterConstant;
 import com.zone.dto.LoginDTO;
+import com.zone.dto.PageBean;
 import com.zone.dto.UserUpdatePasswordDTO;
 import com.zone.entity.User;
-import com.zone.service.UserService;
 import com.zone.mapper.UserMapper;
+import com.zone.result.PageResult;
+import com.zone.service.UserService;
+import com.zone.vo.UserManageVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -77,7 +83,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 修改密码
      * @param userUpdatePasswordDTO 修改密码信息
-     * @return
      */
     @Override
     @Transactional
@@ -135,5 +140,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User getUserInfo(Integer userId) {
         return userMapper.getUserInfo(userId);
+    }
+
+    /**
+     * 列出用户信息
+     */
+    @Override
+    public PageResult listUser(PageBean pageBean) {
+        PageHelper.startPage(pageBean.getPageNum(),pageBean.getPageSize());
+        // 1.获取用户数据集合
+        Page<User> userList = userMapper.listUser();
+
+        // 2.拷贝数据
+        List<UserManageVO> userManageVOS = new ArrayList<>();
+        userList.forEach(user -> {
+            // 2.1创建VO对象
+            UserManageVO userManageVO = new UserManageVO();
+            BeanUtils.copyProperties(user, userManageVO);
+            // 2.2存放在新的集合中
+            userManageVOS.add(userManageVO);
+        });
+
+        // 3.返回集合
+        return new PageResult(userList.getTotal(),userManageVOS);
+
     }
 }

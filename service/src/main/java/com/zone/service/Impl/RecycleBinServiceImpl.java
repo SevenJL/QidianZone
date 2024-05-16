@@ -7,9 +7,7 @@ import com.zone.dto.PageSearchDTO;
 import com.zone.entity.Article;
 import com.zone.mapper.ArticleMapper;
 import com.zone.mapper.RecycleBinMapper;
-import com.zone.mapper.UserMapper;
 import com.zone.result.PageResult;
-import com.zone.service.ArticleService;
 import com.zone.service.RecycleBinService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +40,6 @@ public class RecycleBinServiceImpl extends ServiceImpl<ArticleMapper, Article> i
 
     /**
      * 显示文章信息
-     * @return
      */
     @Override
     public PageResult show(PageSearchDTO pageSearchDTO) {

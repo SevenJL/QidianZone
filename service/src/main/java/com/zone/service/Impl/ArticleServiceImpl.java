@@ -11,18 +11,17 @@ import com.zone.dto.PageSearchDTO;
 import com.zone.entity.Article;
 import com.zone.entity.ArticleCategory;
 import com.zone.entity.ArticleTag;
+import com.zone.entity.NewArticle;
 import com.zone.mapper.ArticleCategoryMapper;
+import com.zone.mapper.ArticleCommentMapper;
 import com.zone.mapper.ArticleMapper;
 import com.zone.mapper.ArticleTagMapper;
 import com.zone.result.PageResult;
 import com.zone.service.ArticleService;
 import com.zone.vo.ArticleVO;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,6 +39,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private final ArticleCategoryMapper articleCategoryMapper;
 
     private final ArticleTagMapper articleTagMapper;
+
+    private final ArticleCommentMapper articleCommentMapper;
 
     /**
      * 发布文章
@@ -61,12 +62,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 //TODO 根据JWT令牌解析Token 去获取当前创建人的ID 从而获取name 暂时写死
                 .creator(ArticleAboutConstant.DEFAULT_CREATOR) // 创建者
                 .status(ArticleAboutConstant.DEFAULT_STATUS) // 状态
-                .deleteStatus(ArticleAboutConstant.DEFAULT_DELETE_STATUS) // 删除状态
+                .deleteStatus(DeleteConstant.ENABLE) // 删除状态
                 .build();
 
         // 插入文章数据
         articleMapper.insert(article);
-
 
 
         // 2.添加文章类型article_category到数据库中
@@ -89,6 +89,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             // 遍历添加
             articleTag.setTagId(id);
             articleTagMapper.insertArticleTag(articleTag);
+            // XXX:使用Mp自带的insert方法会出现无法插入的问题
         });
 
         log.info("发布文章成功");
@@ -101,7 +102,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public void edit(ArticleEditDTO articleEditDTO) {
-        // 1.拷贝数据
+        // 1.拷贝传入的数据 添加文章数据
         Article article = Article.builder()
                 .id(articleEditDTO.getId()) // id
                 .title(articleEditDTO.getTitle()) // 标题
@@ -113,6 +114,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         // 2.根据文章ID删除文章分类
         articleCategoryMapper.deleteByArticleId(articleEditDTO.getId());
+        // 3.根据文章ID删除标签分类
+        articleTagMapper.deleteByArticleId(articleEditDTO.getId());
+
 
         // 3.添加文章分类
         articleEditDTO.getCategoryId().forEach(id -> {
@@ -141,25 +145,28 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         log.info("编辑文章成功");
     }
 
+
     /**
      * 删除文章
      * 逻辑删除
      */
     @Override
     public void delete(Integer id) {
+        // 1.创建对象
         Article article = Article.builder()
                 .deleteStatus(DeleteConstant.DISABLE)
                 .id(id)
                 .deleteTime(LocalDateTime.now())
                 .build();
 
+        // 2.更新
         articleMapper.update(article);
         log.info("删除文章成功");
     }
 
+
     /**
      * 根据文章题目进行模糊搜索
-     * @param pageSearchDTO 文章题目
      */
     @Override
     public PageResult search(PageSearchDTO pageSearchDTO) {
@@ -170,9 +177,49 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Page<Article> articlePage = articleMapper.search(pageSearchDTO);
         long total = articlePage.getTotal();
 
-        // 2.获取每一个文章
+        // 2.根据文章ID获取文章分类
+        List<ArticleVO> articleVOS = gainCategoryByArticleId(articlePage);
+
+        log.info("根据文章题目进行模糊搜索成功");
+
+        // 3.返回
+        return new PageResult(total, articleVOS);
+    }
+
+
+    /**
+     * 批量/单个 删除文章
+     */
+    @Override
+    public void deleteArticleByIds(List<Integer> ids) {
+        // 1.删除文章
+
+        ids.forEach(id->{
+            // 2.删除文章分类
+            articleCategoryMapper.deleteByArticleId(id);
+            // 3.删除文章标签
+            articleTagMapper.deleteByArticleId(id);
+        });
+
+        log.info("批量删除文章成功");
+    }
+
+
+    /**
+     * 获取最新文章详情
+     */
+    @Override
+    public List<NewArticle> listNew() {
+        return articleMapper.listNew();
+    }
+
+    /**
+     * 根据文章ID获取文章分类
+     */
+    public List<ArticleVO> gainCategoryByArticleId(List<Article> articles) {
+
         List<ArticleVO> articleVOS = new ArrayList<>();
-        articlePage.forEach(article -> {
+        articles.forEach(article -> {
             // 2.1创建对象
             ArticleVO articleVO = new ArticleVO();
             BeanUtils.copyProperties(article, articleVO);
@@ -188,29 +235,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             articleVO.setCategoryName(articleCategoryNameList);
             articleVOS.add(articleVO);
         });
-
-        log.info("根据文章题目进行模糊搜索成功");
-
-        // 3.返回
-        return new PageResult(total, articleVOS);
-    }
-
-
-    /**
-     * 批量删除文章
-     */
-    @Override
-    public void deleteArticleByIds(List<Integer> ids) {
-        // 1.删除文章
-
-
-        ids.forEach(id->{
-            // 2.删除文章分类
-            articleCategoryMapper.deleteByArticleId(id);
-            // 3.删除文章标签
-            articleTagMapper.deleteByArticleId(id);
-        });
-
-        log.info("批量删除文章成功");
+        return articleVOS;
     }
 }

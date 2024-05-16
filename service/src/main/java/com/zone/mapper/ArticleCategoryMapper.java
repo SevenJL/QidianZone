@@ -3,7 +3,8 @@ package com.zone.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zone.entity.ArticleCategory;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,7 +15,6 @@ public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
 
     /**
      * 插入文章和分类关联
-     * @return
      */
     @Insert("INSERT INTO article_category(article_id,category_id) VALUES (#{articleId},#{categoryId})")
     int insert(ArticleCategory articleCategory);

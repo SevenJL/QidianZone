@@ -6,6 +6,7 @@ import com.zone.dto.ArticleEditDTO;
 import com.zone.dto.ArticlePublishDTO;
 import com.zone.dto.PageSearchDTO;
 import com.zone.entity.Article;
+import com.zone.entity.NewArticle;
 import com.zone.result.PageResult;
 
 import java.util.List;
@@ -42,4 +43,9 @@ public interface ArticleService extends IService<Article> {
      * 批量删除文章
      */
     void deleteArticleByIds(List<Integer> ids);
+
+    /**
+     * 根据文章ID获取文章详情
+     */
+    List<NewArticle> listNew();
 }

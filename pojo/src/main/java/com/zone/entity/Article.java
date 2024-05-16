@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -24,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Article implements Serializable {
 
+    // 主键 自增
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id; // id
     private String title; // 标题

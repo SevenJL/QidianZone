@@ -1,12 +1,10 @@
 package com.zone.controller;
 
 import com.zone.dto.PageSearchDTO;
-import com.zone.mapper.ArticleCategoryMapper;
 import com.zone.result.PageResult;
 import com.zone.result.Result;
 import com.zone.service.ArticleCategoryService;
 import com.zone.service.ArticleService;
-import com.zone.service.Impl.ArticleServiceImpl;
 import com.zone.service.RecycleBinService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
