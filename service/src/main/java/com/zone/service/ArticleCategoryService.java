@@ -10,4 +10,5 @@ public interface ArticleCategoryService extends IService<ArticleCategory> {
 
 
 
+    Integer addCategory(String categoryName);
 }

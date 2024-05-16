@@ -13,6 +13,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * 用于处理Mybatis的Json格式处理
+ * 由于变更为MybatisPlus 所以暂不使用
+ */
 public class JsonTypeHandler extends BaseTypeHandler<List<String>> {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();

@@ -6,6 +6,7 @@ import com.zone.entity.ArticleCategory;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -28,4 +29,16 @@ public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
      * 根据文章id删除分类
      */
     void deleteByArticleId(@Param("id") Integer id);
+
+    /**
+     * 根据分类名称查询分类
+     */
+    @Select("SELECT * FROM category WHERE name = #{categoryName}")
+    Integer findByCategoryName(String categoryName);
+
+    /**
+     * 插入分类名称
+     */
+    @Insert("INSERT INTO category (name) VALUES (#{categoryName})")
+    Integer addCategory(@Param("categoryName") String categoryName);
 }

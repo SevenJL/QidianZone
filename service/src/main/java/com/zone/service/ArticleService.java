@@ -4,6 +4,7 @@ package com.zone.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zone.dto.ArticleEditDTO;
 import com.zone.dto.ArticlePublishDTO;
+import com.zone.dto.PageBean;
 import com.zone.dto.PageSearchDTO;
 import com.zone.entity.Article;
 import com.zone.entity.NewArticle;
@@ -48,4 +49,9 @@ public interface ArticleService extends IService<Article> {
      * 根据文章ID获取文章详情
      */
     List<NewArticle> listNew();
+
+    /**
+     * 文章列表
+     */
+    PageResult listArticle(PageBean pageBean);
 }

@@ -7,6 +7,7 @@ import com.zone.constant.ArticleAboutConstant;
 import com.zone.constant.DeleteConstant;
 import com.zone.dto.ArticleEditDTO;
 import com.zone.dto.ArticlePublishDTO;
+import com.zone.dto.PageBean;
 import com.zone.dto.PageSearchDTO;
 import com.zone.entity.Article;
 import com.zone.entity.ArticleCategory;
@@ -18,6 +19,7 @@ import com.zone.mapper.ArticleMapper;
 import com.zone.mapper.ArticleTagMapper;
 import com.zone.result.PageResult;
 import com.zone.service.ArticleService;
+import com.zone.vo.ArticleManageVO;
 import com.zone.vo.ArticleVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,7 @@ import java.util.List;
 @Service // 注解
 @Slf4j // 日志
 @RequiredArgsConstructor // 构造方法注解 注入bean对象
+@SuppressWarnings("ALL")
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     // 注入Mapper
@@ -213,10 +216,35 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleMapper.listNew();
     }
 
+
+    /**
+     * 文章列表
+     */
+    @Override
+    public PageResult listArticle(PageBean pageBean) {
+        // 获取所有人的文章
+        // 1.进行分页查询
+        PageHelper.startPage(pageBean.getPageNum(),pageBean.getPageSize());
+
+        // 2.获取文章
+        Page<Article> articlePage = articleMapper.listArticle();
+
+        // 3.拷贝数据
+        ArrayList<ArticleManageVO> articleManageVOS = new ArrayList<>();
+        articlePage.getResult().forEach(article -> {
+            ArticleManageVO articleManageVO = new ArticleManageVO();
+            BeanUtils.copyProperties(article, articleManageVO);
+            articleManageVOS.add(articleManageVO);
+        });
+
+        // 4.返回数据
+        return new PageResult(articlePage.getTotal(),articleManageVOS);
+    }
+
     /**
      * 根据文章ID获取文章分类
      */
-    public List<ArticleVO> gainCategoryByArticleId(List<Article> articles) {
+    private List<ArticleVO> gainCategoryByArticleId(List<Article> articles) {
 
         List<ArticleVO> articleVOS = new ArrayList<>();
         articles.forEach(article -> {
