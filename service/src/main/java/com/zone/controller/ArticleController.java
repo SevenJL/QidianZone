@@ -8,50 +8,49 @@ import com.zone.service.ArticleService;
 import com.zone.result.Result;
 import com.zone.vo.ArticleVO;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@AllArgsConstructor
 @Slf4j
+@RestController
+@RequiredArgsConstructor
 @RequestMapping("/article")
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
+
+
     /**
      * 发布文章
      */
-
     @PostMapping("/publish")
     @ApiOperation("发布文章")
     @Transactional
-    public Result publish(@RequestBody ArticlePublishDTO articlePublishDTO) {
+    public Result<Object> publish(@RequestBody ArticlePublishDTO articlePublishDTO) {
         log.info("发布文章");
         articleService.publish(articlePublishDTO);
-
-        // 返回
 
         return Result.success("发布成功");
 
     }
+
 
     /**
      * 编辑文章
      */
     @PostMapping("/edit")
     @ApiOperation("编辑文章")
-    public Result edit(@RequestBody ArticleEditDTO articleEditDTO) {
+    public Result<Object> edit(@RequestBody ArticleEditDTO articleEditDTO) {
         log.info("编辑文章");
         articleService.edit(articleEditDTO);
 
         return Result.success("编辑成功");
     }
+
 
     /**
      * 删除文章
@@ -60,12 +59,13 @@ public class ArticleController {
      */
     @DeleteMapping("/delete/{id}")
     @ApiOperation("(逻辑)删除文章")
-    public Result deleteById(@PathVariable("id") Integer id) {
+    public Result<Object> deleteById(@PathVariable("id") Integer id) {
         log.info("删除文章");
         articleService.delete(id);
 
         return Result.success("删除成功");
     }
+
 
     /**
      * 搜索文章 模糊搜索/文章分类/标签分类

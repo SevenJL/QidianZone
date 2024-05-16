@@ -12,4 +12,5 @@ public interface AdminMapper  {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     @Select("SELECT * FROM admin WHERE name = #{name} AND password = #{password}")
     Integer Login(@Param("password") String password, @Param("name") String name);
+
 }

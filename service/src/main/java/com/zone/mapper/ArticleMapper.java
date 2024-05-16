@@ -22,7 +22,6 @@ public interface ArticleMapper extends BaseMapper<Article>  {
     /**
      * 根据  大致标题进行模糊查询   文章分类/标签分类进行精确查询
      */
-
     Page<Article> search(PageSearchDTO pageSearchDTO);
 
 
