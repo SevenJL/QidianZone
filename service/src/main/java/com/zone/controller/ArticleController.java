@@ -80,6 +80,7 @@ public class ArticleController {
         // 封装分页信息
         long total = ar.getTotal();
         List<ArticleVO> records = ar.getRecords();
+
         // 返回
         return Result.success(new PageResult(total, records));
     }

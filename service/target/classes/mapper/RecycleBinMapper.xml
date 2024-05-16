@@ -5,8 +5,9 @@
 
 
     <delete id="clear" parameterType="java.time.LocalDateTime">
-        delete from article
-               where delete_status = 0;
+        delete
+        from article
+        where delete_status = 0;
     </delete>
 
     <select id="show" resultType="com.zone.entity.Article">

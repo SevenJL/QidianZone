@@ -1,13 +1,17 @@
 package com.zone.controller;
 
 import com.zone.dto.PageSearchDTO;
+import com.zone.mapper.ArticleCategoryMapper;
 import com.zone.result.PageResult;
 import com.zone.result.Result;
+import com.zone.service.ArticleCategoryService;
+import com.zone.service.ArticleService;
+import com.zone.service.Impl.ArticleServiceImpl;
 import com.zone.service.RecycleBinService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +22,18 @@ import java.util.List;
  * 回收站控制器
  *
  */
-@RestController
-@RequestMapping("/bin")
 @Slf4j
+@RestController
 @Api(tags = "回收站管理")
+@RequestMapping("/bin")
+@RequiredArgsConstructor // 构造函数注入Bean
 public class RecycleBinController {
-    @Autowired
-    private RecycleBinService recycleBinService;
+    // Bean对象
+    private final RecycleBinService recycleBinService;
+
+    private final ArticleService articleService;
+
+    private final ArticleCategoryService articleCategoryService;
 
     /**
      * 定时七天清理
@@ -40,19 +49,21 @@ public class RecycleBinController {
         recycleBinService.clear();
     }
 
+
     /**
      *  单个删除文章 和 批量删除文章
      *  删除单个 也是 删除批量 的一种
      *  所以直接写 删除批量文章 的方法
      */
 
+    @Transactional
     @DeleteMapping("/delete")
     @ApiOperation("批量(单个)删除文章")
-    @Transactional
-    public Result delete(@RequestParam("ids") List<Integer> ids) {
+    public Result<Object> delete(@RequestParam("ids") List<Integer> ids) {
         //TODO 由于删除文章 关联多个表 所以需要事务管理
-        // 并且 删除文章时 需要删除文章的评论
-        // 还要删除文章的分类 评论的回复
+        log.info("批量(单个)删除文章");
+        articleService.deleteArticleByIds(ids);
+
         return Result.success();
     }
 
@@ -64,6 +75,7 @@ public class RecycleBinController {
     public Result<PageResult> show(@RequestBody PageSearchDTO pageSearchDTO) {
         log.info("显示(回收站的)文章信息");
         PageResult pageResult =  recycleBinService.show(pageSearchDTO);
+
         return Result.success(pageResult);
     }
 }

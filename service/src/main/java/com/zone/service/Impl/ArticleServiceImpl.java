@@ -88,7 +88,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articlePublishDTO.getTagId().forEach(id -> {
             // 遍历添加
             articleTag.setTagId(id);
-            articleTagMapper.insert(articleTag);
+            articleTagMapper.insertArticleTag(articleTag);
         });
 
         log.info("发布文章成功");
@@ -193,5 +193,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         // 3.返回
         return new PageResult(total, articleVOS);
+    }
+
+
+    /**
+     * 批量删除文章
+     */
+    @Override
+    public void deleteArticleByIds(List<Integer> ids) {
+        // 1.删除文章
+
+
+        ids.forEach(id->{
+            // 2.删除文章分类
+            articleCategoryMapper.deleteByArticleId(id);
+            // 3.删除文章标签
+            articleTagMapper.deleteByArticleId(id);
+        });
+
+        log.info("批量删除文章成功");
     }
 }

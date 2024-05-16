@@ -3,13 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zone.mapper.UserMapper">
     <insert id="insert" parameterType="com.zone.entity.User">
-       insert into user(name,password,email,power,status,article_count,avatar_url,create_time,update_time,nick_name,delete_status,delete_time,article_like)
-       values (#{user.name},#{user.password},#{user.email},#{user.power},
-               #{user.status},#{user.articleCount},#{user.avatarUrl},
-               #{user.createTime},#{user.updateTime},#{user.nickname},
-               #{user.deleteStatus},#{user.deleteTime},#{user.articleLike}
-               )
-       </insert>
+        insert into user(name, password, email, power, status, article_count, avatar_url, create_time, update_time,
+                         nick_name, delete_status, delete_time, article_like)
+        values (#{user.name}, #{user.password}, #{user.email}, #{user.power},
+                #{user.status}, #{user.articleCount}, #{user.avatarUrl},
+                #{user.createTime}, #{user.updateTime}, #{user.nickname},
+                #{user.deleteStatus}, #{user.deleteTime}, #{user.articleLike})
+    </insert>
 
 
     <update id="update">

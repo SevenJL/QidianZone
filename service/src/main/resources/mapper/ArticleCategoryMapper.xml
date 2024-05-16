@@ -3,17 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zone.mapper.ArticleCategoryMapper">
     <delete id="deleteByArticleId" parameterType="java.lang.Integer">
-        delete from article_category where article_id = #{id}
+        delete
+        from article_category
+        where article_id = #{id}
     </delete>
 
     <select id="findByArticleId" resultType="java.lang.String" parameterType="java.lang.Integer">
-        select c.name from article_category ac
-                               left join category c
-                                         on ac.category_id = c.id
+        select c.name
+        from article_category ac
+                 left join category c
+                           on ac.category_id = c.id
         where article_id = #{id}
     </select>
-
-
 
 
 </mapper>

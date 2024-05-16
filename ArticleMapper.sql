@@ -10,3 +10,5 @@ CREATE TABLE `article_tag` (
   FOREIGN KEY (`article_id`) REFERENCES `article`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`tag_id`) REFERENCES `tag`(`id`) ON DELETE CASCADE
 );
+
+

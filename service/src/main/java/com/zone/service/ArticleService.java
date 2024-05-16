@@ -8,6 +8,8 @@ import com.zone.dto.PageSearchDTO;
 import com.zone.entity.Article;
 import com.zone.result.PageResult;
 
+import java.util.List;
+
 /**
  * 用户服务
  */
@@ -35,4 +37,9 @@ public interface ArticleService extends IService<Article> {
      * 根据文章题目进行模糊搜索
      */
     PageResult search(PageSearchDTO pageSearchDTO);
+
+    /**
+     * 批量删除文章
+     */
+    void deleteArticleByIds(List<Integer> ids);
 }
