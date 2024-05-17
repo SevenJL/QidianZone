@@ -19,7 +19,7 @@ public class User implements Serializable {
     private Integer id; // 用户id
     private String password; // 用户密码
     private String name; // 用户名
-    private String nickname; // 用户昵称
+    private String nickName; // 用户昵称
     private String email; // 用户邮箱
     private String power; // 用户权限
     private LocalDateTime createTime; // 用户创建时间

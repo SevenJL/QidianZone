@@ -27,7 +27,7 @@ public class Article implements Serializable {
     private Integer id; // id
     private String title; // 标题
     private String content; // 内容
-    private String creator; // 创建者
+    private Integer creatorId; // 创建者id
     private LocalDateTime createTime; // 创建时间
     private LocalDateTime updateTime; // 更新时间
     private LocalDateTime deleteTime; // 删除时间

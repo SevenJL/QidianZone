@@ -54,6 +54,7 @@ public class JwtUtil {
                 .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
                 // 设置需要解析的jwt
                 .parseClaimsJws(token).getBody();
+
         log.info("jwt解析:{}", claims);
         return claims;
     }

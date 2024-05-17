@@ -2,62 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zone.mapper.UserMapper">
-    <insert id="insert" parameterType="com.zone.entity.User">
-        insert into user(name, password, email, power, status, article_count, avatar_url, create_time, update_time,
-                         nick_name, delete_status, delete_time, article_like)
-        values (#{user.name}, #{user.password}, #{user.email}, #{user.power},
-                #{user.status}, #{user.articleCount}, #{user.avatarUrl},
-                #{user.createTime}, #{user.updateTime}, #{user.nickname},
-                #{user.deleteStatus}, #{user.deleteTime}, #{user.articleLike})
+    <insert id="insertUser">
+        INSERT INTO user(name,password,email,create_time,update_time,status,nick_name,power,avatar_url)
+        VALUES (#{name},#{password},#{email},#{createTime},#{updateTime},#{status},#{nickName},#{power},#{avatarUrl})
     </insert>
-
-
-    <update id="update">
-        update user
-        <set>
-            <if test="user.name != null">
-                name = #{user.name},
-            </if>
-            <if test="user.password != null">
-                password = #{user.password},
-            </if>
-            <if test="user.email != null">
-                email = #{user.email},
-            </if>
-            <if test="user.power != null">
-                power = #{user.power},
-            </if>
-            <if test="user.status != null">
-                status = #{user.status},
-            </if>
-            <if test="user.articleCount != null">
-                article_count = #{user.articleCount},
-            </if>
-            <if test="user.avatarUrl != null">
-                avatar_url = #{user.avatarUrl},
-            </if>
-            <if test="user.createTime != null">
-                create_time = #{user.createTime},
-            </if>
-            <if test="user.updateTime != null">
-                update_time = #{user.updateTime},
-            </if>
-            <if test="user.nickname != null">
-                nick_name = #{user.nickname},
-            </if>
-            <if test="user.deleteStatus != null">
-                delete_status = #{user.deleteStatus},
-            </if>
-            <if test="user.deleteTime != null">
-                delete_time = #{user.deleteTime},
-            </if>
-            <if test="user.articleLike != null">
-                article_like = #{user.articleLike},
-            </if>
-        </set>
-        where id = #{user.userId}
-
-    </update>
-
-
 </mapper>

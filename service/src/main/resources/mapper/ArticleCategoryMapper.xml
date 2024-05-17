@@ -7,6 +7,14 @@
         from article_category
         where article_id = #{id}
     </delete>
+    <delete id="deleteByArticleIds">
+        delete from
+        article_category
+        where article_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
     <select id="findByArticleId" resultType="java.lang.String" parameterType="java.lang.Integer">
         select c.name

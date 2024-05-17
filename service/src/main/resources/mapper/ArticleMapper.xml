@@ -36,6 +36,7 @@
             </if>
         </set>
         where id = #{id}
+            and creator_id = #{creatorId}
     </update>
 
 
@@ -45,15 +46,13 @@
             <if test="title != null">
                 title like concat('%',#{title},'%')
             </if>
-            <if test="categoryId != null">
-                and id in (select article_id from article_category where category_id = #{categoryId})
-            </if>
-            <if test="tagId != null">
-                and id in (select article_id from article_tag where tag_id = #{tagId})
-            </if>
             <if test="deleteStatus != null">
                 and delete_status = #{deleteStatus}
             </if>
+            <if test="userId != null">
+                and creator_id = #{userId}
+            </if>
+
         </where>
 
     </select>

@@ -30,7 +30,7 @@ public class ArticleController {
      */
     @PostMapping("/publish")
     @ApiOperation("发布文章")
-    @Transactional
+    @Transactional // 事务
     public Result<Object> publish(@RequestBody ArticlePublishDTO articlePublishDTO) {
         log.info("发布文章");
         articleService.publish(articlePublishDTO);
@@ -45,6 +45,7 @@ public class ArticleController {
      */
     @PostMapping("/edit")
     @ApiOperation("编辑文章")
+    @Transactional // 事务
     public Result<Object> edit(@RequestBody ArticleEditDTO articleEditDTO) {
         log.info("编辑文章");
         articleService.edit(articleEditDTO);

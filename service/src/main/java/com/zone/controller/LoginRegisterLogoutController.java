@@ -1,7 +1,9 @@
 package com.zone.controller;
 
+
 import com.zone.constant.JwtClaimsConstant;
 import com.zone.dto.LoginDTO;
+import com.zone.dto.RegisterDTO;
 import com.zone.properties.JwtProperties;
 import com.zone.result.Result;
 import com.zone.service.AdminService;
@@ -11,6 +13,7 @@ import com.zone.vo.LoginVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * 用户登录注册注销
+ */
+
+
 @Slf4j
-@RequestMapping
 @RestController
-@RequiredArgsConstructor // 构造函数注入Bean
-public class LoginAndLogoutController {
+@RequestMapping
+@RequiredArgsConstructor
+public class LoginRegisterLogoutController {
 
     private final UserService userService;
 
@@ -39,7 +48,6 @@ public class LoginAndLogoutController {
         //TODO 输入的密码进行MD5加密
 
         Integer id = -1 ;
-        Map<String, Object> claims = new HashMap<>();
 
         // 2.如果是用户登录
         if (loginDTO.getPower().equals("user")){
@@ -49,7 +57,6 @@ public class LoginAndLogoutController {
                 return Result.error("登录失败");
             }
             // 登录成功
-            claims.put(JwtClaimsConstant.USER_ID,id);
             log.info("用户:{}登录成功",loginDTO.getName());
         }
 
@@ -61,14 +68,19 @@ public class LoginAndLogoutController {
                 return Result.error("登录失败");
             }
             // 登录成功
-            claims.put(JwtClaimsConstant.ADMIN_ID,id);
             log.info("管理员:{}登录成功",loginDTO.getName());
         }
         log.info("用户id:{}",id);
-        // 生成JWT令牌
 
+        // 生成JWT令牌
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(JwtClaimsConstant.DEFAULT,id);
+
+        // 生成JWT令牌
         String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
         String openid = "openid";
+
+        // 封装VO
         LoginVO userLoginVO = LoginVO.builder()
                 .id(id)
                 .openid(openid)
@@ -84,9 +96,32 @@ public class LoginAndLogoutController {
 
         // TODO 使用redis进行用户的状态登录和退出的记录
         // 使当前的JWT令牌失效 不管多长时间有效的JWT令牌
-        // stats = 1 -> status = 0;
         log.info("退出");
 
         return Result.success();
+    }
+
+    @GetMapping("/register")
+    @ApiOperation("注册")
+    @Transactional
+    public Result<String> register(@RequestBody RegisterDTO registerDTO){
+
+        // 1.注册
+        log.info("注册用户:{}",registerDTO);
+
+        //TODO 使用MD5加密密码 再传入数据库
+
+        // 2.将用户注册的数据传给数据库
+        Integer update =  userService.register(registerDTO.getPassword(),registerDTO.getName(),registerDTO.getEmail());
+
+        // 3.判断是否注册成功
+        if(update == -1){
+            return Result.error("注册失败");
+        }
+
+        // 4.数据传入数据库后返回成功
+        log.info("用户:{}注册成功",registerDTO.getName());
+        return Result.success("注册成功");
+
     }
 }

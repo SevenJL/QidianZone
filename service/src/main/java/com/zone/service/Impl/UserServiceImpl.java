@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zone.constant.PowerConstant;
 import com.zone.constant.RegisterConstant;
+import com.zone.context.BaseContext;
 import com.zone.dto.LoginDTO;
 import com.zone.dto.PageBean;
 import com.zone.dto.UserUpdatePasswordDTO;
@@ -45,7 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .name(name)
                 .email(email)
                 .password(password)
-                .nickname(name)
+                .nickName(name)
                 .power(PowerConstant.DEFAULT_POWER)
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
@@ -57,7 +58,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .articleLike(RegisterConstant.DEFAULT_ARTICLE_LIKE_VALUE)
                 .build();
         log.info("用户:{}", user);
-
         return userMapper.insert(user);
     }
 
@@ -66,17 +66,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Integer login(LoginDTO loginDTO) {
 
         // 登录
-        Integer userId = userMapper.login(loginDTO.getPassword(), loginDTO.getName());
+        Integer id = userMapper.login(loginDTO.getPassword(), loginDTO.getName());
 
-        // 如果userid为空 则登录失败
-        if (userId == null) {
+        // 如果id为空 则登录失败
+        if (id == null) {
             // 登录失败
             // 返回-1 表示登录失败
             log.info("用户:{}登录失败", loginDTO.getName());
             return -1;
         }
 
-        return userId;
+        return id;
     }
 
 
@@ -102,35 +102,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.info("用户:{}修改密码", userUpdatePasswordDTO.getName());
 
         // 根据用户名 查询id
-        Integer byUserName = userMapper.findByUserName(userUpdatePasswordDTO.getName());
-        user.setId(byUserName); // 设置id
-        userMapper.update(user); // 修改密码
+        Integer id = BaseContext.getCurrentId();
+        user.setId(id); // 设置id
+        userMapper.updateById(user); // 修改密码
 
-        return byUserName;
+        return id;
     }
 
     /**
      * 修改昵称
-     * @param userId   用户id
-     * @param nickname 昵称
      */
     @Override
-    public void updateNickname(Integer userId, String nickname) {
-        userMapper.updateNickname(nickname, userId);
+    public void updateNickName(Integer id, String nickName) {
+        userMapper.updateNickname(nickName, id);
     }
 
 
     /**
      * 修改头像
-     * @param userId 用户id
      */
     @Override
-    public void updateAvatar(Integer userId, String avatarUrl) {
+    public void updateAvatar(Integer id, String avatarUrl) {
+        // 创建user对象
         User user = new User();
         user.setAvatarUrl(avatarUrl);
-        user.setId(userId);
+        user.setId(id);
         log.info("avatarUrl:{}", avatarUrl);
-        userMapper.update(user);
+
+        // 修改
+        userMapper.updateById(user);
 
     }
 
@@ -138,8 +138,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 获取用户最基本信息
      */
     @Override
-    public User getUserInfo(Integer userId) {
-        return userMapper.getUserInfo(userId);
+    public User getUserInfo(Integer id) {
+        return userMapper.getUserInfo(id);
     }
 
     /**

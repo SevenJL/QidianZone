@@ -2,14 +2,15 @@ package com.zone.context;
 
 public class BaseContext {
 
-    public static ThreadLocal<Long> threadLocal = new ThreadLocal<>();
 
-    public static void setCurrentId(Long id) {
-        threadLocal.set(id);
+    public static ThreadLocal<Integer> threadLocal = new ThreadLocal<>();
+
+    public static Integer getCurrentId() {
+        return threadLocal.get();
     }
 
-    public static Long getCurrentId() {
-        return threadLocal.get();
+    public static void setCurrentId(Integer id) {
+        threadLocal.set(id);
     }
 
     public static void removeCurrentId() {

@@ -4,11 +4,10 @@ import com.zone.dto.PageSearchDTO;
 import com.zone.result.PageResult;
 import com.zone.result.Result;
 import com.zone.service.ArticleService;
-import com.zone.service.CategoryService;
 import com.zone.service.RecycleBinService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +23,11 @@ import java.util.List;
 @RestController
 @Api(tags = "回收站管理")
 @RequestMapping("/bin")
-@RequiredArgsConstructor // 构造函数注入Bean
+@AllArgsConstructor
 public class RecycleBinController {
-    // Bean对象
     private final RecycleBinService recycleBinService;
 
     private final ArticleService articleService;
-
-    private final CategoryService articleCategoryService;
 
     /**
      * 定时七天清理
@@ -39,7 +35,8 @@ public class RecycleBinController {
      */
     // TODO 由于时间过长 无法直接演示 所以更改时间为定时1分钟清理一次
     //@Scheduled(cron = "0 0 0 1/7 * ?") // 定时七天清理
-    @Scheduled(cron = "0 1 * * * ?") // 定时一分钟清理
+    @Transactional
+    @Scheduled(cron = "0 * * * * ?") // 定时一分钟清理
     public void clear() {
         // 查询数据库中1分钟前的数据
         // 进行删除

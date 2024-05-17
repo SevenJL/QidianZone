@@ -22,7 +22,7 @@ public class Admin implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id; // 管理员id
     private String name; // 管理员名
-    private String nickname; // 管理员昵称
+    private String nickName; // 管理员昵称
     private LocalDateTime createTime; // 管理员创建时间
     private LocalDateTime deleteTime; // 管理员删除时间
     private String password; // 管理员密码

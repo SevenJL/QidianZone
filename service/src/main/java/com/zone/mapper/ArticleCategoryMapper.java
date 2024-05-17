@@ -12,7 +12,6 @@ import java.util.List;
 @Mapper
 public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
 
-
     /**
      * 插入文章和分类关联
      */
@@ -29,5 +28,8 @@ public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
      */
     void deleteByArticleId(@Param("id") Integer id);
 
-
+    /**
+     * 根据文章id批量删除分类
+     */
+    void deleteByArticleIds(List<Integer> ids);
 }

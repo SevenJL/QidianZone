@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
         Integer admin = adminMapper.Login(password, name);
         log.info("admin:{}", admin);
 
-        if (admin == -1) {
+        if (admin == null) {
             // 未查询到该管理员
             log.info("未查询到该管理员");
             return -1;

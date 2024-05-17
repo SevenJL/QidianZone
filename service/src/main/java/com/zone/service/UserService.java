@@ -33,19 +33,19 @@ public interface UserService extends IService<User> {
     /**
      * 修改昵称
      */
-    void updateNickname(Integer userId, String nickname);
+    void updateNickName(Integer id, String nickname);
 
 
     /**
      * 修改头像
      */
-    void updateAvatar(Integer userId, String avatarUrl);
+    void updateAvatar(Integer id, String avatarUrl);
 
 
     /**
      * 获取用户信息
      */
-    User getUserInfo(Integer userId);
+    User getUserInfo(Integer id);
 
 
     /**

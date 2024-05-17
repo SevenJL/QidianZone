@@ -1,6 +1,6 @@
 package com.zone.controller;
 
-import com.zone.dto.RegisterDTO;
+import com.zone.context.BaseContext;
 import com.zone.dto.UserUpdatePasswordDTO;
 import com.zone.entity.User;
 import com.zone.result.Result;
@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -22,30 +21,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-
-    @GetMapping("/register")
-    @ApiOperation("注册")
-    @Transactional
-    public Result<Integer> register(@RequestBody RegisterDTO registerDTO){
-
-        // 1.注册
-        log.info("注册用户:{}",registerDTO);
-
-        //TODO 使用MD5加密密码 再传入数据库
-
-        // 2.将用户注册的数据传给数据库
-        Integer update =  userService.register(registerDTO.getPassword(),registerDTO.getName(),registerDTO.getEmail());
-
-        // 3.判断是否注册成功
-        if(update == -1){
-            return Result.error("注册失败");
-        }
-
-        // 4.数据传入数据库后返回成功
-        log.info("用户:{}注册成功",registerDTO.getName());
-        return Result.success();
-
-    }
 
     /**
      * 修改密码
@@ -58,10 +33,10 @@ public class UserController {
         // TODO 需要对修改的密码进行MD5加密
 
         // 1.传入DTO对象
-        Integer userId =  userService.update(userUpdatePasswordDTO);
+        Integer id =  userService.update(userUpdatePasswordDTO);
 
         // 2.如果用户不存在
-        if(userId == -1){
+        if(id == -1){
             return Result.error("用户不存在");
         }
 
@@ -76,11 +51,12 @@ public class UserController {
 
     @GetMapping("/updateNickname")
     @ApiOperation("修改昵称")
-    public Result<Object> updateNickname(@RequestParam("userId") Integer userId,@RequestParam("nickname") String nickname){
-        log.info("修改昵称:{},id:{}",nickname,userId);
+    public Result<Object> updateNickname(@RequestParam("id") Integer id,
+                                         @RequestParam("nickname") String nickName){
+        log.info("修改昵称:{},id:{}",nickName,id);
 
         // 传入DTO对象
-        userService.updateNickname(userId,nickname);
+        userService.updateNickName(id,nickName);
 
         log.info("修改昵称成功");
         return Result.success("修改昵称成功");
@@ -92,12 +68,12 @@ public class UserController {
 
     @GetMapping("/updateAvatar")
     @ApiOperation("修改头像")
-    public Result<Object> updateAvatar(@RequestParam("userId") Integer userId,
+    public Result<Object> updateAvatar(@RequestParam("id") Integer id,
                                        @RequestParam("avatarUrl") String avatarUrl){
-        log.info("修改头像:{},id:{}",avatarUrl,userId);
+        log.info("修改头像:{},id:{}",avatarUrl,id);
 
         // 传入DTO对象
-        userService.updateAvatar(userId,avatarUrl);
+        userService.updateAvatar(id,avatarUrl);
 
         log.info("修改头像成功");
         return Result.success("修改头像成功");
@@ -111,11 +87,14 @@ public class UserController {
 
     @GetMapping("/getUserInfo")
     @ApiOperation("获取用户最基本信息")
-    public Result<UserVO> getUserInfo(@RequestParam("userId") Integer userId){
-        log.info("获取用户信息:{}",userId);
+    public Result<UserVO> getUserInfo(){
+        log.info("获取用户信息");
 
         // 传入DTO对象
-        User user = userService.getUserInfo(userId);
+        // 利用LocalThread获取用户信息
+        Integer id = BaseContext.getCurrentId();
+        log.info("当前用户id:{}",id);
+        User user = userService.getUserInfo(id);
 
         // 将获取的User 对象 拷贝到 UserVO
         UserVO userVO = new UserVO();
@@ -125,7 +104,5 @@ public class UserController {
         log.info("获取用户信息成功");
         return Result.success(userVO);
     }
-
-
 
 }

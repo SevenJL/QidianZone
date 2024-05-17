@@ -18,7 +18,7 @@ public interface UserMapper extends BaseMapper<User> {
      * 插入数据
      */
 
-    int insert(@Param("user") User user);
+    int insertUser(User user);
 
 
     /**
@@ -34,21 +34,16 @@ public interface UserMapper extends BaseMapper<User> {
     Integer login(@Param("password")String password, @Param("name") String name);
 
     /**
-     * 更新用户信息
-     */
-    void update(@Param("user") User user);
-
-    /**
      * 修改昵称
      */
-    @Update("UPDATE user SET nick_name = #{nickname} WHERE id = #{userId}")
-    void updateNickname(@Param("nickname") String nickname, @Param("userId") Integer userId);
+    @Update("UPDATE user SET nick_name = #{nickName} WHERE id = #{id}")
+    void updateNickname(@Param("nickName") String nickname, @Param("id") Integer id);
 
     /**
      * 修改头像
      */
-    @Select("SELECT * FROM user WHERE id = #{userId}")
-    User getUserInfo(@Param("userId") Integer userId);
+    @Select("SELECT * FROM user WHERE id = #{id}")
+    User getUserInfo(@Param("id") Integer id);
 
     /**
      * 查询用户信息
