@@ -55,7 +55,6 @@ public class RecycleBinController {
     @DeleteMapping("/delete")
     @ApiOperation("批量(单个)删除文章")
     public Result<Object> delete(@RequestParam("ids") List<Integer> ids) {
-        //TODO 由于删除文章 关联多个表 所以需要事务管理
         log.info("批量(单个)删除文章");
         articleService.deleteArticleByIds(ids);
 

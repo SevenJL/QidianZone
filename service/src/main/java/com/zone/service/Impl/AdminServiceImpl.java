@@ -1,5 +1,6 @@
 package com.zone.service.Impl;
 
+import com.zone.context.BaseContext;
 import com.zone.dto.AdminDTO;
 import com.zone.dto.LoginDTO;
 import com.zone.mapper.AdminMapper;
@@ -17,14 +18,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Integer login(LoginDTO loginDTO) {
-        // 获取账号密码
+        // 1.获取账号密码
         String password = loginDTO.getPassword();
         String name = loginDTO.getName();
 
-        // 进行查询管理员 是否存在
+        // 2.进行查询管理员 是否存在
         Integer admin = adminMapper.Login(password, name);
-        log.info("admin:{}", admin);
-
         if (admin == null) {
             // 未查询到该管理员
             log.info("未查询到该管理员");
@@ -51,6 +50,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void updateAdmin(AdminDTO adminDTO) {
         // 修改管理员账号
+        // 获取ID
+        adminDTO.setId(BaseContext.getCurrentId());
         adminMapper.updateAdmin(adminDTO);
     }
 }
