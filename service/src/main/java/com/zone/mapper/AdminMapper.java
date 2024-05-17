@@ -1,16 +1,20 @@
 package com.zone.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zone.dto.AdminDTO;
-import org.apache.ibatis.annotations.*;
+import com.zone.entity.Admin;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
-public interface AdminMapper {
+public interface AdminMapper extends BaseMapper<Admin>{
 
     /**
      * 登录功能
      */
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     @Select("SELECT * FROM admin WHERE name = #{name} AND password = #{password}")
     Integer Login(@Param("password") String password, @Param("name") String name);
 
@@ -23,6 +27,5 @@ public interface AdminMapper {
     /**
      * 修改管理员账号
      */
-
     void updateAdmin(AdminDTO adminDTO);
 }

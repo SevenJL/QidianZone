@@ -1,9 +1,13 @@
 package com.zone.controller;
 
+import com.zone.constant.JwtClaimsConstant;
 import com.zone.dto.LoginDTO;
+import com.zone.properties.JwtProperties;
 import com.zone.result.Result;
 import com.zone.service.AdminService;
 import com.zone.service.UserService;
+import com.zone.utils.JwtUtil;
+import com.zone.vo.LoginVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequestMapping
@@ -22,6 +29,8 @@ public class LoginAndLogoutController {
 
     private final AdminService adminService;
 
+    private final JwtProperties jwtProperties;
+
     @GetMapping("/login")
     @ApiOperation("登录")
     public Result<Object> login(@RequestBody LoginDTO loginDTO){
@@ -29,32 +38,44 @@ public class LoginAndLogoutController {
         log.info("登录:{}",loginDTO);
         //TODO 输入的密码进行MD5加密
 
+        Integer id = -1 ;
+        Map<String, Object> claims = new HashMap<>();
+
         // 2.如果是用户登录
         if (loginDTO.getPower().equals("user")){
             // 获得用户id
-            Integer userId = userService.login(loginDTO);
-            if (userId == null || userId == -1){
+            id = userService.login(loginDTO);
+            if (id == null || id == -1){
                 return Result.error("登录失败");
             }
             // 登录成功
+            claims.put(JwtClaimsConstant.USER_ID,id);
             log.info("用户:{}登录成功",loginDTO.getName());
-            return Result.success();
         }
 
         // 3.如果是管理员登录
         if (loginDTO.getPower().equals("admin")){
             // 获得用户id
-            Integer userId = adminService.login(loginDTO);
-            if (userId == null || userId == -1){
+            id = adminService.login(loginDTO);
+            if (id == null || id == -1){
                 return Result.error("登录失败");
             }
             // 登录成功
+            claims.put(JwtClaimsConstant.ADMIN_ID,id);
             log.info("管理员:{}登录成功",loginDTO.getName());
-            return Result.success();
         }
+        log.info("用户id:{}",id);
+        // 生成JWT令牌
 
+        String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
+        String openid = "openid";
+        LoginVO userLoginVO = LoginVO.builder()
+                .id(id)
+                .openid(openid)
+                .token(token)
+                .build();
 
-        return Result.success("登录成功");
+        return Result.success(userLoginVO);
     }
 
     @ApiOperation("退出")
