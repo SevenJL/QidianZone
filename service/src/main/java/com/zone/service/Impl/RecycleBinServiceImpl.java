@@ -3,7 +3,9 @@ package com.zone.service.Impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zone.context.BaseContext;
 import com.zone.dto.PageSearchDTO;
+import com.zone.dto.PageSearchWithUserIdAndDeleteStatus;
 import com.zone.entity.Article;
 import com.zone.mapper.ArticleCategoryMapper;
 import com.zone.mapper.ArticleMapper;
@@ -78,31 +80,47 @@ public class RecycleBinServiceImpl extends ServiceImpl<ArticleMapper, Article> i
     @Override
     public PageResult show(PageSearchDTO pageSearchDTO) {
         // 1.查询是回收站的文章 所以需要将删除状态设置为0
-        pageSearchDTO.setDeleteStatus(0);
+        PageSearchWithUserIdAndDeleteStatus pageSearchWithUserIdAndDeleteStatus
+                = new PageSearchWithUserIdAndDeleteStatus();
+        pageSearchWithUserIdAndDeleteStatus.setDeleteStatus(0);
         log.info("pageSearchDTO:{}", pageSearchDTO);
 
         // 2.设置要查询的回收站 是当前用户的
-        pageSearchDTO.setUserId(pageSearchDTO.getUserId());
+        pageSearchWithUserIdAndDeleteStatus.setUserId(BaseContext.getCurrentId());
 
-        // 3.分页查询
+        // 3.拷贝数据
+        BeanUtils.copyProperties(pageSearchDTO, pageSearchWithUserIdAndDeleteStatus);
+
+        // 4.分页查询
         PageHelper.startPage(pageSearchDTO.getPageNum(), pageSearchDTO.getPageSize());
-        Page<Article> page = articleMapper.search(pageSearchDTO);
+        Page<Article> page = articleMapper.search(pageSearchWithUserIdAndDeleteStatus);
 
-
-        // 4.遍历 拷贝数据
+        // 5.遍历 拷贝数据
+        // 如果有分类 就查询分类并遍历 添加到集合中
         List<RecycleBinShowVO> recycleBinShowVOS = new ArrayList<>();
         page.forEach(pageArticle -> {
+            List<String> articleCategoryMapperByArticleIdList
+                    = articleCategoryMapper.findByArticleId(pageArticle.getId());
+            List<String> articleTagMapperByArticleIdList
+                    = articleTagMapper.findByArticleId(pageArticle.getId());
             RecycleBinShowVO recycleBinShowVO = new RecycleBinShowVO();
-            // 4.1查询分类
-            List<String> articleCategoryMapperByArticleIdList = articleCategoryMapper.findByArticleId(pageArticle.getId());
-            // 4.2拷贝数据
-            recycleBinShowVO.setCategoryName(articleCategoryMapperByArticleIdList);
+            // 5.1查询是否有分类
+            if (!articleCategoryMapperByArticleIdList.isEmpty()) {
+                // 如果有分类就拷贝数据
+                recycleBinShowVO.setCategoryName(articleCategoryMapperByArticleIdList);
+            }
+            // 5.2查询是否有标签
+            if (!articleTagMapperByArticleIdList.isEmpty()) {
+                // 如果有分类就拷贝数据
+                recycleBinShowVO.setTagName(articleTagMapperByArticleIdList);
+            }
+            // 5.3拷贝数据
             BeanUtils.copyProperties(pageArticle, recycleBinShowVO);
-            // 4.3添加到集合中
+            // 添加到集合中
             recycleBinShowVOS.add(recycleBinShowVO);
         });
 
-        // 5.返回查询的数据
+        // 6.返回查询的数据
         return new PageResult(page.getTotal(), recycleBinShowVOS);
     }
 }

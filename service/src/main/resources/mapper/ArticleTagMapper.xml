@@ -9,4 +9,11 @@
             #{id}
         </foreach>
     </delete>
+    <select id="findByArticleId" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select t.name
+        from article_tag at
+                 left join tag t
+                           on at.tag_id = t.id
+        where article_id = #{id}
+    </select>
 </mapper>

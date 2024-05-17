@@ -70,6 +70,9 @@ public class LoginRegisterLogoutController {
             // 登录成功
             log.info("管理员:{}登录成功",loginDTO.getName());
         }
+        if (id == -1){
+            return Result.error("登录失败");
+        }
         log.info("用户id:{}",id);
 
         // 生成JWT令牌

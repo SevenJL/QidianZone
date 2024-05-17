@@ -52,7 +52,6 @@
             <if test="userId != null">
                 and creator_id = #{userId}
             </if>
-
         </where>
 
     </select>

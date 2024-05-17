@@ -6,10 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.zone.constant.ArticleAboutConstant;
 import com.zone.constant.DeleteConstant;
 import com.zone.context.BaseContext;
-import com.zone.dto.ArticleEditDTO;
-import com.zone.dto.ArticlePublishDTO;
-import com.zone.dto.PageBean;
-import com.zone.dto.PageSearchDTO;
+import com.zone.dto.*;
 import com.zone.entity.Article;
 import com.zone.entity.ArticleCategory;
 import com.zone.entity.ArticleTag;
@@ -51,7 +48,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public void publish(ArticlePublishDTO articlePublishDTO) {
 
-        // 1.拷贝/添加 文章数据
+        // 1.判断是否有访问权限 这个数据是前端传入的
+        if(articlePublishDTO.getArticleViewPower() == null ){
+            // 默认为公开
+            articlePublishDTO.setArticleViewPower(ArticleAboutConstant.DEFAULT_ARTICLE_VIEW_POWER);
+        }
+        // 2.拷贝/添加 文章数据
         Article article = Article.builder()
                 .title(articlePublishDTO.getTitle()) // 标题
                 .content(articlePublishDTO.getContent()) // 内容
@@ -67,29 +69,32 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .deleteStatus(DeleteConstant.ENABLE) // 删除状态
                 .build();
 
-        // 插入文章数据
+        // 3.插入文章数据
         articleMapper.insert(article);
 
 
-        // 2.添加文章类型article_category到数据库中
-        ArticleCategory articleCategory = new ArticleCategory();
-        articleCategory.setArticleId(article.getId());
-        articlePublishDTO.getCategoryId().forEach(id -> {
-            // 遍历添加
-            articleCategory.setCategoryId(id);
-            articleCategoryMapper.insert(articleCategory);
-        });
-
-
-        // 3.添加文章标签article_tag到数据库中
-        ArticleTag articleTag = new ArticleTag();
-        articleTag.setArticleId(article.getId());
-        articlePublishDTO.getTagId().forEach(id -> {
-            // 遍历添加
-            articleTag.setTagId(id);
-            articleTagMapper.insertArticleTag(articleTag);
-            // XXX:使用Mp自带的insert方法会出现无法插入的问题
-        });
+        // 4.判断是否有分类数据 和标签数据
+        if (articlePublishDTO.getCategoryId() != null) {
+            // 4.1添加文章类型article_category到数据库中
+            ArticleCategory articleCategory = new ArticleCategory();
+            articleCategory.setArticleId(article.getId());
+            articlePublishDTO.getCategoryId().forEach(id -> {
+                // 遍历添加
+                articleCategory.setCategoryId(id);
+                articleCategoryMapper.insert(articleCategory);
+            });
+        }
+        if (articlePublishDTO.getTagId() != null){
+            // 4.2添加文章标签article_tag到数据库中
+            ArticleTag articleTag = new ArticleTag();
+            articleTag.setArticleId(article.getId());
+            articlePublishDTO.getTagId().forEach(id -> {
+                // 遍历添加
+                articleTag.setTagId(id);
+                articleTagMapper.insertArticleTag(articleTag);
+                // XXX:使用Mp自带的insert方法会出现无法插入的问题
+            });
+        }
 
         log.info("发布文章成功");
     }
@@ -101,23 +106,33 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public void edit(ArticleEditDTO articleEditDTO) {
-        // 1.拷贝传入的数据 添加文章数据
+
+        // 1.判断前端数据 是否传入访问权限 如果有就不查询了 如果没有就查询
+        if(articleEditDTO.getArticleViewPower() == null ){
+            // 查询数据库中的文章的访问权限
+            Article article = articleMapper.selectById(articleEditDTO.getId());
+            // 设置文章的访问权限
+            articleEditDTO.setArticleViewPower(article.getArticleViewPower());
+        }
+
+        // 2.拷贝传入的数据 添加文章数据
         Article article = Article.builder()
                 .id(articleEditDTO.getId()) // id
                 .title(articleEditDTO.getTitle()) // 标题
-                .content(articleEditDTO.getContent()) // 内容
-                .articleViewPower(articleEditDTO.getArticleViewPower()) // 访问权限
                 .updateTime(LocalDateTime.now()) // 更新时间
+                .content(articleEditDTO.getContent()) // 内容
                 .creatorId(BaseContext.getCurrentId()) // 创建者ID
+                .articleViewPower(articleEditDTO.getArticleViewPower()) // 访问权限
                 .build();
+        // 3.更新文章数据
         articleMapper.update(article);
 
         log.info("articleEditDTO:{}", articleEditDTO);
-        // 2.根据文章ID删除/并添加新的 文章分类
+        // 4.根据文章ID删除/并添加新的 文章分类
         if (articleEditDTO.getCategoryId() != null) {
             articleCategoryMapper.deleteByArticleId(articleEditDTO.getId());
             articleEditDTO.getCategoryId().forEach(id -> {
-                // 创建对象 articleCategory
+                // 创建对象
                 ArticleCategory articleCategory = new ArticleCategory();
                 // 设置文章ID
                 articleCategory.setArticleId(articleEditDTO.getId());
@@ -127,10 +142,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 articleCategoryMapper.insert(articleCategory);
             });
         }
-        // 3.根据文章ID删除/并添加新的 标签分类
+        // 5.根据文章ID删除/并添加新的 标签分类
         if (articleEditDTO.getTagId() != null) {
             articleTagMapper.deleteByArticleId(articleEditDTO.getId());
-            //TODO 不能使用循环来调用SQL语句
             articleEditDTO.getTagId().forEach(id -> {
                 // 创建对象
                 ArticleTag articleTag = new ArticleTag();
@@ -142,6 +156,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 articleTagMapper.insert(articleTag);
             });
         }
+
         log.info("编辑文章成功");
     }
 
@@ -154,10 +169,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public void delete(Integer id) {
         // 1.创建对象
         Article article = Article.builder()
-                .deleteStatus(DeleteConstant.DISABLE)
-                .id(id)
-                .creatorId(BaseContext.getCurrentId())
-                .deleteTime(LocalDateTime.now())
+                .deleteStatus(DeleteConstant.DISABLE) // 删除状态
+                .id(id) // id
+                .creatorId(BaseContext.getCurrentId()) // 创建者ID
+                .deleteTime(LocalDateTime.now()) // 删除时间
                 .build();
 
         // 2.更新
@@ -171,20 +186,26 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      */
     @Override
     public PageResult search(PageSearchDTO pageSearchDTO) {
-        pageSearchDTO.setUserId(BaseContext.getCurrentId());
+        // 1.创建带有用户ID和删除状态的对象
+        PageSearchWithUserIdAndDeleteStatus pageSearchWithUserIdAndDeleteStatus
+                = new PageSearchWithUserIdAndDeleteStatus();
+        pageSearchWithUserIdAndDeleteStatus.setUserId(BaseContext.getCurrentId());
+
+        // 2.拷贝数据
+        BeanUtils.copyProperties(pageSearchDTO, pageSearchWithUserIdAndDeleteStatus);
         log.info("根据文章题目进行模糊搜索:{}", pageSearchDTO);
 
-        // 1.使用PageHelper分页查询
+        // 3.使用PageHelper分页查询
         PageHelper.startPage(pageSearchDTO.getPageNum(), pageSearchDTO.getPageSize());
-        // 获取文章时 只能获取个人文章 不能获取别人的文章
+        // 获取文章时 只能获取个人文章 不能获取别人的文章 且获取未删除的文章
+        pageSearchWithUserIdAndDeleteStatus.setDeleteStatus(DeleteConstant.ENABLE);
         Page<Article> articlePage = articleMapper.search(pageSearchDTO);
 
-        // 2.根据文章ID获取文章分类
+        // 4.根据文章ID获取文章分类
         List<ArticleVO> articleVOS = gainCategoryByArticleId(articlePage);
         log.info("根据文章题目进行模糊搜索成功");
 
-
-        // 3.返回
+        // 5.返回
         long total = articlePage.getTotal();
         return new PageResult(total, articleVOS);
     }

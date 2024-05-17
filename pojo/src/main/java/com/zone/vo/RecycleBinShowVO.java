@@ -23,4 +23,5 @@ public class RecycleBinShowVO implements Serializable {
     private LocalDateTime updateTime; // 更新时间
     private Integer articleView; // 浏览量
     private List<String> categoryName; // 分类名称
+    private List<String> tagName; // 标签名称
 }

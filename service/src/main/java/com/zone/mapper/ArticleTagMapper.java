@@ -3,7 +3,10 @@ package com.zone.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zone.entity.ArticleTag;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,7 +34,6 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
     /**
      * 根据文章id查询标签
      */
-    @Select("SELECT tag_id FROM article_tag WHERE article_id = #{id}")
     List<String> findByArticleId(@Param("id") Integer id);
 
     /**
