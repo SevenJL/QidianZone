@@ -20,6 +20,7 @@ import java.io.Serializable;
 public class Tag implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
     private Integer id; // 标签id
     private String name; // 标签名
 }

@@ -27,4 +27,6 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
      */
     @Insert("INSERT INTO article_tag(article_id,tag_id) VALUES (#{articleId},#{tagId})")
     void insertArticleTag(ArticleTag articleTag);
+
+
 }

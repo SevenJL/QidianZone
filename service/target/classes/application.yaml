@@ -7,10 +7,10 @@ spring:
   main:
     allow-circular-references: true
   datasource:
-      driver-class-name: ${sky.datasource.driver-class-name}
-      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-      username: ${sky.datasource.username}
-      password: ${sky.datasource.password}
+      driver-class-name: ${zone.datasource.driver-class-name}
+      url: jdbc:mysql://${zone.datasource.host}:${zone.datasource.port}/${zone.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${zone.datasource.username}
+      password: ${zone.datasource.password}
 
 pagehelper:
   propertyName: propertyValue
@@ -25,7 +25,6 @@ pagehelper:
 #  configuration:
 #    #开启驼峰命名
 #   map-underscore-to-camel-case: true
-
 
 logging:
   level:
@@ -44,9 +43,8 @@ zone:
     # 设置前端传递过来的令牌名称
     admin-token-name: token
 
-
 mybatis-plus:
-  type-aliases-package: com.zone.entity#别名扫描包
+  type-aliases-package: com.zone.entity # 实体类包名
   global-config: #Mapper.xml文件地址,默认值
     db-config:
       id-type: auto  #id为自增长

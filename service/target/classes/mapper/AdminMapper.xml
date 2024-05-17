@@ -4,4 +4,17 @@
 <mapper namespace="com.zone.mapper.AdminMapper">
 
 
+    <update id="updateAdmin">
+        UPDATE admin
+        <set>
+            <if test="name != null">
+                name = #{name}
+            </if>
+            <if test="password != null">
+                , password = #{password}
+            </if>
+        </set>
+        WHERE id = #{id}
+
+    </update>
 </mapper>

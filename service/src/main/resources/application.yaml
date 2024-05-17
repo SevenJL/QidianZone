@@ -26,7 +26,6 @@ pagehelper:
 #    #开启驼峰命名
 #   map-underscore-to-camel-case: true
 
-
 logging:
   level:
     com:
@@ -44,9 +43,8 @@ zone:
     # 设置前端传递过来的令牌名称
     admin-token-name: token
 
-
 mybatis-plus:
-  type-aliases-package: com.zone.entity#别名扫描包
+  type-aliases-package: com.zone.entity # 实体类包名
   global-config: #Mapper.xml文件地址,默认值
     db-config:
       id-type: auto  #id为自增长

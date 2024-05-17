@@ -34,6 +34,7 @@ public interface ArticleMapper extends BaseMapper<Article>  {
     @Select("select * from article order by create_time desc limit 5")
     List<NewArticle> listNew();
 
+
     /**
      * 获取所有人的文章
      */

@@ -3,8 +3,8 @@ package com.zone.controller;
 import com.zone.dto.PageSearchDTO;
 import com.zone.result.PageResult;
 import com.zone.result.Result;
-import com.zone.service.ArticleCategoryService;
 import com.zone.service.ArticleService;
+import com.zone.service.CategoryService;
 import com.zone.service.RecycleBinService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class RecycleBinController {
 
     private final ArticleService articleService;
 
-    private final ArticleCategoryService articleCategoryService;
+    private final CategoryService articleCategoryService;
 
     /**
      * 定时七天清理

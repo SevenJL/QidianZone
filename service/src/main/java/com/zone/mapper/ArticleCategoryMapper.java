@@ -36,9 +36,7 @@ public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
     @Select("SELECT * FROM category WHERE name = #{categoryName}")
     Integer findByCategoryName(String categoryName);
 
-    /**
-     * 插入分类名称
-     */
-    @Insert("INSERT INTO category (name) VALUES (#{categoryName})")
-    Integer addCategory(@Param("categoryName") String categoryName);
+
+
+
 }
