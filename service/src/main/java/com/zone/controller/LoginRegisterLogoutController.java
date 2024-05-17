@@ -80,7 +80,8 @@ public class LoginRegisterLogoutController {
         claims.put(JwtClaimsConstant.DEFAULT,id);
 
         // 生成JWT令牌
-        String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
+        String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(),
+                jwtProperties.getUserTtl(), claims);
         String openid = "openid";
 
         // 封装VO

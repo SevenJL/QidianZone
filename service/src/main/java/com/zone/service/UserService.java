@@ -4,7 +4,6 @@ package com.zone.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zone.dto.LoginDTO;
 import com.zone.dto.PageBean;
-import com.zone.dto.UserUpdatePasswordDTO;
 import com.zone.entity.User;
 import com.zone.result.PageResult;
 
@@ -23,24 +22,20 @@ public interface UserService extends IService<User> {
      */
     Integer login(LoginDTO loginDTO);
 
-
-    /**
-     * 修改密码
-     */
-    Integer update(UserUpdatePasswordDTO userUpdatePasswordDTO);
-
-
     /**
      * 修改昵称
      */
-    void updateNickName(Integer id, String nickname);
-
+    void updateNickName( String nickName);
 
     /**
      * 修改头像
      */
-    void updateAvatar(Integer id, String avatarUrl);
+    void updateAvatar(String avatarUrl);
 
+    /**
+     * 修改密码
+     */
+    void updatePassword(String password);
 
     /**
      * 获取用户信息

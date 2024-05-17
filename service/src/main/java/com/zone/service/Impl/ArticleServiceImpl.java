@@ -181,24 +181,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
 
-    /**
+        /**
      * 根据文章题目进行模糊搜索
      */
     @Override
     public PageResult search(PageSearchDTO pageSearchDTO) {
-        // 1.创建带有用户ID和删除状态的对象
-        PageSearchWithUserIdAndDeleteStatus pageSearchWithUserIdAndDeleteStatus
-                = new PageSearchWithUserIdAndDeleteStatus();
-        pageSearchWithUserIdAndDeleteStatus.setUserId(BaseContext.getCurrentId());
+        // 1.创建带有删除状态的对象
+        PageSearchWithDeleteStatusAndViewPowerStatus pageSearchWithDeleteStatusAndViewPowerStatus
+                = new PageSearchWithDeleteStatusAndViewPowerStatus();
+        pageSearchWithDeleteStatusAndViewPowerStatus.setDeleteStatus(DeleteConstant.ENABLE);
 
         // 2.拷贝数据
-        BeanUtils.copyProperties(pageSearchDTO, pageSearchWithUserIdAndDeleteStatus);
+        BeanUtils.copyProperties(pageSearchDTO, pageSearchWithDeleteStatusAndViewPowerStatus);
         log.info("根据文章题目进行模糊搜索:{}", pageSearchDTO);
 
         // 3.使用PageHelper分页查询
         PageHelper.startPage(pageSearchDTO.getPageNum(), pageSearchDTO.getPageSize());
-        // 获取文章时 只能获取个人文章 不能获取别人的文章 且获取未删除的文章
-        pageSearchWithUserIdAndDeleteStatus.setDeleteStatus(DeleteConstant.ENABLE);
         Page<Article> articlePage = articleMapper.search(pageSearchDTO);
 
         // 4.根据文章ID获取文章分类

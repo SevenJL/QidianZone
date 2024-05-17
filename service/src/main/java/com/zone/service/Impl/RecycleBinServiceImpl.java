@@ -5,7 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zone.context.BaseContext;
 import com.zone.dto.PageSearchDTO;
-import com.zone.dto.PageSearchWithUserIdAndDeleteStatus;
+import com.zone.dto.PageSearchWithDeleteStatusAndViewPowerStatus;
 import com.zone.entity.Article;
 import com.zone.mapper.ArticleCategoryMapper;
 import com.zone.mapper.ArticleMapper;
@@ -80,20 +80,20 @@ public class RecycleBinServiceImpl extends ServiceImpl<ArticleMapper, Article> i
     @Override
     public PageResult show(PageSearchDTO pageSearchDTO) {
         // 1.查询是回收站的文章 所以需要将删除状态设置为0
-        PageSearchWithUserIdAndDeleteStatus pageSearchWithUserIdAndDeleteStatus
-                = new PageSearchWithUserIdAndDeleteStatus();
-        pageSearchWithUserIdAndDeleteStatus.setDeleteStatus(0);
+        PageSearchWithDeleteStatusAndViewPowerStatus pageSearchWithDeleteStatusAndViewPowerStatus
+                = new PageSearchWithDeleteStatusAndViewPowerStatus();
+        pageSearchWithDeleteStatusAndViewPowerStatus.setDeleteStatus(0);
         log.info("pageSearchDTO:{}", pageSearchDTO);
 
         // 2.设置要查询的回收站 是当前用户的
-        pageSearchWithUserIdAndDeleteStatus.setUserId(BaseContext.getCurrentId());
+        pageSearchWithDeleteStatusAndViewPowerStatus.setUserId(BaseContext.getCurrentId());
 
         // 3.拷贝数据
-        BeanUtils.copyProperties(pageSearchDTO, pageSearchWithUserIdAndDeleteStatus);
+        BeanUtils.copyProperties(pageSearchDTO, pageSearchWithDeleteStatusAndViewPowerStatus);
 
         // 4.分页查询
         PageHelper.startPage(pageSearchDTO.getPageNum(), pageSearchDTO.getPageSize());
-        Page<Article> page = articleMapper.search(pageSearchWithUserIdAndDeleteStatus);
+        Page<Article> page = articleMapper.search(pageSearchWithDeleteStatusAndViewPowerStatus);
 
         // 5.遍历 拷贝数据
         // 如果有分类 就查询分类并遍历 添加到集合中

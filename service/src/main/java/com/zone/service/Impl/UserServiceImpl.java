@@ -8,7 +8,7 @@ import com.zone.constant.RegisterConstant;
 import com.zone.context.BaseContext;
 import com.zone.dto.LoginDTO;
 import com.zone.dto.PageBean;
-import com.zone.dto.UserUpdatePasswordDTO;
+import com.zone.dto.UserUpdateDTO;
 import com.zone.entity.User;
 import com.zone.mapper.UserMapper;
 import com.zone.result.PageResult;
@@ -82,39 +82,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     /**
      * 修改密码
-     * @param userUpdatePasswordDTO 修改密码信息
      */
     @Override
     @Transactional
-    public Integer update(UserUpdatePasswordDTO userUpdatePasswordDTO) {
-        // 修改密码
-        // 先查询用户是否存在
-        if (userMapper.findByUserName(userUpdatePasswordDTO.getName()) == null) {
-            // 用户不存在
-            // 返回-1 表示修改失败
-            log.info("用户:{}不存在", userUpdatePasswordDTO.getName());
-            return -1;
-        }
-
+    public void updatePassword(String password) {
         // 拷贝数据
-        User user = new User();
-        BeanUtils.copyProperties(userUpdatePasswordDTO, user);
-        log.info("用户:{}修改密码", userUpdatePasswordDTO.getName());
-
-        // 根据用户名 查询id
-        Integer id = BaseContext.getCurrentId();
-        user.setId(id); // 设置id
-        userMapper.updateById(user); // 修改密码
-
-        return id;
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+        userUpdateDTO.setPassword(password);
+        userUpdateDTO.setId(BaseContext.getCurrentId());
+        userMapper.updateUser(userUpdateDTO);
     }
 
     /**
      * 修改昵称
      */
     @Override
-    public void updateNickName(Integer id, String nickName) {
-        userMapper.updateNickname(nickName, id);
+    public void updateNickName(String nickName) {
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+        userUpdateDTO.setNickName(nickName);
+        userUpdateDTO.setId(BaseContext.getCurrentId());
+        userMapper.updateUser(userUpdateDTO);
     }
 
 
@@ -122,16 +109,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 修改头像
      */
     @Override
-    public void updateAvatar(Integer id, String avatarUrl) {
-        // 创建user对象
-        User user = new User();
-        user.setAvatarUrl(avatarUrl);
-        user.setId(id);
-        log.info("avatarUrl:{}", avatarUrl);
-
-        // 修改
-        userMapper.updateById(user);
-
+    public void updateAvatar(String avatarUrl) {
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+        userUpdateDTO.setAvatarUrl(avatarUrl);
+        userUpdateDTO.setId(BaseContext.getCurrentId());
+        userMapper.updateUser(userUpdateDTO);
     }
 
     /**

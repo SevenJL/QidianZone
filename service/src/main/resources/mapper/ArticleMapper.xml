@@ -49,9 +49,7 @@
             <if test="deleteStatus != null">
                 and delete_status = #{deleteStatus}
             </if>
-            <if test="userId != null">
-                and creator_id = #{userId}
-            </if>
+
         </where>
 
     </select>

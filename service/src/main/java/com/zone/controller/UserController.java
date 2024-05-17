@@ -1,7 +1,6 @@
 package com.zone.controller;
 
 import com.zone.context.BaseContext;
-import com.zone.dto.UserUpdatePasswordDTO;
 import com.zone.entity.User;
 import com.zone.result.Result;
 import com.zone.service.UserService;
@@ -11,7 +10,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -28,17 +30,10 @@ public class UserController {
      */
     @GetMapping("/updatePassword")
     @ApiOperation("修改密码")
-    public Result<Object> updatePassword(@RequestBody UserUpdatePasswordDTO userUpdatePasswordDTO){
-        log.info("修改密码:{}",userUpdatePasswordDTO);
+    public Result<Object> updatePassword(@RequestParam("password") String password){
+        log.info("修改密码:{}",password);
         // TODO 需要对修改的密码进行MD5加密
-
-        // 1.传入DTO对象
-        Integer id =  userService.update(userUpdatePasswordDTO);
-
-        // 2.如果用户不存在
-        if(id == -1){
-            return Result.error("用户不存在");
-        }
+        userService.updatePassword(password);
 
         log.info("修改密码成功");
         return Result.success("修改密码成功");
@@ -46,17 +41,13 @@ public class UserController {
 
     /**
      * 修改昵称
-     *
      */
 
     @GetMapping("/updateNickname")
     @ApiOperation("修改昵称")
-    public Result<Object> updateNickname(@RequestParam("id") Integer id,
-                                         @RequestParam("nickname") String nickName){
-        log.info("修改昵称:{},id:{}",nickName,id);
-
+    public Result<Object> updateNickname(@RequestParam("nickName")String nickName){
         // 传入DTO对象
-        userService.updateNickName(id,nickName);
+        userService.updateNickName(nickName);
 
         log.info("修改昵称成功");
         return Result.success("修改昵称成功");
@@ -68,12 +59,9 @@ public class UserController {
 
     @GetMapping("/updateAvatar")
     @ApiOperation("修改头像")
-    public Result<Object> updateAvatar(@RequestParam("id") Integer id,
-                                       @RequestParam("avatarUrl") String avatarUrl){
-        log.info("修改头像:{},id:{}",avatarUrl,id);
-
+    public Result<Object> updateAvatar(@RequestParam("avatarUrl")String avatarUrl){
         // 传入DTO对象
-        userService.updateAvatar(id,avatarUrl);
+        userService.updateAvatar(avatarUrl);
 
         log.info("修改头像成功");
         return Result.success("修改头像成功");
