@@ -20,6 +20,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+@SuppressWarnings("ALL")
 public class JwtTokenUserInterceptor implements HandlerInterceptor {
 
     private final JwtProperties jwtProperties;

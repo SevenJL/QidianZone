@@ -25,9 +25,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final UserMapper userMapper;
 
     @Override
-    public Integer register(String password, String name, String email) {
+    public Integer register(String password, String account, String email) {
         // 先判断 数据库中是否含有同名的用户
-        if (userMapper.findByUserName(name) != null ) {
+        if (userMapper.findByUserAccount(account) != null ) {
             // 存在同名用户 注册失败
             // 返回-1 表示注册失败
             return -1;
@@ -35,10 +35,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 说明没有同名的用户
         // 更新数据
         User user = User.builder()
-                .name(name)
+                .account(account)
                 .email(email)
                 .password(password)
-                .nickName(name)
+                .nickName(account)
                 .power(PowerConstant.DEFAULT_POWER)
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
@@ -58,13 +58,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Integer login(LoginDTO loginDTO) {
 
         // 登录
-        Integer id = userMapper.login(loginDTO.getPassword(), loginDTO.getName());
+        Integer id = userMapper.login(loginDTO.getPassword(), loginDTO.getAccount());
 
         // 如果id为空 则登录失败
         if (id == null) {
             // 登录失败
             // 返回-1 表示登录失败
-            log.info("用户:{}登录失败", loginDTO.getName());
+            log.info("用户:{}登录失败", loginDTO.getAccount());
             return -1;
         }
 

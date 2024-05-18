@@ -53,6 +53,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             // 默认为公开
             articlePublishDTO.setArticleViewPower(ArticleAboutConstant.DEFAULT_ARTICLE_VIEW_POWER);
         }
+
         // 2.拷贝/添加 文章数据
         Article article = Article.builder()
                 .title(articlePublishDTO.getTitle()) // 标题
@@ -223,6 +224,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 3.删除文章标签
         articleTagMapper.deleteByArticleIds(ids);
 
+        // TODO 4.删除文章评论
+
         log.info("批量删除文章成功");
     }
 
@@ -241,7 +244,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      */
     @Override
     public PageResult listArticle(PageBean pageBean) {
-        // 获取所有人的文章
         // 1.进行分页查询
         PageHelper.startPage(pageBean.getPageNum(), pageBean.getPageSize());
 

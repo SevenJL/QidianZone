@@ -29,7 +29,7 @@ public class LoginRegisterLogoutController {
 
     @GetMapping("/register")
     @ApiOperation("注册")
-    @Transactional
+    @Transactional // 事务
     public Result<String> register(@RequestBody RegisterDTO registerDTO){
 
         // 1.注册
@@ -38,7 +38,7 @@ public class LoginRegisterLogoutController {
         //TODO 使用MD5加密密码 再传入数据库
 
         // 2.将用户注册的数据传给数据库
-        Integer update =  userService.register(registerDTO.getPassword(),registerDTO.getName(),registerDTO.getEmail());
+        Integer update =  userService.register(registerDTO.getPassword(),registerDTO.getAccount(),registerDTO.getEmail());
 
         // 3.判断是否注册成功
         if(update == -1){
@@ -46,7 +46,7 @@ public class LoginRegisterLogoutController {
         }
 
         // 4.数据传入数据库后返回成功
-        log.info("用户:{}注册成功",registerDTO.getName());
+        log.info("用户:{}注册成功",registerDTO.getAccount());
         return Result.success("注册成功");
 
     }
@@ -56,7 +56,6 @@ public class LoginRegisterLogoutController {
     public Result<Object> logout(){
 
         // TODO 使用redis进行用户的状态登录和退出的记录
-        // 使当前的JWT令牌失效 不管多长时间有效的JWT令牌
         log.info("退出");
 
         return Result.success();

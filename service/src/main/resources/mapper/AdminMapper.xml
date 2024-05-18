@@ -7,8 +7,8 @@
     <update id="updateAdmin">
         UPDATE admin
         <set>
-            <if test="name != null">
-                name = #{name}
+            <if test="account != null">
+                account = #{account}
             </if>
             <if test="password != null">
                 , password = #{password}

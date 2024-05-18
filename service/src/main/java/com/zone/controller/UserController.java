@@ -46,7 +46,7 @@ public class UserController {
             return Result.error("登录失败");
         }
         // 登录成功
-        log.info("用户:{}登录成功", loginDTO.getName());
+        log.info("用户:{}登录成功", loginDTO.getAccount());
 
         // 3.生成JWT令牌
         Map<String, Object> claims = new HashMap<>();

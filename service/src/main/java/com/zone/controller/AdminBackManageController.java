@@ -46,7 +46,7 @@ public class AdminBackManageController {
             return Result.error("登录失败");
         }
         // 3.登录成功
-        log.info("管理员:{}登录成功", loginDTO.getName());
+        log.info("管理员:{}登录成功", loginDTO.getAccount());
         // 生成JWT令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.ADMIN_ID, id);

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserVO extends User {
-    private String name; // 用户名
+    private String account; // 用户名
     private String avatarUrl; // 头像
     private Integer articleCount; // 文章数量
 }

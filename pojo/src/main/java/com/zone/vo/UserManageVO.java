@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserManageVO {
     private Integer id;
-    private String name;
+    private String account;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

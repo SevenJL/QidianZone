@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AdminDTO {
     private Integer id;
-    private String name;
+    private String account;
     private String password;
 }

@@ -33,10 +33,10 @@ public class AdminServiceImpl implements AdminService {
     public Integer login(LoginDTO loginDTO) {
         // 1.获取账号密码
         String password = loginDTO.getPassword();
-        String name = loginDTO.getName();
+        String account = loginDTO.getAccount();
 
         // 2.进行查询管理员 是否存在
-        Integer admin = adminMapper.Login(password, name);
+        Integer admin = adminMapper.Login(password, account);
         if (admin == null) {
             // 未查询到该管理员
             log.info("未查询到该管理员");
@@ -50,7 +50,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteById(String id) {
         // TODO 如果要删除的用户的当前在线
-        //  需要把他的JWT令牌给删除
         //  给用户强制下线
         //   然后再进行删除用户
         adminMapper.deleteById(id);

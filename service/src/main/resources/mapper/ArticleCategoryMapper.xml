@@ -25,7 +25,7 @@
     </delete>
 
     <select id="findByArticleId" resultType="java.lang.String" parameterType="java.lang.Integer">
-        select c.name
+        select c.account
         from article_category ac
                  left join category c
                            on ac.category_id = c.id

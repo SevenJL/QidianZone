@@ -24,14 +24,14 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 根据用户名查询用户
      */
-    @Select("SELECT * FROM user WHERE name = #{name}")
-    Integer findByUserName(@Param("name") String name);
+    @Select("SELECT * FROM user WHERE account = #{account}")
+    Integer findByUserAccount(@Param("account") String account);
 
     /**
      * 登录
      */
-    @Select("SELECT id FROM user WHERE name = #{name} AND password = #{password}")
-    Integer login(@Param("password")String password, @Param("name") String name);
+    @Select("SELECT id FROM user WHERE account = #{account} AND password = #{password}")
+    Integer login(@Param("password")String password, @Param("account") String account);
 
 
 

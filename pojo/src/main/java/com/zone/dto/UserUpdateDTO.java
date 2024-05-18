@@ -15,5 +15,5 @@ public class UserUpdateDTO {
     private String nickName; // 昵称
     private String avatarUrl; // 头像
     private String password; // 密码
-    private String name; // 用户名
+    private String account; // 用户名
 }

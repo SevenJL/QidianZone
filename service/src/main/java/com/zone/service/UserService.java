@@ -13,7 +13,7 @@ public interface UserService extends IService<User> {
     /**
      * 注册
      */
-    Integer register(String password, String name, String email);
+    Integer register(String password, String account, String email);
 
     /**
      * 登录

@@ -15,8 +15,8 @@ public interface AdminMapper extends BaseMapper<Admin>{
     /**
      * 登录功能
      */
-    @Select("SELECT * FROM admin WHERE name = #{name} AND password = #{password}")
-    Integer Login(@Param("password") String password, @Param("name") String name);
+    @Select("SELECT * FROM admin WHERE account = #{account} AND password = #{password}")
+    Integer Login(@Param("password") String password, @Param("account") String account);
 
     /**
      * 删除用户
