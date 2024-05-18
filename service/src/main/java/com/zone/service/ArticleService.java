@@ -9,6 +9,7 @@ import com.zone.dto.PageSearchDTO;
 import com.zone.entity.Article;
 import com.zone.entity.NewArticle;
 import com.zone.result.PageResult;
+import com.zone.vo.ArticleInfoVO;
 
 import java.util.List;
 
@@ -54,4 +55,14 @@ public interface ArticleService extends IService<Article> {
      * 文章列表
      */
     PageResult listArticle(PageBean pageBean);
+
+    /**
+     * 查看文章详情
+     */
+    ArticleInfoVO checkOutArticle(Integer articleId);
+
+    /**
+     * 更新文章点赞数
+     */
+    void updateArticleLike(Integer articleId);
 }

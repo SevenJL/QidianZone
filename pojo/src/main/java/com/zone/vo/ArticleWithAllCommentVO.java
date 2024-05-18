@@ -16,6 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleWithAllCommentVO extends Article {
-    private List<String> allComment; // 评论
+    private List<CommentVO> allComment; // 评论
 }
 

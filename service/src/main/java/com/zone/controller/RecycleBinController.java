@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api(tags = "回收站管理")
-@RequestMapping("/user/bin")
+//@RequestMapping("/user/bin")
 @AllArgsConstructor
 public class RecycleBinController {
 

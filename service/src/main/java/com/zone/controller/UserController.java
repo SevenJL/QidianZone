@@ -2,12 +2,16 @@ package com.zone.controller;
 
 import com.zone.constant.JwtClaimsConstant;
 import com.zone.context.BaseContext;
+import com.zone.dto.CommentDTO;
 import com.zone.dto.LoginDTO;
 import com.zone.entity.User;
 import com.zone.properties.JwtProperties;
 import com.zone.result.Result;
+import com.zone.service.ArticleService;
+import com.zone.service.CommentService;
 import com.zone.service.UserService;
 import com.zone.utils.JwtUtil;
+import com.zone.vo.ArticleInfoVO;
 import com.zone.vo.LoginVO;
 import com.zone.vo.UserVO;
 import io.swagger.annotations.Api;
@@ -15,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,7 +27,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
+//@RequestMapping("/user")
 @Api(tags = "用户管理")
 @RequiredArgsConstructor
 public class UserController {
@@ -31,17 +36,20 @@ public class UserController {
 
     private final JwtProperties jwtProperties;
 
+    private final CommentService commentService;
+
+    private final ArticleService articleService;
+
     @GetMapping("/login")
     @ApiOperation("登录")
     public Result<Object> login(@RequestBody LoginDTO loginDTO) {
         // 1.登录
         log.info("登录:{}", loginDTO);
         //TODO 输入的密码进行MD5加密
-        Integer id = -1;
 
         // 2.用户登录
         // 获得用户id
-        id = userService.login(loginDTO);
+        Integer id = userService.login(loginDTO);
         if (id == null || id == -1) {
             return Result.error("登录失败");
         }
@@ -112,21 +120,63 @@ public class UserController {
     @GetMapping("/getUserInfo")
     @ApiOperation("获取用户最基本信息")
     public Result<UserVO> getUserInfo() {
-        log.info("获取用户信息");
+        // 1.利用LocalThread获取用户信息
+        User user = userService.getUserInfo(BaseContext.getCurrentId());
 
-        // 传入DTO对象
-        // 利用LocalThread获取用户信息
-        Integer id = BaseContext.getCurrentId();
-        log.info("当前用户id:{}", id);
-        User user = userService.getUserInfo(id);
-
-        // 将获取的User 对象 拷贝到 UserVO
+        // 2.将获取的User 对象 拷贝到 UserVO
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
 
-        // 返回用户基本信息
+        // 3.返回用户基本信息
         log.info("获取用户信息成功");
         return Result.success(userVO);
     }
+
+    /**
+     * 添加评论
+     */
+    @PostMapping("/addComment")
+    @Transactional
+    public Result<Object> addComment(@RequestBody CommentDTO commentDTO) {
+        commentService.insert(commentDTO);
+
+        log.info("添加评论成功");
+        return Result.success("添加评论成功");
+    }
+
+
+    /**
+     * 删除评论
+     * 只有当前用户才能删除自己的评论
+     */
+    @DeleteMapping("/deleteComment")
+    @Transactional
+    public Result<Object> deleteComment(@RequestParam("id") Integer id) {
+        int commentId = commentService.deleteById(id);
+
+        log.info("删除评论id:{}成功",commentId);
+        return Result.success("删除评论成功");
+    }
+
+    /**
+     * 查看文章 并且增加文章的浏览量
+     */
+    @PutMapping("/checkOutArticle")
+    public Result<Object> checkOutArticle(@RequestParam("articleId") Integer articleId) {
+        log.info("查询的文章id:{}",articleId);
+        ArticleInfoVO articleInfoVO = articleService.checkOutArticle(articleId);
+        return Result.success(articleInfoVO);
+    }
+
+    /**
+     * 点赞 也就是更新点赞数
+     */
+    @PutMapping("/updateArticleLike")
+    public Result<Object> updateArticleLike(@RequestParam("articleId") Integer articleId) {
+        articleService.updateArticleLike(articleId);
+        return Result.success("点赞成功");
+    }
+
+
 
 }

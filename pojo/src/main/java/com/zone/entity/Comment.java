@@ -21,10 +21,17 @@ public class Comment implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private Integer id; // id
-    private String content; // 评论内容
     private Integer articleId; // 评论文章id
+    private Integer parentId; // 父评论id
+    private Integer sonId; // 子评论id
+    private Integer rootId; // 根评论id
     private Integer userId; // 评论用户id
+
     private LocalDateTime createTime; // 评论时间
     private LocalDateTime updateTime; // 更新时间
-    private Integer status; // 评论状态
+
+    private String content; // 评论内容
+    private Integer likeCount; // 点赞数
+    private Integer replyCount; // 回复数
+
 }

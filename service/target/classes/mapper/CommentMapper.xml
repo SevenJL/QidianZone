@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zone.mapper.CommentMapper">
+
+    <select id="selectByArticleId" resultType="com.zone.entity.Comment">
+        select *
+        from comment
+        where article_id = #{articleId}
+        order by update_time desc,
+                 like_count desc,
+                 reply_count desc
+    </select>
+
+    <select id="selectBySonId" resultType="com.zone.entity.Comment">
+        select *
+        from comment
+        where id = #{sonId}
+        order by update_time desc,
+                 like_count desc,
+                 reply_count desc
+    </select>
+    <select id="selectByParentId" resultType="com.zone.entity.Comment">
+        select *
+        from comment
+        where parent_id = #{id}
+        order by update_time desc,
+                 like_count desc,
+                 reply_count desc
+    </select>
+</mapper>

@@ -37,11 +37,9 @@ public class AdminBackManageController {
     public Result<Object> login(@RequestBody LoginDTO loginDTO) {
         // 1.登录
         log.info("登录:{}", loginDTO);
-        //TODO 输入的密码进行MD5加密
-        Integer id = -1;
 
         // 2.管理员登录
-        id = adminService.login(loginDTO);
+        Integer id = adminService.login(loginDTO);
         if (id == null || id == -1) {
             return Result.error("登录失败");
         }

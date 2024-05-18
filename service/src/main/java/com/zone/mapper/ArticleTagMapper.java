@@ -28,7 +28,7 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
      * 插入标签
      */
     @Insert("INSERT INTO article_tag(article_id,tag_id) VALUES (#{articleId},#{tagId})")
-    void insertArticleTag(ArticleTag articleTag);
+    void insertArticleTag(@Param("articleTag") ArticleTag articleTag);
 
 
     /**
@@ -45,5 +45,10 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
      * 根据标签id删除
      */
     @Delete("DELETE FROM article_tag WHERE tag_id = #{id}")
-    void deleteByTagId(Integer id);
+    void deleteByTagId(@Param("id") Integer id);
+
+    /**
+     * 根据文章id集合查询文章标签数量
+     */
+    List<String> findByArticleIds(List<Integer> ids);
 }

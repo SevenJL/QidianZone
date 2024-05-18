@@ -37,4 +37,11 @@ public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
      * 根据分类id删除
      */
     void deleteByCategoryId(Integer id);
+
+    /**
+     * 根据文章ids查询分类
+     */
+    List<String> findByArticleIds(List<Integer> ids);
+
+
 }

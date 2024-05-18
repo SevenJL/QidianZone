@@ -7,18 +7,14 @@ import com.zone.constant.ArticleAboutConstant;
 import com.zone.constant.DeleteConstant;
 import com.zone.context.BaseContext;
 import com.zone.dto.*;
-import com.zone.entity.Article;
-import com.zone.entity.ArticleCategory;
-import com.zone.entity.ArticleTag;
-import com.zone.entity.NewArticle;
-import com.zone.mapper.ArticleCategoryMapper;
-import com.zone.mapper.ArticleCommentMapper;
-import com.zone.mapper.ArticleMapper;
-import com.zone.mapper.ArticleTagMapper;
+import com.zone.entity.*;
+import com.zone.mapper.*;
 import com.zone.result.PageResult;
 import com.zone.service.ArticleService;
+import com.zone.vo.ArticleInfoVO;
 import com.zone.vo.ArticleManageVO;
 import com.zone.vo.ArticleVO;
+import com.zone.vo.CommentVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -36,11 +32,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     private final ArticleMapper articleMapper;
 
-    private final ArticleCategoryMapper articleCategoryMapper;
+    private final CommentMapper commentMapper;
 
     private final ArticleTagMapper articleTagMapper;
 
     private final ArticleCommentMapper articleCommentMapper;
+
+    private final ArticleCategoryMapper articleCategoryMapper;
+
 
     /**
      * 发布文章
@@ -285,5 +284,50 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             articleVOS.add(articleVO);
         });
         return articleVOS;
+    }
+
+    /**
+     * 查看文章详情
+     */
+    @Override
+    public ArticleInfoVO checkOutArticle(Integer articleId) {
+        // 1.获取文章详情
+        Article article = articleMapper.checkOutArticle(articleId);
+        // 拷贝数据
+        ArticleInfoVO articleInfoVO = new ArticleInfoVO();
+        BeanUtils.copyProperties(article, articleInfoVO);
+
+        // 2.获取文章分类
+        List<String> categoryNames = articleCategoryMapper.findByArticleId(articleId);
+        articleInfoVO.setCategoryName(categoryNames);
+
+        // 3.获取文章标签
+        List<String> tagNames = articleTagMapper.findByArticleId(articleId);
+        articleInfoVO.setTagName(tagNames);
+
+        // 4.获取文章评论
+        List<Comment> comments = commentMapper.selectByArticleId(articleId);
+        // 拷贝数据
+        ArrayList<CommentVO> commentVOS = new ArrayList<>();
+        comments.forEach(comment -> {
+            CommentVO commentVO = new CommentVO();
+            BeanUtils.copyProperties(comment, commentVO);
+            commentVOS.add(commentVO);
+        });
+        articleInfoVO.setCommentVOS(commentVOS);
+
+        // 5.增加文章浏览量
+        articleMapper.addArticleView(articleId);
+
+        return articleInfoVO;
+    }
+
+    /**
+     * 更新文章点赞数
+     */
+    @Override
+    public void updateArticleLike(Integer articleId) {
+
+        articleMapper.updateArticleLike(articleId);
     }
 }

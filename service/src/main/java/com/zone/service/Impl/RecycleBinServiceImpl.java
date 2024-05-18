@@ -30,7 +30,8 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class RecycleBinServiceImpl extends ServiceImpl<ArticleMapper, Article> implements RecycleBinService {
+public class RecycleBinServiceImpl
+        extends ServiceImpl<ArticleMapper, Article> implements RecycleBinService {
 
     private final RecycleBinMapper recycleBinMapper;
 
@@ -52,24 +53,26 @@ public class RecycleBinServiceImpl extends ServiceImpl<ArticleMapper, Article> i
             log.info("没有需要清理的文章");
             return;
         }
-
-        // 2.遍历删除
+        // 2.获取需要 删除的文章的ID的List集合
+        List<Integer> ids = new ArrayList<>();
         deleteStatusEqualZero.forEach(article -> {
-            //  先查询要删除的文章 是否含有分类 和标签
-            int sizeCategory = articleCategoryMapper.findByArticleId(article.getId()).size();
-            int sizeTag = articleTagMapper.findByArticleId(article.getId()).size();
-
-            // 如果有就删除分类
-            if (sizeCategory != 0) {
-                articleCategoryMapper.deleteByArticleId(article.getId());
-            }
-            // 如果有就删除标签
-            if (sizeTag != 0) {
-                articleTagMapper.deleteByArticleId(article.getId());
-            }
+            Integer articleId = article.getId();
+            ids.add(articleId);
         });
 
-        // 3.最后再对文章进行删除
+        // 3.先查询要删除的文章 是否 含有分类 和标签
+        List<String> articleCategories = articleCategoryMapper.findByArticleIds(ids);
+        List<String> articleTags = articleTagMapper.findByArticleIds(ids);
+
+        // 4.如果有就删除 分类/标签
+        if (!articleCategories.isEmpty()) {
+            articleCategoryMapper.deleteByArticleIds(ids);
+        }
+        if (!articleTags.isEmpty()) {
+            articleTagMapper.deleteByArticleIds(ids);
+        }
+
+        // 5.最后再对文章进行删除
         recycleBinMapper.clear();
         log.info("清理完成");
     }

@@ -6,14 +6,13 @@ import com.zone.entity.NewArticle;
 import com.zone.result.PageResult;
 import com.zone.result.Result;
 import com.zone.service.ArticleService;
+import com.zone.service.CommentService;
 import com.zone.vo.ArticleVO;
+import com.zone.vo.CommentVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +21,10 @@ import java.util.List;
 @RequestMapping
 @RequiredArgsConstructor
 public class CommonController {
+
     private final ArticleService articleService;
+
+    private final CommentService commentService;
 
 
     /**
@@ -46,7 +48,7 @@ public class CommonController {
     /**
      * 显示最新文章
      */
-    @GetMapping("/listNew")
+    @GetMapping("/listLatestArticle")
     @ApiOperation("显示最新文章")
     public Result<List<NewArticle>> listNew() {
         log.info("显示最新文章");
@@ -56,4 +58,31 @@ public class CommonController {
 
         return Result.success(articles);
     }
+
+    /**
+     * 查询文章评论
+     */
+    @GetMapping("/findArticleComment")
+    public Result<Object> findComment(@RequestParam("articleId") Integer articleId) {
+        log.info("查询评论");
+
+        // 先查询文章的评论
+        List<CommentVO> comments = commentService.selectByArticleId(articleId);
+
+        return Result.success(comments);
+    }
+
+    /**
+     * 查看评论的回复
+     */
+    @GetMapping("/findCommentReply")
+    public Result<Object> findCommentReply(@RequestParam("id") Integer id) {
+        log.info("查看评论的回复");
+        List<CommentVO> commentVOS = commentService.selectByParentId(id);
+        return Result.success(commentVOS);
+    }
+
+
+
+
 }
