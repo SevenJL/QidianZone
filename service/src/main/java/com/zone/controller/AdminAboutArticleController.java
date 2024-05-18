@@ -32,8 +32,8 @@ public class AdminAboutArticleController {
      * 文章列表
      */
     @GetMapping("/listArticle")
-    @ApiOperation("显示所有文章")
     public Result<PageResult> listArticle(@RequestBody PageBean pageBean){
+        log.info("文章列表");
         PageResult allArticles = articleService.listArticle(pageBean);
 
         return Result.success(allArticles);
@@ -44,9 +44,9 @@ public class AdminAboutArticleController {
      * 添加分类
      */
     @PostMapping("/addCategory")
-    @ApiOperation("添加分类")
     @Transactional
     public Result<Object> addCategory(@RequestParam("categoryName") String categoryName){
+        log.info("添加分类");
         Integer categoryId = categoryService.addCategory(categoryName);
 
         if (categoryId == -1) {
@@ -61,9 +61,9 @@ public class AdminAboutArticleController {
      * 删除分类
      */
     @DeleteMapping("/deleteCategory/{id}")
-    @ApiOperation("删除分类")
     @Transactional
     public Result<Object> deleteCategory(@PathVariable Integer id) {
+        log.info("删除分类");
         categoryService.deleteCategoryById(id);
 
         return Result.success("删除成功");
@@ -74,9 +74,9 @@ public class AdminAboutArticleController {
      * 添加标签
      */
     @PostMapping("/addTag")
-    @ApiOperation("添加标签")
     @Transactional
     public Result<Object> addTag(@RequestBody String name){
+        log.info("添加标签");
         Integer tagId = tagService.addTag(name);
 
         if (tagId == -1) {
@@ -91,9 +91,9 @@ public class AdminAboutArticleController {
      * 删除标签
      */
     @DeleteMapping("/deleteTag/{id}")
-    @ApiOperation("删除标签")
     @Transactional
     public Result<Object> deleteTag(@PathVariable Integer id) {
+        log.info("删除标签");
         tagService.deleteTag(id);
 
         return Result.success("删除成功");

@@ -31,7 +31,6 @@ public class CommonController {
      * 搜索文章 模糊搜索/文章分类/标签分类
      */
     @GetMapping("/search")
-    @ApiOperation("根据文章题目进行模糊搜索")
     public Result<PageResult> search(@RequestBody PageSearchDTO pageSearchDTO) {
         log.info("根据文章题目进行模糊搜索");
         // 获取分页信息
@@ -49,7 +48,6 @@ public class CommonController {
      * 显示最新文章
      */
     @GetMapping("/listLatestArticle")
-    @ApiOperation("显示最新文章")
     public Result<List<NewArticle>> listNew() {
         log.info("显示最新文章");
         // TODO 根据页面需要 再去进行修改 是否需要返回评论

@@ -38,7 +38,6 @@ public class RecycleBinController {
 
     @Transactional
     @DeleteMapping("/delete")
-    @ApiOperation("批量(单个)删除文章")
     public Result<Object> delete(@RequestParam("ids") List<Integer> ids) {
         log.info("批量(单个)删除文章");
         articleService.deleteArticleByIds(ids);
@@ -50,7 +49,6 @@ public class RecycleBinController {
      * 显示文章信息
      */
     @GetMapping("/show")
-    @ApiOperation("显示(回收站的)文章信息")
     public Result<PageResult> show(@RequestBody PageSearchDTO pageSearchDTO) {
         log.info("显示(回收站的)文章信息");
         PageResult pageResult =  recycleBinService.show(pageSearchDTO);

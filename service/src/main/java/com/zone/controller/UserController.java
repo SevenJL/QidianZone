@@ -27,8 +27,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-//@RequestMapping("/user")
-@Api(tags = "用户管理")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -41,7 +40,6 @@ public class UserController {
     private final ArticleService articleService;
 
     @GetMapping("/login")
-    @ApiOperation("登录")
     public Result<Object> login(@RequestBody LoginDTO loginDTO) {
         // 1.登录
         log.info("登录:{}", loginDTO);
@@ -74,7 +72,6 @@ public class UserController {
      * 修改密码
      */
     @PutMapping("/updatePassword")
-    @ApiOperation("修改密码")
     public Result<Object> updatePassword(@RequestParam("password") String password) {
         log.info("修改密码:{}", password);
         // TODO 需要对修改的密码进行MD5加密
@@ -89,8 +86,8 @@ public class UserController {
      */
 
     @PutMapping("/updateNickname")
-    @ApiOperation("修改昵称")
     public Result<Object> updateNickname(@RequestParam("nickName") String nickName) {
+        log.info("修改昵称:{}", nickName);
         // 传入DTO对象
         userService.updateNickName(nickName);
 
@@ -103,8 +100,8 @@ public class UserController {
      */
 
     @PutMapping("/updateAvatar")
-    @ApiOperation("修改头像")
     public Result<Object> updateAvatar(@RequestParam("avatarUrl") String avatarUrl) {
+        log.info("修改头像:{}", avatarUrl);
         // 传入DTO对象
         userService.updateAvatar(avatarUrl);
 
@@ -118,8 +115,8 @@ public class UserController {
      */
 
     @GetMapping("/getUserInfo")
-    @ApiOperation("获取用户最基本信息")
     public Result<UserVO> getUserInfo() {
+        log.info("获取{}用户信息",BaseContext.getCurrentId());
         // 1.利用LocalThread获取用户信息
         User user = userService.getUserInfo(BaseContext.getCurrentId());
 
@@ -138,6 +135,7 @@ public class UserController {
     @PostMapping("/addComment")
     @Transactional
     public Result<Object> addComment(@RequestBody CommentDTO commentDTO) {
+        log.info("添加评论:{}",commentDTO);
         commentService.insert(commentDTO);
 
         log.info("添加评论成功");
@@ -150,7 +148,7 @@ public class UserController {
     @PostMapping("/addReply")
     @Transactional
     public Result<Object> addReply(@RequestBody CommentDTO commentDTO) {
-
+        log.info("添加子评论:{}",commentDTO);
         commentService.insertReply(commentDTO);
 
         log.info("添加子评论成功");
@@ -165,9 +163,9 @@ public class UserController {
     @DeleteMapping("/deleteComment")
     @Transactional
     public Result<Object> deleteComment(@RequestParam("commentId") Integer commentId) {
-        int comment = commentService.deleteCommentById(commentId);
+        log.info("删除评论id:{}",commentId);
+        commentService.deleteCommentById(commentId);
 
-        log.info("删除评论id:{}成功",comment);
         return Result.success("删除评论成功");
     }
 
@@ -178,6 +176,7 @@ public class UserController {
     public Result<Object> checkOutArticle(@RequestParam("articleId") Integer articleId) {
         log.info("查询的文章id:{}",articleId);
         ArticleInfoVO articleInfoVO = articleService.checkOutArticle(articleId);
+
         return Result.success(articleInfoVO);
     }
 
@@ -186,7 +185,9 @@ public class UserController {
      */
     @PutMapping("/updateArticleLike")
     public Result<Object> updateArticleLike(@RequestParam("articleId") Integer articleId) {
+        log.info("点赞的文章id:{}",articleId);
         articleService.updateArticleLike(articleId);
+
         return Result.success("点赞成功");
     }
 

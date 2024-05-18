@@ -33,7 +33,6 @@ public class AdminBackManageController {
     private final JwtProperties jwtProperties;
 
     @GetMapping("/login")
-    @ApiOperation("登录")
     public Result<Object> login(@RequestBody LoginDTO loginDTO) {
         // 1.登录
         log.info("登录:{}", loginDTO);
@@ -45,16 +44,14 @@ public class AdminBackManageController {
         }
         // 3.登录成功
         log.info("管理员:{}登录成功", loginDTO.getAccount());
-        // 生成JWT令牌
+        // 4.生成JWT令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.ADMIN_ID, id);
-
-        // 生成JWT令牌
         String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(),
                 jwtProperties.getUserTtl(), claims);
         String openid = "openid";
 
-        // 封装VO
+        // 5.封装VO
         LoginVO userLoginVO = LoginVO.builder()
                 .id(id)
                 .openid(openid)
@@ -69,6 +66,7 @@ public class AdminBackManageController {
      */
     @PutMapping("/updateAdmin")
     public Result<Object> updateAdmin(@RequestBody AdminDTO adminDTO) {
+        log.info("修改管理员账号/密码:{}", adminDTO);
         adminService.updateAdmin(adminDTO);
 
         return Result.success("修改成功");
@@ -78,8 +76,8 @@ public class AdminBackManageController {
      * 分页查询用户列表
      */
     @GetMapping("/list")
-    @ApiOperation("获取用户列表")
     public Result<PageResult> listUser(@RequestBody PageBean pageBean) {
+        log.info("分页查询用户列表:{}", pageBean);
         PageResult users = adminService.listUser(pageBean);
 
         return Result.success(users);
@@ -89,9 +87,9 @@ public class AdminBackManageController {
      * 删除用户
      */
     @DeleteMapping("/delete/{id}")
-    @ApiOperation("删除用户")
     @Transactional // 事务管理
     public Result<Object> deleteById(@PathVariable String id) {
+        log.info("删除用户:{}", id);
         adminService.deleteById(id);
 
         return Result.success("删除成功");

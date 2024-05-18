@@ -28,7 +28,6 @@ public class LoginRegisterLogoutController {
 
 
     @GetMapping("/register")
-    @ApiOperation("注册")
     @Transactional // 事务
     public Result<String> register(@RequestBody RegisterDTO registerDTO){
 
@@ -51,10 +50,9 @@ public class LoginRegisterLogoutController {
 
     }
 
-    @ApiOperation("退出")
     @GetMapping("/logout")
     public Result<Object> logout(){
-
+        log.info("退出");
         // TODO 使用redis进行用户的状态登录和退出的记录
         log.info("退出");
 

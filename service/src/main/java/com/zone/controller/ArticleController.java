@@ -22,7 +22,6 @@ public class ArticleController {
      * 发布文章
      */
     @PostMapping("/publish")
-    @ApiOperation("发布文章")
     @Transactional // 事务
     public Result<Object> publish(@RequestBody ArticlePublishDTO articlePublishDTO) {
         log.info("发布文章");
@@ -35,7 +34,6 @@ public class ArticleController {
      * 编辑文章
      */
     @PutMapping("/edit")
-    @ApiOperation("编辑文章")
     @Transactional // 事务
     public Result<Object> edit(@RequestBody ArticleEditDTO articleEditDTO) {
         log.info("编辑文章");
@@ -51,7 +49,6 @@ public class ArticleController {
      * 只是将deleteStatus更改
      */
     @DeleteMapping("/delete/{id}")
-    @ApiOperation("(逻辑)删除文章")
     public Result<Object> deleteById(@PathVariable("id") Integer id) {
         log.info("删除文章");
         articleService.delete(id);
