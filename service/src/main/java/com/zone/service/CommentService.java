@@ -20,7 +20,7 @@ public interface CommentService {
     /**
      * 通过id删除评论
      */
-    int deleteById(Integer id);
+    int deleteCommentById(Integer commentId);
 
     /**
      * 通过文章id查询评论

@@ -23,7 +23,6 @@ public class Comment implements Serializable {
     private Integer id; // id
     private Integer articleId; // 评论文章id
     private Integer parentId; // 父评论id
-    private Integer sonId; // 子评论id
     private Integer rootId; // 根评论id
     private Integer userId; // 评论用户id
 

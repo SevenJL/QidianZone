@@ -25,5 +25,10 @@ public interface CommentMapper extends BaseMapper<Comment>{
     /**
      * 通过子id查询评论
      */
-    List<Comment> selectBySonId(Integer sonId);
+    List<Comment> selectBySonId(@Param("sonId") Integer sonId);
+
+    /**
+     * 通过根id查询评论
+     */
+    void deleteByRootId(@Param("rootId") Integer rootId);
 }

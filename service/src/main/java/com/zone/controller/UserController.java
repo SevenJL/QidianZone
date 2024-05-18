@@ -151,10 +151,10 @@ public class UserController {
      */
     @DeleteMapping("/deleteComment")
     @Transactional
-    public Result<Object> deleteComment(@RequestParam("id") Integer id) {
-        int commentId = commentService.deleteById(id);
+    public Result<Object> deleteComment(@RequestParam("commentId") Integer commentId) {
+        int comment = commentService.deleteCommentById(commentId);
 
-        log.info("删除评论id:{}成功",commentId);
+        log.info("删除评论id:{}成功",comment);
         return Result.success("删除评论成功");
     }
 
