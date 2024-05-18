@@ -1,9 +1,10 @@
 package com.zone.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.*;
+import nonapi.io.github.classgraph.json.Id;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,9 +18,11 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("comment")
 public class Comment implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id; // id
     private Integer articleId; // 评论文章id
     private Integer parentId; // 父评论id

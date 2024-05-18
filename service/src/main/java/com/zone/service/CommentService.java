@@ -31,4 +31,10 @@ public interface CommentService {
      * 通过父id查询评论
      */
     List<CommentVO> selectByParentId(Integer id);
+
+    /**
+     * 通过子id查询评论
+     */
+    void insertReply(CommentDTO commentDTO);
+
 }

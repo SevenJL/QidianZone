@@ -29,7 +29,6 @@ public class ArticleController {
         articleService.publish(articlePublishDTO);
 
         return Result.success("发布成功");
-
     }
 
     /**

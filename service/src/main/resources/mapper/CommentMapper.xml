@@ -2,10 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zone.mapper.CommentMapper">
+    <insert id="insertSonComment" parameterType="com.zone.entity.Comment">
+        insert into comment_son_comment
+            (comment_id, son_id)
+        values (#{parentId}, #{id})
+    </insert>
+
+    <insert id="insertComment" parameterType="com.zone.entity.Comment" keyProperty="id" useGeneratedKeys="true" >
+        insert into comment
+            (article_id, parent_id, root_id, user_id, content, like_count, reply_count,create_time,update_time)
+        values (#{articleId}, #{parentId}, #{rootId}, #{userId},
+                #{content}, #{likeCount}, #{replyCount},
+                #{createTime}, #{updateTime})
+    </insert>
+
     <delete id="deleteByRootId" parameterType="java.lang.Integer">
         delete
         from comment
         where root_id = #{rootId}
+    </delete>
+
+    <delete id="deleteSonCommentById" parameterType="java.lang.Integer">
+        delete
+        from comment_son_comment
+        where son_id = #{sonId}
     </delete>
 
     <select id="selectByArticleId" resultType="com.zone.entity.Comment">
@@ -25,6 +45,7 @@
                  like_count desc,
                  reply_count desc
     </select>
+
     <select id="selectByParentId" resultType="com.zone.entity.Comment">
         select *
         from comment
@@ -32,5 +53,17 @@
         order by update_time desc,
                  like_count desc,
                  reply_count desc
+    </select>
+
+    <select id="findSonCommentById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select son_id
+        from comment_son_comment csc
+        where comment_id = #{commentId}
+    </select>
+
+    <select id="selectCommentById" resultType="com.zone.entity.Comment" parameterType="java.lang.Integer">
+        select *
+        from comment
+        where id = #{commentId}
     </select>
 </mapper>

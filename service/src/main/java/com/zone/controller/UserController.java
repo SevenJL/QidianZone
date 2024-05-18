@@ -133,7 +133,7 @@ public class UserController {
     }
 
     /**
-     * 添加评论
+     * 添加根评论
      */
     @PostMapping("/addComment")
     @Transactional
@@ -142,6 +142,19 @@ public class UserController {
 
         log.info("添加评论成功");
         return Result.success("添加评论成功");
+    }
+
+    /**
+     * 添加子评论
+     */
+    @PostMapping("/addReply")
+    @Transactional
+    public Result<Object> addReply(@RequestBody CommentDTO commentDTO) {
+
+        commentService.insertReply(commentDTO);
+
+        log.info("添加子评论成功");
+        return Result.success("添加子评论成功");
     }
 
 

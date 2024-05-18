@@ -51,5 +51,8 @@ mybatis-plus:
   configuration:
     default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
     cache-enabled: false #是否开启二级缓存
+    #设置返回主键
+    use-generated-keys: true
+
 
 
