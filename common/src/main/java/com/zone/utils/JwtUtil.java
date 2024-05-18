@@ -36,6 +36,7 @@ public class JwtUtil {
                 .signWith(signatureAlgorithm, secretKey.getBytes(StandardCharsets.UTF_8))
                 // 设置过期时间
                 .setExpiration(exp);
+
         log.info("jwt生成:{}", builder.compact());
 
         return builder.compact();

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zone.mapper.ArticleTagMapper">
+    <delete id="deleteByArticleIds">
+        delete from article_tag
+        where article_id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="findByArticleId" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select t.name
+        from article_tag at
+                 left join tag t
+                           on at.tag_id = t.id
+        where article_id = #{id}
+    </select>
+</mapper>

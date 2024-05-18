@@ -3,9 +3,7 @@ package com.zone.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zone.dto.LoginDTO;
-import com.zone.dto.PageBean;
 import com.zone.entity.User;
-import com.zone.result.PageResult;
 
 /**
  * 用户服务
@@ -43,8 +41,4 @@ public interface UserService extends IService<User> {
     User getUserInfo(Integer id);
 
 
-    /**
-     * 列出用户信息
-     */
-    PageResult listUser(PageBean pageBean);
 }

@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api(tags = "回收站管理")
-@RequestMapping("/bin")
+@RequestMapping("/user/bin")
 @AllArgsConstructor
 public class RecycleBinController {
     private final RecycleBinService recycleBinService;
@@ -63,7 +63,7 @@ public class RecycleBinController {
     /**
      * 显示文章信息
      */
-    @PostMapping("/show")
+    @GetMapping("/show")
     @ApiOperation("显示(回收站的)文章信息")
     public Result<PageResult> show(@RequestBody PageSearchDTO pageSearchDTO) {
         log.info("显示(回收站的)文章信息");

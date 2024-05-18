@@ -3,6 +3,7 @@ package com.zone.service.Impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zone.entity.Category;
+import com.zone.mapper.ArticleCategoryMapper;
 import com.zone.mapper.CategoryMapper;
 import com.zone.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
     private final CategoryMapper categoryMapper;
+
+    private final ArticleCategoryMapper articleCategoryMapper;
 
     @Override
     public Integer addCategory(String categoryName) {
@@ -33,6 +36,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public void deleteCategoryById(Integer id) {
+        // 1.先删除关联表中的数据
+        articleCategoryMapper.deleteByCategoryId(id);
+        // 2.再删除分类
         categoryMapper.deleteCategory(id);
     }
 

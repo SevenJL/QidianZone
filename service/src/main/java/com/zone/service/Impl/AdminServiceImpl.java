@@ -1,13 +1,24 @@
 package com.zone.service.Impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zone.context.BaseContext;
 import com.zone.dto.AdminDTO;
 import com.zone.dto.LoginDTO;
+import com.zone.dto.PageBean;
+import com.zone.entity.User;
 import com.zone.mapper.AdminMapper;
+import com.zone.mapper.UserMapper;
+import com.zone.result.PageResult;
 import com.zone.service.AdminService;
+import com.zone.vo.UserManageVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -15,6 +26,8 @@ import org.springframework.stereotype.Service;
 public class AdminServiceImpl implements AdminService {
 
     private final AdminMapper adminMapper;
+
+    private final UserMapper userMapper;
 
     @Override
     public Integer login(LoginDTO loginDTO) {
@@ -53,5 +66,26 @@ public class AdminServiceImpl implements AdminService {
         // 获取ID
         adminDTO.setId(BaseContext.getCurrentId());
         adminMapper.updateAdmin(adminDTO);
+    }
+
+    @Override
+    public PageResult listUser(PageBean pageBean) {
+        PageHelper.startPage(pageBean.getPageNum(),pageBean.getPageSize());
+        // 1.获取用户数据集合
+        Page<User> userList = userMapper.listUser();
+
+        // 2.拷贝数据
+        List<UserManageVO> userManageVOS = new ArrayList<>();
+        userList.forEach(user -> {
+            // 2.1创建VO对象
+            UserManageVO userManageVO = new UserManageVO();
+            BeanUtils.copyProperties(user, userManageVO);
+            // 2.2存放在新的集合中
+            userManageVOS.add(userManageVO);
+        });
+
+        // 3.返回集合
+        return new PageResult(userList.getTotal(),userManageVOS);
+
     }
 }

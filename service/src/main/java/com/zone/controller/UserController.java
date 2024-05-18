@@ -1,19 +1,24 @@
 package com.zone.controller;
 
+import com.zone.constant.JwtClaimsConstant;
 import com.zone.context.BaseContext;
+import com.zone.dto.LoginDTO;
 import com.zone.entity.User;
+import com.zone.properties.JwtProperties;
 import com.zone.result.Result;
 import com.zone.service.UserService;
+import com.zone.utils.JwtUtil;
+import com.zone.vo.LoginVO;
 import com.zone.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -24,14 +29,46 @@ public class UserController {
 
     private final UserService userService;
 
+    private final JwtProperties jwtProperties;
+
+    @GetMapping("/login")
+    @ApiOperation("登录")
+    public Result<Object> login(@RequestBody LoginDTO loginDTO) {
+        // 1.登录
+        log.info("登录:{}", loginDTO);
+        //TODO 输入的密码进行MD5加密
+        Integer id = -1;
+
+        // 2.用户登录
+        // 获得用户id
+        id = userService.login(loginDTO);
+        if (id == null || id == -1) {
+            return Result.error("登录失败");
+        }
+        // 登录成功
+        log.info("用户:{}登录成功", loginDTO.getName());
+
+        // 3.生成JWT令牌
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(JwtClaimsConstant.USER_ID, id);
+        String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(),
+                jwtProperties.getUserTtl(), claims); // 生成JWT令牌
+
+        // 4.封装VO
+        LoginVO userLoginVO = LoginVO.builder()
+                .id(id)
+                .token(token)
+                .build();
+        return Result.success(userLoginVO);
+    }
+
     /**
      * 修改密码
-     * @param userUpdatePasswordDTO 修改密码的DTO对象
      */
-    @GetMapping("/updatePassword")
+    @PutMapping("/updatePassword")
     @ApiOperation("修改密码")
-    public Result<Object> updatePassword(@RequestParam("password") String password){
-        log.info("修改密码:{}",password);
+    public Result<Object> updatePassword(@RequestParam("password") String password) {
+        log.info("修改密码:{}", password);
         // TODO 需要对修改的密码进行MD5加密
         userService.updatePassword(password);
 
@@ -43,9 +80,9 @@ public class UserController {
      * 修改昵称
      */
 
-    @GetMapping("/updateNickname")
+    @PutMapping("/updateNickname")
     @ApiOperation("修改昵称")
-    public Result<Object> updateNickname(@RequestParam("nickName")String nickName){
+    public Result<Object> updateNickname(@RequestParam("nickName") String nickName) {
         // 传入DTO对象
         userService.updateNickName(nickName);
 
@@ -57,9 +94,9 @@ public class UserController {
      * 修改头像
      */
 
-    @GetMapping("/updateAvatar")
+    @PutMapping("/updateAvatar")
     @ApiOperation("修改头像")
-    public Result<Object> updateAvatar(@RequestParam("avatarUrl")String avatarUrl){
+    public Result<Object> updateAvatar(@RequestParam("avatarUrl") String avatarUrl) {
         // 传入DTO对象
         userService.updateAvatar(avatarUrl);
 
@@ -70,18 +107,17 @@ public class UserController {
 
     /**
      * 获取用户最基本信息
-     *
      */
 
     @GetMapping("/getUserInfo")
     @ApiOperation("获取用户最基本信息")
-    public Result<UserVO> getUserInfo(){
+    public Result<UserVO> getUserInfo() {
         log.info("获取用户信息");
 
         // 传入DTO对象
         // 利用LocalThread获取用户信息
         Integer id = BaseContext.getCurrentId();
-        log.info("当前用户id:{}",id);
+        log.info("当前用户id:{}", id);
         User user = userService.getUserInfo(id);
 
         // 将获取的User 对象 拷贝到 UserVO

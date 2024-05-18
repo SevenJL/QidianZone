@@ -40,4 +40,10 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
      * 根据文章id集合批量删除
      */
     void deleteByArticleIds(List<Integer> ids);
+
+    /**
+     * 根据标签id删除
+     */
+    @Delete("DELETE FROM article_tag WHERE tag_id = #{id}")
+    void deleteByTagId(Integer id);
 }

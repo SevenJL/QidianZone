@@ -2,6 +2,7 @@ package com.zone.service.Impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zone.entity.Tag;
+import com.zone.mapper.ArticleTagMapper;
 import com.zone.mapper.TagMapper;
 import com.zone.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 public class TagServiceImpl  extends ServiceImpl<TagMapper, Tag> implements TagService {
 
     private final TagMapper tagMapper;
+
+    private final ArticleTagMapper articleTagMapper;
 
     /**
      * 添加标签
@@ -40,6 +43,11 @@ public class TagServiceImpl  extends ServiceImpl<TagMapper, Tag> implements TagS
      */
     @Override
     public void deleteTag(Integer id) {
+        // 1.删除分类 需要先删除关联表中的数据
+        articleTagMapper.deleteByTagId(id);
+        // 2.再删除分类
         tagMapper.deleteById(id);
     }
+
+
 }

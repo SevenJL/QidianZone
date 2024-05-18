@@ -32,4 +32,9 @@ public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
      * 根据文章id批量删除分类
      */
     void deleteByArticleIds(List<Integer> ids);
+
+    /**
+     * 根据分类id删除
+     */
+    void deleteByCategoryId(Integer id);
 }
