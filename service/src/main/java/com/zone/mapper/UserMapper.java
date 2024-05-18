@@ -17,9 +17,7 @@ public interface UserMapper extends BaseMapper<User> {
      * 注册用户
      * 插入数据
      */
-
     int insertUser(User user);
-
 
     /**
      * 根据用户名查询用户
@@ -32,8 +30,6 @@ public interface UserMapper extends BaseMapper<User> {
      */
     @Select("SELECT id FROM user WHERE account = #{account} AND password = #{password}")
     Integer login(@Param("password")String password, @Param("account") String account);
-
-
 
     /**
      * 查询用户信息

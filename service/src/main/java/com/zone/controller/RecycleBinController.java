@@ -5,8 +5,6 @@ import com.zone.result.PageResult;
 import com.zone.result.Result;
 import com.zone.service.ArticleService;
 import com.zone.service.RecycleBinService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +14,12 @@ import java.util.List;
 
 /**
  * 回收站控制器
- *
  */
+
+
 @Slf4j
 @RestController
-@Api(tags = "回收站管理")
-//@RequestMapping("/user/bin")
+@RequestMapping("/user/bin")
 @AllArgsConstructor
 public class RecycleBinController {
 
@@ -31,9 +29,9 @@ public class RecycleBinController {
 
 
     /**
-     *  单个删除文章 和 批量删除文章
-     *  删除单个 也是 删除批量 的一种
-     *  所以直接写 删除批量文章 的方法
+     *  单个删除文章 和 批量删除文章  <br>
+     *  删除单个 也是 删除批量 的一种 <br>
+     *  所以直接写 删除批量文章 的方法 <br>
      */
 
     @Transactional

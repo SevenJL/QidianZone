@@ -14,8 +14,6 @@ import com.zone.utils.JwtUtil;
 import com.zone.vo.ArticleInfoVO;
 import com.zone.vo.LoginVO;
 import com.zone.vo.UserVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -157,20 +155,25 @@ public class UserController {
 
 
     /**
-     * 删除评论
+     * 删除评论 <br>
      * 只有当前用户才能删除自己的评论
      */
     @DeleteMapping("/deleteComment")
     @Transactional
     public Result<Object> deleteComment(@RequestParam("commentId") Integer commentId) {
         log.info("删除评论id:{}",commentId);
-        commentService.deleteCommentById(commentId);
+
+        int status = commentService.deleteCommentById(commentId);
+        if (status == -1) {
+            return Result.error("只能删除自己的评论");
+        }
 
         return Result.success("删除评论成功");
     }
 
     /**
-     * 查看文章 并且增加文章的浏览量
+     * 查看文章 <br>
+     * 并且增加文章的浏览量
      */
     @PutMapping("/checkOutArticle")
     public Result<Object> checkOutArticle(@RequestParam("articleId") Integer articleId) {
@@ -181,7 +184,8 @@ public class UserController {
     }
 
     /**
-     * 点赞 也就是更新点赞数
+     * 点赞  <br>
+     * 也就是更新点赞数
      */
     @PutMapping("/updateArticleLike")
     public Result<Object> updateArticleLike(@RequestParam("articleId") Integer articleId) {

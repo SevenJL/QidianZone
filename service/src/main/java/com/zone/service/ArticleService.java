@@ -29,7 +29,6 @@ public interface ArticleService extends IService<Article> {
      */
     void edit(ArticleEditDTO articleEditDTO);
 
-
     /**
      * 删除文章
      * 逻辑删除

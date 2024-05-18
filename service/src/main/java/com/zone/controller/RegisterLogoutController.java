@@ -4,7 +4,6 @@ package com.zone.controller;
 import com.zone.dto.RegisterDTO;
 import com.zone.result.Result;
 import com.zone.service.UserService;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,16 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
  * 用户登录注册注销
  */
 
+/**
+ * 用户注册注销
+ */
 
 @Slf4j
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
-public class LoginRegisterLogoutController {
+public class RegisterLogoutController {
 
     private final UserService userService;
 
-
+    /**
+     * 用户注册
+     */
     @GetMapping("/register")
     @Transactional // 事务
     public Result<String> register(@RequestBody RegisterDTO registerDTO){
@@ -50,11 +54,13 @@ public class LoginRegisterLogoutController {
 
     }
 
+    /**
+     * 用户退出
+     */
     @GetMapping("/logout")
     public Result<Object> logout(){
         log.info("退出");
         // TODO 使用redis进行用户的状态登录和退出的记录
-        log.info("退出");
 
         return Result.success();
     }

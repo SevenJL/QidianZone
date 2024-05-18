@@ -4,17 +4,16 @@ package com.zone.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zone.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface CommentMapper extends BaseMapper<Comment>{
+
     /**
      * 通过文章id查询评论
      */
-
     List<Comment> selectByArticleId(@Param("articleId")Integer articleId);
 
     /**
@@ -50,10 +49,10 @@ public interface CommentMapper extends BaseMapper<Comment>{
     /**
      * 插入子评论
      */
-    Integer insertSonComment(Comment comment);
+    void insertSonComment(Comment comment);
 
     /**
      * 插入评论
      */
-    Integer insertComment(Comment comment);
+    void insertComment(Comment comment);
 }

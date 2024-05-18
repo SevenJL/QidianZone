@@ -11,12 +11,10 @@ import com.zone.result.PageResult;
  */
 public interface RecycleBinService extends IService<Article> {
 
-
     /**
      * 清理
      */
     void clear();
-
 
     /**
      * 显示

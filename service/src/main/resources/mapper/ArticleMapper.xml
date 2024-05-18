@@ -36,7 +36,7 @@
             </if>
         </set>
         where id = #{id}
-            and creator_id = #{creatorId}
+        and creator_id = #{creatorId}
     </update>
 
 
@@ -52,7 +52,6 @@
         </where>
 
     </select>
-
 
 
 </mapper>

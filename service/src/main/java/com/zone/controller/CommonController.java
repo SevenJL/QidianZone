@@ -9,12 +9,16 @@ import com.zone.service.ArticleService;
 import com.zone.service.CommentService;
 import com.zone.vo.ArticleVO;
 import com.zone.vo.CommentVO;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+/**
+ * 公共控制器
+ */
+
 
 @Slf4j
 @RestController
@@ -28,7 +32,10 @@ public class CommonController {
 
 
     /**
-     * 搜索文章 模糊搜索/文章分类/标签分类
+     * 搜索文章 <br>
+     * 模糊搜索 <br>
+     * 文章分类 <br>
+     * 标签分类
      */
     @GetMapping("/search")
     public Result<PageResult> search(@RequestBody PageSearchDTO pageSearchDTO) {
@@ -38,7 +45,7 @@ public class CommonController {
 
         // 封装分页信息
         long total = ar.getTotal();
-        List<ArticleVO> records = ar.getRecords();
+        List records = ar.getRecords();
 
         // 返回
         return Result.success(new PageResult(total, records));

@@ -19,6 +19,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     private final ArticleCategoryMapper articleCategoryMapper;
 
+
+    /**
+     * 添加分类
+     */
     @Override
     public Integer addCategory(String categoryName) {
         // 1.先判断分类是否存在
@@ -34,6 +38,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return categoryMapper.addCategory(categoryName);
     }
 
+    /**
+     * 删除分类
+     */
     @Override
     public void deleteCategoryById(Integer id) {
         // 1.先删除关联表中的数据

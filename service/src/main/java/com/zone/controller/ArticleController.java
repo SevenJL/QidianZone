@@ -4,11 +4,14 @@ import com.zone.dto.ArticleEditDTO;
 import com.zone.dto.ArticlePublishDTO;
 import com.zone.result.Result;
 import com.zone.service.ArticleService;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+/**
+ * 文章控制器
+ */
 
 @Slf4j
 @RestController

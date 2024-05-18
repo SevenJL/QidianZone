@@ -11,7 +11,6 @@ import java.util.List;
  */
 public interface CommentService {
 
-
     /**
      * 插入评论
      */

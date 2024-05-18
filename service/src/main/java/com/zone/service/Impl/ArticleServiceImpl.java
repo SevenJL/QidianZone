@@ -261,6 +261,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return new PageResult(articlePage.getTotal(), articleManageVOS);
     }
 
+
     /**
      * 根据文章ID获取文章分类
      */
@@ -286,6 +287,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleVOS;
     }
 
+
     /**
      * 查看文章详情
      */
@@ -299,11 +301,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         // 2.获取文章分类
         List<String> categoryNames = articleCategoryMapper.findByArticleId(articleId);
-        articleInfoVO.setCategoryName(categoryNames);
+        articleInfoVO.setCategoryName(categoryNames); // 设置文章分类
 
         // 3.获取文章标签
         List<String> tagNames = articleTagMapper.findByArticleId(articleId);
-        articleInfoVO.setTagName(tagNames);
+        articleInfoVO.setTagName(tagNames); // 设置文章标签
 
         // 4.获取文章评论
         List<Comment> comments = commentMapper.selectByArticleId(articleId);
@@ -314,6 +316,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             BeanUtils.copyProperties(comment, commentVO);
             commentVOS.add(commentVO);
         });
+        // 设置文章评论
         articleInfoVO.setCommentVOS(commentVOS);
 
         // 5.增加文章浏览量
@@ -322,12 +325,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleInfoVO;
     }
 
+
     /**
      * 更新文章点赞数
      */
     @Override
     public void updateArticleLike(Integer articleId) {
-
+        // 更新文章文章点赞量
         articleMapper.updateArticleLike(articleId);
     }
 }

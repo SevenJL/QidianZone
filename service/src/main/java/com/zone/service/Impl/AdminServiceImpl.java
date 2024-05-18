@@ -29,6 +29,10 @@ public class AdminServiceImpl implements AdminService {
 
     private final UserMapper userMapper;
 
+
+    /**
+     * 登录
+     */
     @Override
     public Integer login(LoginDTO loginDTO) {
         // 1.获取账号密码
@@ -46,7 +50,9 @@ public class AdminServiceImpl implements AdminService {
         return admin;
     }
 
-
+    /**
+     * 添加管理员
+     */
     @Override
     public void deleteById(String id) {
         // TODO 如果要删除的用户的当前在线
@@ -55,9 +61,8 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.deleteById(id);
     }
 
-
     /**
-     * 修改管理员账号
+     * 修改管理员 账户/密码
      */
     @Override
     public void updateAdmin(AdminDTO adminDTO) {
@@ -67,6 +72,9 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.updateAdmin(adminDTO);
     }
 
+    /**
+     * 查询用户
+     */
     @Override
     public PageResult listUser(PageBean pageBean) {
         PageHelper.startPage(pageBean.getPageNum(),pageBean.getPageSize());
@@ -85,6 +93,5 @@ public class AdminServiceImpl implements AdminService {
 
         // 3.返回集合
         return new PageResult(userList.getTotal(),userManageVOS);
-
     }
 }

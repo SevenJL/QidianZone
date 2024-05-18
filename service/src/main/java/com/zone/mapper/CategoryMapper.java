@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface CategoryMapper extends BaseMapper<Category> {
+    
     /**
      * 插入分类名称
      */

@@ -35,8 +35,8 @@
     <select id="findByArticleIds" resultType="java.lang.String">
         select c.name
         from article_category ac
-                 left join category c
-                             on ac.category_id = c.id
+        left join category c
+        on ac.category_id = c.id
         where article_id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}

@@ -10,7 +10,6 @@ import com.zone.result.PageResult;
  */
 public interface AdminService {
 
-
     /**
      * 登录
      */

@@ -7,16 +7,18 @@ import com.zone.result.Result;
 import com.zone.service.ArticleService;
 import com.zone.service.CategoryService;
 import com.zone.service.TagService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 管理员关于文章的操作
+ */
+
+
 @Slf4j
 @RestController
-@Api(tags = "管理员管理")
 @RequestMapping("/admin")
 @RequiredArgsConstructor // 动态注入Bean注解
 public class AdminAboutArticleController {

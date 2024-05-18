@@ -8,9 +8,9 @@
         values (#{parentId}, #{id})
     </insert>
 
-    <insert id="insertComment" parameterType="com.zone.entity.Comment" keyProperty="id" useGeneratedKeys="true" >
+    <insert id="insertComment" parameterType="com.zone.entity.Comment" keyProperty="id" useGeneratedKeys="true">
         insert into comment
-            (article_id, parent_id, root_id, user_id, content, like_count, reply_count,create_time,update_time)
+        (article_id, parent_id, root_id, user_id, content, like_count, reply_count, create_time, update_time)
         values (#{articleId}, #{parentId}, #{rootId}, #{userId},
                 #{content}, #{likeCount}, #{replyCount},
                 #{createTime}, #{updateTime})

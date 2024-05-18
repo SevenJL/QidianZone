@@ -10,7 +10,8 @@
     </delete>
 
     <select id="findDeleteStatusEqualZero" resultType="com.zone.entity.Article">
-        select * from article
+        select *
+        from article
         where delete_status = 0
     </select>
 
