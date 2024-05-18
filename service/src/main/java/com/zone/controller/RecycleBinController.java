@@ -9,7 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,23 +24,10 @@ import java.util.List;
 @RequestMapping("/user/bin")
 @AllArgsConstructor
 public class RecycleBinController {
+
     private final RecycleBinService recycleBinService;
 
     private final ArticleService articleService;
-
-    /**
-     * 定时七天清理
-     * 使用Spring-task进行定时任务
-     */
-
-    @Scheduled(cron = "0 0 0 1/7 * ?") // 定时七天清理
-    @Transactional
-    public void clear() {
-        // 查询数据库中1分钟前的数据
-        // 进行删除
-        log.info("定时清理回收站");
-        recycleBinService.clear();
-    }
 
 
     /**
