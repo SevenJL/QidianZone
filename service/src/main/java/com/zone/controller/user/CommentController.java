@@ -64,4 +64,17 @@ public class CommentController {
 
         return Result.success("删除评论成功");
     }
+
+    /**
+     * 给评论点赞<br>
+     * 更新评论的点赞数
+     */
+    @PutMapping("/likeComment")
+    public Result<Object> likeComment(@RequestParam("commentId") Integer commentId) {
+        log.info("点赞评论id:{}",commentId);
+
+        commentService.updateLike(commentId);
+
+        return Result.success("点赞成功");
+    }
 }

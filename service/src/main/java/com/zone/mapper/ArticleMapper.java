@@ -55,4 +55,10 @@ public interface ArticleMapper extends BaseMapper<Article> {
      */
     @Update("update article set article_like = article_like + 1 where id = #{articleId}")
     void updateArticleLike(@Param("articleId") Integer articleId);
+
+    /**
+     * 增加 文章评论量
+     */
+    @Update("update article set article_reply_count = article_reply_count + 1 where id = #{articleId}")
+    void updateReplyCount(@Param("articleId") Integer articleId);
 }

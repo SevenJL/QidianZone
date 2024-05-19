@@ -56,8 +56,6 @@ public class CommonController {
     @GetMapping("/listLatestArticle")
     public Result<List<NewArticle>> listNew() {
         log.info("显示最新文章");
-        // TODO 根据页面需要 再去进行修改 是否需要返回评论
-        //  如果需要只需要调用articleCommentMapper中的getCommentByArticleId方法即可获得
         List<NewArticle> articles = articleService.listNew();
 
         return Result.success(articles);

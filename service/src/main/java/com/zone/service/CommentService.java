@@ -36,4 +36,8 @@ public interface CommentService {
      */
     void insertReply(CommentDTO commentDTO);
 
+    /**
+     * 通过子id查询评论
+     */
+    void updateLike(Integer commentId);
 }

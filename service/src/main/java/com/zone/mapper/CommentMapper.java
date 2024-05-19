@@ -55,4 +55,10 @@ public interface CommentMapper extends BaseMapper<Comment>{
      * 插入评论
      */
     void insertComment(Comment comment);
+
+    /**
+     * 更新评论点赞数
+     */
+    void updateLike(@Param("commentId") Integer commentId);
+
 }

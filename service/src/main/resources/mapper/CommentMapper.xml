@@ -15,6 +15,16 @@
                 #{content}, #{likeCount}, #{replyCount},
                 #{createTime}, #{updateTime})
     </insert>
+    <update id="updateLike" parameterType="java.lang.Integer">
+        update comment
+        set like_count = like_count + 1
+        where id = #{commentId}
+    </update>
+    <update id="updateReplyCount" parameterType="java.lang.Integer">
+        update comment
+        set reply_count = reply_count + 1
+        where id = #{commentId}
+    </update>
 
     <delete id="deleteByRootId" parameterType="java.lang.Integer">
         delete

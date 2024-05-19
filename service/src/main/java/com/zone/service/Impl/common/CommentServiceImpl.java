@@ -6,6 +6,7 @@ import com.zone.constant.CommentConstant;
 import com.zone.context.BaseContext;
 import com.zone.dto.CommentDTO;
 import com.zone.entity.Comment;
+import com.zone.mapper.ArticleMapper;
 import com.zone.mapper.CommentMapper;
 import com.zone.service.CommentService;
 import com.zone.service.Impl.user.UserServiceImpl;
@@ -33,8 +34,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     private final UserServiceImpl userService;
 
+    private final ArticleMapper articleMapper;
+
     /**
-     * 插入评论
+     * 插入根评论
      */
     @Override
     public void insert(CommentDTO commentDTO) {
@@ -55,6 +58,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
         // 2.插入数据
         commentMapper.insert(comment);
+        // 3.更新文章的回复数
+        articleMapper.updateReplyCount(commentDTO.getArticleId());
     }
 
     @Override
@@ -174,5 +179,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
         // 3.如果有 先去寻找子评论的子评论
         sonCommentIds.forEach(this::deleteAllSonComments);
+    }
+
+    @Override
+    public void updateLike(Integer commentId) {
+        commentMapper.updateLike(commentId);
     }
 }
