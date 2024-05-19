@@ -17,7 +17,6 @@ import java.util.List;
 @Mapper
 public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
 
-
     /**
      * 根据文章id删除标签
      */
@@ -28,7 +27,7 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
      * 插入标签
      */
     @Insert("INSERT INTO article_tag(article_id,tag_id) VALUES (#{articleId},#{tagId})")
-    void insertArticleTag(@Param("articleTag") ArticleTag articleTag);
+    void insertArticleTag(ArticleTag articleTag);
 
     /**
      * 根据文章id查询标签

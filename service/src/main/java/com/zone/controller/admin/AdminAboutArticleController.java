@@ -36,7 +36,7 @@ public class AdminAboutArticleController {
     @GetMapping("/listArticle")
     public Result<PageResult> listArticle(@RequestBody PageBean pageBean){
         log.info("文章列表");
-        PageResult allArticles = articleService.listArticle(pageBean);
+        PageResult allArticles = articleService.listAllArticle(pageBean);
 
         return Result.success(allArticles);
     }

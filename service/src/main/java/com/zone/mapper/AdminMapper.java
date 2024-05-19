@@ -8,6 +8,10 @@ import com.zone.entity.Admin;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+/**
+ * 管理员
+ */
+
 @Mapper
 public interface AdminMapper extends BaseMapper<Admin>{
 
@@ -16,8 +20,6 @@ public interface AdminMapper extends BaseMapper<Admin>{
      */
     @Select("SELECT * FROM admin WHERE account = #{account} AND password = #{password}")
     Integer Login(LoginDTO loginDTO);
-
-
 
     /**
      * 修改管理员账号

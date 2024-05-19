@@ -8,6 +8,10 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 评论
+ */
+
 @Mapper
 public interface CommentMapper extends BaseMapper<Comment>{
 

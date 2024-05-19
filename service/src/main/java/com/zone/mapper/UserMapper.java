@@ -9,6 +9,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+/**
+ * 用户
+ */
 
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
@@ -18,6 +21,11 @@ public interface UserMapper extends BaseMapper<User> {
      * 插入数据
      */
     int insertUser(User user);
+
+    /**
+     * 修改用户信息
+     */
+    void updateUser(UserUpdateDTO userUpdateDTO);
 
     /**
      * 根据用户名查询用户
@@ -36,11 +44,6 @@ public interface UserMapper extends BaseMapper<User> {
      */
     @Select("SELECT * FROM user")
     Page<User> listUser();
-
-    /**
-     * 修改用户信息
-     */
-    void updateUser(UserUpdateDTO userUpdateDTO);
 
     /**
      * 根据id查询用户信息

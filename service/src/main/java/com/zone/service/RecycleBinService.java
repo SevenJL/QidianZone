@@ -9,6 +9,7 @@ import com.zone.result.PageResult;
 /**
  * 回收站服务
  */
+
 public interface RecycleBinService extends IService<Article> {
 
     /**

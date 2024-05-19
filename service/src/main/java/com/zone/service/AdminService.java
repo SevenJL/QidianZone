@@ -8,6 +8,7 @@ import com.zone.result.PageResult;
 /**
  * 用户服务
  */
+
 public interface AdminService {
 
     /**

@@ -1,16 +1,20 @@
 package com.zone.mapper;
 
-import com.zone.entity.Article;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.Page;
 import com.zone.dto.PageSearchDTO;
+import com.zone.entity.Article;
 import com.zone.entity.NewArticle;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
+
+/**
+ * 文章
+ */
 
 @Mapper
 public interface ArticleMapper extends BaseMapper<Article> {
@@ -36,7 +40,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * 获取 所有人的文章
      */
     @Select("select * from article order by create_time desc")
-    Page<Article> listArticle();
+    Page<Article> listAllArticle();
 
     /**
      * 获取 文章
@@ -61,4 +65,10 @@ public interface ArticleMapper extends BaseMapper<Article> {
      */
     @Update("update article set article_reply_count = article_reply_count + 1 where id = #{articleId}")
     void updateReplyCount(@Param("articleId") Integer articleId);
+
+    /**
+     * 获取 个人文章
+     */
+    @Select("select * from article where creator_id = #{id} order by create_time desc")
+    Page<Article> listPersonalArticle(@Param("id") Integer id);
 }

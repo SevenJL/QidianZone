@@ -24,7 +24,6 @@ import java.util.List;
  * 评论服务实现
  */
 
-
 @Service
 @Slf4j
 @AllArgsConstructor
@@ -42,9 +41,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public void insert(CommentDTO commentDTO) {
         // 1.传入DTO对象
-        Comment comment = new Comment();
-        BeanUtils.copyProperties(commentDTO, comment);
-        Comment.builder()
+        Comment comment = Comment.builder()
                 .updateTime(LocalDateTime.now())                    // 更新时间
                 .createTime(LocalDateTime.now())                    // 评论时间
                 .content(commentDTO.getContent())                   // 评论内容
@@ -57,7 +54,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .build();
 
         // 2.插入数据
-        commentMapper.insert(comment);
+        commentMapper.insertComment(comment);
         // 3.更新文章的回复数
         articleMapper.updateReplyCount(commentDTO.getArticleId());
     }

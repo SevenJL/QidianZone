@@ -4,6 +4,7 @@ package com.zone.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zone.entity.Tag;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 /**
@@ -17,6 +18,6 @@ public interface TagMapper extends BaseMapper<Tag> {
      * 根据标签名称查询标签id
      */
     @Select("SELECT id FROM tag WHERE name = #{name}")
-    Integer findByTagName(String name);
+    Integer findByTagName(@Param("name") String name);
 
 }

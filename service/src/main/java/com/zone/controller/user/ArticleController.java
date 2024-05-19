@@ -2,6 +2,8 @@ package com.zone.controller.user;
 
 import com.zone.dto.ArticleEditDTO;
 import com.zone.dto.ArticlePublishDTO;
+import com.zone.dto.PageBean;
+import com.zone.result.PageResult;
 import com.zone.result.Result;
 import com.zone.service.ArticleService;
 import com.zone.vo.ArticleInfoVO;
@@ -46,21 +48,18 @@ public class ArticleController {
         return Result.success("编辑成功");
     }
 
-
     /**
      * 删除文章
      * 逻辑删除
      * 只是将deleteStatus更改
      */
-    @DeleteMapping("/delete/{id}")
-    public Result<Object> deleteById(@PathVariable("id") Integer id) {
+    @DeleteMapping("/deleteById")
+    public Result<Object> deleteById(@RequestParam("id") Integer id) {
         log.info("删除文章");
         articleService.delete(id);
 
         return Result.success("删除成功");
     }
-
-
 
     /**
      * 查看文章 <br>
@@ -84,6 +83,17 @@ public class ArticleController {
         articleService.updateArticleLike(articleId);
 
         return Result.success("点赞成功");
+    }
+
+    /**
+     * 查询个人文章列表
+     */
+    @GetMapping("/listArticles")
+    public Result<PageResult> listArticle(@RequestBody PageBean pageBean) {
+        log.info("查询个人文章列表");
+        PageResult pageResult = articleService.listPersonalArticle(pageBean);
+
+        return Result.success(pageResult);
     }
 }
 

@@ -1,7 +1,6 @@
 package com.zone.handler;
 
 import com.zone.constant.MessageConstant;
-import com.zone.exception.BaseException;
 import com.zone.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +19,7 @@ public class GlobalExceptionHandler {
      * 捕获业务异常
      */
     @ExceptionHandler
-    public Result<Object> exceptionHandler(BaseException ex){
+    public Result<Object> exceptionHandler(Exception ex){
         log.error("异常信息：{}", ex.getMessage());
         return Result.error(ex.getMessage());
     }

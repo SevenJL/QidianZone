@@ -10,7 +10,6 @@ import java.util.List;
 @Mapper
 public interface RecycleBinMapper extends BaseMapper<Article> {
 
-
     /**
      * 清理回收站
      */

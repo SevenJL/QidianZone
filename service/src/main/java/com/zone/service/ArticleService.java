@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * 用户服务
  */
+
 public interface ArticleService extends IService<Article> {
 
 
@@ -53,7 +54,7 @@ public interface ArticleService extends IService<Article> {
     /**
      * 文章列表
      */
-    PageResult listArticle(PageBean pageBean);
+    PageResult listAllArticle(PageBean pageBean);
 
     /**
      * 查看文章详情
@@ -64,4 +65,9 @@ public interface ArticleService extends IService<Article> {
      * 更新文章点赞数
      */
     void updateArticleLike(Integer articleId);
+
+    /**
+     * 查询个人所有文章
+     */
+    PageResult listPersonalArticle(PageBean pageBean);
 }

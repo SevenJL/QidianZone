@@ -16,10 +16,9 @@ import java.util.List;
 public class ArticleManageVO {
     private Integer id; // 文章id
     private String title; // 文章题目
-    private String creator; // 创建者
+    private Integer creatorId; // 创建者id
     private LocalDateTime createTime; // 创建时间
     private LocalDateTime updateTime; // 更新时间
     private Integer articleView; // 浏览量
     private List<String> categoryName; // 分类名称
-
 }

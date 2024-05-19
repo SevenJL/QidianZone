@@ -6,6 +6,7 @@ import com.zone.entity.Category;
 /**
  * 用户服务
  */
+
 public interface CategoryService extends IService<Category> {
 
     /**

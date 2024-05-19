@@ -8,7 +8,10 @@ import com.zone.constant.DeleteConstant;
 import com.zone.context.BaseContext;
 import com.zone.dto.*;
 import com.zone.entity.*;
-import com.zone.mapper.*;
+import com.zone.mapper.ArticleCategoryMapper;
+import com.zone.mapper.ArticleMapper;
+import com.zone.mapper.ArticleTagMapper;
+import com.zone.mapper.CommentMapper;
 import com.zone.result.PageResult;
 import com.zone.service.ArticleService;
 import com.zone.vo.ArticleInfoVO;
@@ -23,6 +26,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * 文章服务实现
+ */
 
 @Service // 注解
 @Slf4j // 日志
@@ -44,6 +51,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      */
     @Override
     public void publish(ArticlePublishDTO articlePublishDTO) {
+        // 判断 标题和内容 是否都存在
+        if (articlePublishDTO.getTitle() == null || articlePublishDTO.getContent() == null) {
+            throw new RuntimeException("标题和内容不能为空");
+        }
 
         // 1.判断是否有访问权限 这个数据是前端传入的
         if(articlePublishDTO.getArticleViewPower() == null ){
@@ -79,7 +90,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             articlePublishDTO.getCategoryId().forEach(id -> {
                 // 遍历添加
                 articleCategory.setCategoryId(id);
-                articleCategoryMapper.insert(articleCategory);
+                articleCategoryMapper.insertArticleCategory(articleCategory);
             });
         }
         if (articlePublishDTO.getTagId() != null){
@@ -240,12 +251,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * 文章列表
      */
     @Override
-    public PageResult listArticle(PageBean pageBean) {
+    public PageResult listAllArticle(PageBean pageBean) {
         // 1.进行分页查询
         PageHelper.startPage(pageBean.getPageNum(), pageBean.getPageSize());
 
         // 2.获取文章
-        Page<Article> articlePage = articleMapper.listArticle();
+        Page<Article> articlePage = articleMapper.listAllArticle();
 
         // 3.拷贝数据
         ArrayList<ArticleManageVO> articleManageVOS = new ArrayList<>();
@@ -331,5 +342,30 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public void updateArticleLike(Integer articleId) {
         // 更新文章文章点赞量
         articleMapper.updateArticleLike(articleId);
+    }
+
+
+    /**
+     * 查询个人所有文章
+     */
+    @Override
+    public PageResult listPersonalArticle(PageBean pageBean) {
+
+        // 1.进行分页查询
+        PageHelper.startPage(pageBean.getPageNum(), pageBean.getPageSize());
+
+        // 2.获取文章
+        Page<Article> articlePage = articleMapper.listPersonalArticle(BaseContext.getCurrentId());
+
+        // 3.拷贝数据
+        List<ArticleManageVO> articleManageVOS = new ArrayList<>();
+        articlePage.getResult().forEach(article -> {
+            ArticleManageVO articleManageVO = new ArticleManageVO();
+            BeanUtils.copyProperties(article, articleManageVO);
+            articleManageVOS.add(articleManageVO);
+        });
+
+        // 4.返回数据
+        return new PageResult(articlePage.getTotal(), articleManageVOS);
     }
 }
