@@ -20,6 +20,7 @@ import java.io.Serializable;
 public class Category  implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
     private Integer id; // 分类id
     private String name; // 分类名称
 }

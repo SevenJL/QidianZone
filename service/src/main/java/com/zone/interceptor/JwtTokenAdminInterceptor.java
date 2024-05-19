@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-/**
- * jwt令牌校验的拦截器
+/** Spring security <br>
+ *  jwt令牌校验的拦截器
  */
 @Component
 @Slf4j
@@ -23,13 +23,14 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
     private final JwtProperties jwtProperties;
 
     @Override
-    public boolean preHandle(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(jakarta.servlet.http.HttpServletRequest request,
+                             jakarta.servlet.http.HttpServletResponse response,
+                             Object handler) throws Exception {
         // 判断当前拦截到的是否是动态方法
         if (!(handler instanceof HandlerMethod)) {
             //当前拦截到的不是动态方法，直接放行
             return true;
         }
-        log.info("执行JwtTokenAdminInterceptor");
 
         // 从请求头中获取token
         String token = request.getHeader(jwtProperties.getAdminTokenName());

@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 public class Comment implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id; // id
     private Integer articleId; // 评论文章id

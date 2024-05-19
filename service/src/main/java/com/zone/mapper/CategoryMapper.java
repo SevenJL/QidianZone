@@ -11,7 +11,7 @@ public interface CategoryMapper extends BaseMapper<Category> {
     /**
      * 插入分类名称
      */
-    @Insert("INSERT INTO category (account) VALUES (#{categoryName})")
+    @Insert("INSERT INTO category (name) VALUES (#{categoryName})")
     Integer addCategory(@Param("categoryName") String categoryName);
 
     /**

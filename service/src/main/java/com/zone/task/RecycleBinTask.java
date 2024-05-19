@@ -23,7 +23,7 @@ public class RecycleBinTask {
      * 使用Spring-task进行定时任务
      */
 
-    @Scheduled(cron = "0 0 0 1/7 * ?") // 定时七天清理
+    @Scheduled(cron = "1/60 * * * * ?") // 定时七天清理
     @Transactional
     public void clear() {
         // 查询数据库中1分钟前的数据

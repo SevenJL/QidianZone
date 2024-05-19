@@ -12,11 +12,7 @@ import java.util.List;
 @Mapper
 public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
 
-    /**
-     * 插入文章和分类关联
-     */
-    @Insert("INSERT INTO article_category(article_id,category_id) VALUES (#{articleId},#{categoryId})")
-    int insert(ArticleCategory articleCategory);
+
 
     /**
      * 根据文章id查询分类

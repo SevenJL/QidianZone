@@ -22,6 +22,7 @@ import java.io.Serializable;
 public class ArticleCategory implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
     private Integer id; // 主键
     private Integer articleId; // 文章id
     private Integer categoryId; // 分类id

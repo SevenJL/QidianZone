@@ -21,10 +21,4 @@ public interface RecycleBinMapper extends BaseMapper<Article> {
      */
     List<Article> findDeleteStatusEqualZero();
 
-
-    /**
-     * 显示文章信息
-     */
-//    Page<Article> show();
-
 }

@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
      * 捕获业务异常
      */
     @ExceptionHandler
-    public Result exceptionHandler(BaseException ex){
+    public Result<Object> exceptionHandler(BaseException ex){
         log.error("异常信息：{}", ex.getMessage());
         return Result.error(ex.getMessage());
     }
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
      * 处理SQL异常
      */
     @ExceptionHandler
-    public Result exceptionHandler(SQLIntegrityConstraintViolationException ex){
+    public Result<Object> exceptionHandler(SQLIntegrityConstraintViolationException ex){
         String message = ex.getMessage();
         if(message.contains("Duplicate entry")){
             String[] split = message.split(" ");

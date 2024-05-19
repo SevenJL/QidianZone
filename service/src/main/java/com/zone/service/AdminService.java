@@ -18,7 +18,7 @@ public interface AdminService {
     /**
      * 删除用户
      */
-    void deleteById(String id);
+    void deleteById();
 
     /**
      * 修改管理员账号/密码

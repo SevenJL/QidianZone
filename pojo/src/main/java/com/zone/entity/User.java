@@ -10,12 +10,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@Getter
-@Setter
 public class User implements Serializable {
-
     @Serial
     private static final long serialVersionUID = 1L;
+
     private Integer id; // 用户id
     private String password; // 用户密码
     private String account; // 用户名
@@ -30,8 +28,5 @@ public class User implements Serializable {
     private Integer articleCount; // 用户文章数量
     private String avatarUrl; // 用户头像
     private Integer articleLike;// 用户文章点赞数量
-
-
-
 
 }

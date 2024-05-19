@@ -18,7 +18,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
     /**
      * 更新 文章数据
      */
-    void update(Article article);
+    void updateArticle(Article article);
 
     /**
      * 根据大致标题 进行模糊查询 <br>

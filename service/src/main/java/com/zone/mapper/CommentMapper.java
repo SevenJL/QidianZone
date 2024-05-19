@@ -37,7 +37,7 @@ public interface CommentMapper extends BaseMapper<Comment>{
     List<Integer> findSonCommentById(@Param("commentId") Integer commentId);
 
     /**
-     * 通过评论id删除评论
+     * 通过评论id查找评论
      */
     Comment selectCommentById(@Param("commentId") Integer commentId);
 
