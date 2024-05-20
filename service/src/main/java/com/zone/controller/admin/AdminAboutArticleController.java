@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/admin")
+//@RequestMapping("/admin")
 @RequiredArgsConstructor // 动态注入Bean注解
 public class AdminAboutArticleController {
 

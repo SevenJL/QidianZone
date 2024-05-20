@@ -195,25 +195,34 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      */
     @Override
     public PageResult search(PageSearchDTO pageSearchDTO) {
-        // 1.创建带有删除状态的对象
-        PageSearchWithDeleteStatusAndViewPowerStatus pageSearchWithDeleteStatusAndViewPowerStatus
-                = new PageSearchWithDeleteStatusAndViewPowerStatus();
-        pageSearchWithDeleteStatusAndViewPowerStatus.setDeleteStatus(DeleteConstant.ENABLE);
-
-        // 2.拷贝数据
-        BeanUtils.copyProperties(pageSearchDTO, pageSearchWithDeleteStatusAndViewPowerStatus);
+        // 1.判断是否传入pageNum和pageSize
+        if (pageSearchDTO.getPageNum() == null || pageSearchDTO.getPageSize() == null
+        ) {
+            // 设置默认值
+            pageSearchDTO.setPageNum(1);
+            pageSearchDTO.setPageSize(10);
+        }
         log.info("根据文章题目进行模糊搜索:{}", pageSearchDTO);
 
-        // 3.使用PageHelper分页查询
-        PageHelper.startPage(pageSearchDTO.getPageNum(), pageSearchDTO.getPageSize());
-        Page<Article> articlePage = articleMapper.search(pageSearchDTO);
+        // 2.创建 带有删除状态 的对象
+        PageSearchWithDeletePower search = new PageSearchWithDeletePower();
+        search.setDeleteStatus(DeleteConstant.ENABLE);
 
-        // 4.根据文章ID获取文章分类
+        // 3.拷贝数据
+        BeanUtils.copyProperties(pageSearchDTO, search);
+        log.info("根据文章题目进行模糊搜索:{}", search);
+
+        // 4.使用PageHelper分页查询
+        PageHelper.startPage(search.getPageNum(), search.getPageSize());
+        //TODO 查询bug待修复
+        Page<Article> articlePage = articleMapper.search(search);
+
+        // 5.根据文章ID获取文章分类
         List<ArticleVO> articleVOS = gainCategoryByArticleId(articlePage);
         log.info("根据文章题目进行模糊搜索成功");
 
-        // 5.返回
-        long total = articlePage.getTotal();
+        // 6.返回
+        long total = articleVOS.size();
         return new PageResult(total, articleVOS);
     }
 
@@ -267,7 +276,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         });
 
         // 4.返回数据
-        return new PageResult(articlePage.getTotal(), articleManageVOS);
+        return new PageResult(articleManageVOS.size(), articleManageVOS);
     }
 
 
@@ -275,7 +284,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * 根据文章ID获取文章分类
      */
     private List<ArticleVO> gainCategoryByArticleId(List<Article> articles) {
-        log.info("articles:{}", articles);
         List<ArticleVO> articleVOS = new ArrayList<>();
         articles.forEach(article -> {
             // 2.1创建对象
@@ -366,6 +374,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         });
 
         // 4.返回数据
-        return new PageResult(articlePage.getTotal(), articleManageVOS);
+        return new PageResult(articleManageVOS.size(), articleManageVOS);
     }
 }

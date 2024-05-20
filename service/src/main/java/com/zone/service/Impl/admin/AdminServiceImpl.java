@@ -52,13 +52,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * 添加管理员
+     * 删除用户
      */
     @Override
-    public void deleteById() {
-        // TODO 如果要删除的用户的当前在线
-        Integer currentId = BaseContext.getCurrentId();
-        adminMapper.deleteById(currentId);
+    public void deleteById(Integer id) {
+        adminMapper.deleteByUserId(id);
     }
 
     /**

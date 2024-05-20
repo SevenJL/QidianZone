@@ -41,13 +41,8 @@ public class CommonController {
         log.info("根据 文章题目/文章分类/标签分类 进行模糊搜索");
         // 获取分页信息
         PageResult ar = articleService.search(pageSearchDTO);
-
-        // 封装分页信息
-        long total = ar.getTotal();
-        List records = ar.getRecords();
-
         // 返回
-        return Result.success(new PageResult(total, records));
+        return Result.success(ar);
     }
 
     /**

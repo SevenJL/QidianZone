@@ -59,6 +59,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .build();
 
         log.info("用户:{}", user);
+        userMapper.insert(user);
 
         // 3.插入数据
         return user.getId();

@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zone.dto.AdminDTO;
 import com.zone.dto.LoginDTO;
 import com.zone.entity.Admin;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 /**
@@ -25,4 +27,10 @@ public interface AdminMapper extends BaseMapper<Admin>{
      * 修改管理员账号
      */
     void updateAdmin(AdminDTO adminDTO);
+
+    /**
+     * 删除用户
+     */
+    @Delete("DELETE FROM user WHERE id = #{id}")
+    void deleteByUserId(@Param("id") Integer id);
 }

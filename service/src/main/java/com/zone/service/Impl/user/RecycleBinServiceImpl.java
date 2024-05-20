@@ -5,7 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zone.context.BaseContext;
 import com.zone.dto.PageSearchDTO;
-import com.zone.dto.PageSearchWithDeleteStatusAndViewPowerStatus;
+import com.zone.dto.PageSearchWithDeletePower;
 import com.zone.entity.Article;
 import com.zone.mapper.ArticleCategoryMapper;
 import com.zone.mapper.ArticleMapper;
@@ -81,23 +81,29 @@ public class RecycleBinServiceImpl
      */
     @Override
     public PageResult show(PageSearchDTO pageSearchDTO) {
-        // 1.查询是回收站的文章 所以需要将删除状态设置为0
-        PageSearchWithDeleteStatusAndViewPowerStatus pageSearchWithDeleteStatusAndViewPowerStatus
-                = new PageSearchWithDeleteStatusAndViewPowerStatus(); // 封装查询条件
-        pageSearchWithDeleteStatusAndViewPowerStatus.setDeleteStatus(0); // 删除状态
+        // 1.查看是否传入pageNum和pageSize
+        if (pageSearchDTO.getPageNum() == null || pageSearchDTO.getPageSize() == null) {
+            // 设置默认值
+            pageSearchDTO.setPageNum(1);
+            pageSearchDTO.setPageSize(10);
+        }
+        // 2.查询是回收站的文章 所以需要将删除状态设置为0
+        PageSearchWithDeletePower search
+                = new PageSearchWithDeletePower(); // 封装查询条件
+        search.setDeleteStatus(0); // 删除状态
         log.info("pageSearchDTO:{}", pageSearchDTO);
 
-        // 2.设置要查询的回收站的用户ID 是当前用户的
-        pageSearchWithDeleteStatusAndViewPowerStatus.setUserId(BaseContext.getCurrentId());
+        // 3.设置要查询的回收站的用户ID 是当前用户的
+        search.setUserId(BaseContext.getCurrentId());
 
-        // 3.拷贝数据
-        BeanUtils.copyProperties(pageSearchDTO, pageSearchWithDeleteStatusAndViewPowerStatus);
+        // 4.拷贝数据
+        BeanUtils.copyProperties(pageSearchDTO, search);
 
-        // 4.分页查询
-        PageHelper.startPage(pageSearchDTO.getPageNum(), pageSearchDTO.getPageSize());
-        Page<Article> page = articleMapper.search(pageSearchWithDeleteStatusAndViewPowerStatus);
+        // 5.分页查询
+        PageHelper.startPage(search.getPageNum(), search.getPageSize());
+        Page<Article> page = articleMapper.search(search);
 
-        // 5.遍历 拷贝数据
+        // 6.遍历 拷贝数据
         // 如果有分类 就查询分类并遍历 添加到集合中
         List<RecycleBinShowVO> recycleBinShowVOS = new ArrayList<>();
         page.forEach(pageArticle -> {
@@ -106,23 +112,24 @@ public class RecycleBinServiceImpl
             List<String> articleTagMapperByArticleIdList
                     = articleTagMapper.findByArticleId(pageArticle.getId());
             RecycleBinShowVO recycleBinShowVO = new RecycleBinShowVO();
-            // 5.1查询是否有分类
+            // 6.1查询是否有分类
             if (!articleCategoryMapperByArticleIdList.isEmpty()) {
                 // 如果有分类就拷贝数据
                 recycleBinShowVO.setCategoryName(articleCategoryMapperByArticleIdList);
             }
-            // 5.2查询是否有标签
+            // 6.2查询是否有标签
             if (!articleTagMapperByArticleIdList.isEmpty()) {
                 // 如果有分类就拷贝数据
                 recycleBinShowVO.setTagName(articleTagMapperByArticleIdList);
             }
-            // 5.3拷贝数据
+            // 6.3拷贝数据
             BeanUtils.copyProperties(pageArticle, recycleBinShowVO);
             // 添加到集合中
             recycleBinShowVOS.add(recycleBinShowVO);
         });
 
-        // 6.返回查询的数据
-        return new PageResult(page.getTotal(), recycleBinShowVOS);
+        int total = recycleBinShowVOS.size();
+        // 7.返回查询的数据
+        return new PageResult(total, recycleBinShowVOS);
     }
 }

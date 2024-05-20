@@ -26,7 +26,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/admin")
+//@RequestMapping("/admin")
 @RequiredArgsConstructor // 动态注入Bean注解
 public class AdminBackManageController {
 
@@ -67,7 +67,7 @@ public class AdminBackManageController {
      */
     @PutMapping("/updateAdmin")
     public Result<Object> updateAdmin(@RequestBody AdminDTO adminDTO) {
-        log.info("修改 管理员账号/密码:{}", adminDTO);
+        log.info("修改 管理员账号/密码:{}", adminDTO.toString());
         adminService.updateAdmin(adminDTO);
 
         return Result.success("修改成功");
@@ -89,9 +89,9 @@ public class AdminBackManageController {
      */
     @DeleteMapping("/delete")
     @Transactional // 事务管理
-    public Result<Object> deleteById() {
-        log.info("删除用户");
-        adminService.deleteById();
+    public Result<Object> deleteById(@RequestParam("id") Integer id) {
+        log.info("删除用户:{}",id);
+        adminService.deleteById(id);
 
         return Result.success("删除成功");
     }

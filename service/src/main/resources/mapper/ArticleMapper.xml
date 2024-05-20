@@ -49,7 +49,6 @@
                 and delete_status = #{deleteStatus}
             </if>
         </where>
-
     </select>
 
 

@@ -19,7 +19,7 @@ public interface AdminService {
     /**
      * 删除用户
      */
-    void deleteById();
+    void deleteById(Integer id);
 
     /**
      * 修改管理员账号/密码
